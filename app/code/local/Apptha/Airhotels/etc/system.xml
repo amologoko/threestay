@@ -1,0 +1,338 @@
+<?xml version="1.0" ?>
+<config>
+    <tabs>
+        <Apptha translate="label" module="airhotels">
+            <label>Apptha</label>
+            <sort_order>100</sort_order>
+        </Apptha>
+    </tabs>
+    <sections>
+        <airhotels module="airhotels" translate="label">
+            <label>Airhotels</label>
+            <sort_order>200</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <tab>Apptha</tab>
+            <groups>
+                <custom_group translate="label">
+                    <label>Settings</label>
+                    <comment><!-- My comments -->
+                    </comment>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <airhotels_license translate="label">
+                            <label>Apply License Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                        </airhotels_license>
+                        <airhotels_title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </airhotels_title>
+                        <airhotels_servicetax translate="label tooltip comment">
+                            <label>Order Processing fee *</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment>Proccessing fee charged per night on booking property in
+								(%),taken by admin  from customer
+                            </comment>
+                        </airhotels_servicetax>
+                        <airhotels_hostfee translate="label tooltip comment">
+                            <label>Commission fee *</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment>Commission fee charged per night on booking property in (%),taken by admin from hoster </comment>
+                        </airhotels_hostfee>
+                        
+                    </fields>
+              </custom_group>
+             <custom_banner translate="label">
+                    <label>Homepage Banner Settings</label>
+                    <sort_order>11</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields> 
+                        <homepage_banner translate="label">
+                            <label>Homepage Banner Shows</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Apptha_Airhotels_Model_Source_Banner</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select Homepage Banner</comment>
+                        </homepage_banner>
+                        <enable_slider_hoster translate="label">
+                            <label>Display Homepage slider option for hoster</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Apptha_Airhotels_Model_Source_Status</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If yes, Homepage slider option displayed while Adding Space</comment>
+                        </enable_slider_hoster>
+                         <banner_count translate="label">
+                            <label>No of Property show in Banner</label>
+                            <frontend_type>text</frontend_type>
+                            <source_model>Apptha_Airhotels_Model_Source_Banner</source_model>
+                            <validate>validate-number</validate>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </banner_count>
+                    </fields>
+               </custom_banner>
+                <custom_email translate="label">
+                    <label>Property Settings</label>
+                    <sort_order>11</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields> 
+                        <property_approval translate="label">
+                            <label>Property moderation</label>
+                            <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If yes, Property post after Admin Approval</comment>
+                        </property_approval>
+                       <admin_email_id translate="label">
+                            <label>Admin Email Id</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity
+                            </source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>For Email configuration, Goto System->Configuration->Store Email Addresses</comment>
+                        </admin_email_id>
+			<newproperty_template translate="label">
+                            <label>New Property Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template
+                            </source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newproperty_template>	
+                        <propertyapproval_template translate="label">
+                            <label>Property Approval Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template
+                            </source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </propertyapproval_template>	
+                        <adminapproval_template translate="label">
+                            <label>Admin Approval Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template
+                            </source_model>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </adminapproval_template>	
+                        <propertydelete_template translate="label">
+                            <label>Property Delete Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template
+                            </source_model>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </propertydelete_template>
+                    </fields>
+               </custom_email>
+               
+         <max_min translate="label">
+                    <label>Price Slider Search</label>
+                    <comment><!-- My comments -->
+                    </comment>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <min_value translate="label tooltip comment">
+                            <label>Minimum Price</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please the enter the value in form on number,for
+								example:500, min price for price slider
+                            </comment>
+                        </min_value>
+                        <max_value translate="label tooltip comment">
+                            <label>Maximium Price</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please enter numeric value in field,for
+								example:1000, max price for price slider
+                            </comment>
+                        </max_value>
+                        <range_value translate="label tooltip comment">
+                            <label>Range Start</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please enter numeric value in field,for
+								example:700, range start greater than min price
+                            </comment>
+                        </range_value>
+                    </fields>
+                </max_min>
+                <layout_settings translate="label">
+                    <label>Layout settings</label>
+                    <comment><!-- My comments -->
+                    </comment>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                       <display_contactme translate="label">
+                            <label>Display Contact Me Button in Property Detail page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Apptha_Airhotels_Model_Source_Status</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If yes, Contact Me Button Displayed in Property Detail page</comment>
+                        </display_contactme>
+                        <calender_text translate="label">
+                            <label>Calender Text</label>
+                            <frontend_type>editor</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            
+                        </calender_text>
+                       
+                    </fields>
+                </layout_settings>
+                <order_reminder translate="label">
+                    <label>Email Order Reminder</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <sender_email_identity translate="label">
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity
+                            </source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sender_email_identity>
+					
+                        <orderstatus_template translate="label">
+                            <label>Order Status Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template
+                            </source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </orderstatus_template>
+                        <admin_email translate="label">
+                            <label>Admin Email Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Once the order status complete email will send to admin</comment>
+                        </admin_email>
+                    </fields>
+                </order_reminder>
+                <refund_email translate="label">
+                    <label>Template for Refund Customer</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>			
+                        <refund_template translate="label">
+                            <label>Customer Refund Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template
+                            </source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </refund_template>				
+                    </fields>
+                </refund_email>
+                <sampledata translate="label">
+                    <label>Sample Data Configuration</label>
+                    <comment><!-- My comments -->
+                    </comment>
+                    <sort_order>51</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                       <enable_data translate="label">
+                            <label>Enable Sample Data</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Apptha_Airhotels_Model_Source_Status</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enable Sample Data</comment>
+                        </enable_data>
+                    </fields>
+                </sampledata>
+            </groups>
+        </airhotels>
+    </sections>
+</config>

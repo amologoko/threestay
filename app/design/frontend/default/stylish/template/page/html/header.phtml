@@ -1,0 +1,221 @@
+
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+#Mage::helper('airhotels')->AirhotelsKey();
+$request = Mage::app()->getFrontController()->getRequest();
+$actionName = $request->getActionName();
+
+$lang = Mage::app()->getRequest()->getParam('lang');
+Mage::getSingleton('core/session')->setAirbnbLanguage($lang);
+$myData = Mage::getSingleton('core/session')->getAirbnbLanguage();
+?>
+
+<div class="header-container">
+<div class="header"><?php echo $this->getChildHtml('currency_top'); ?> <?php if ($this->getIsHomePage()):?>
+<div class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a
+	href="<?php echo $this->getUrl('') ?>"
+	title="<?php echo $this->getLogoAlt() ?>" ><img
+	src="<?php echo $this->getLogoSrc() ?>"
+	alt="<?php echo $this->getLogoAlt() ?>" /></a></div>
+            <?php else:?> 
+    <div class="logo"><a href="<?php echo $this->getUrl('') ?>"
+	title="<?php echo $this->getLogoAlt() ?>" ><strong><?php echo $this->getLogoAlt() ?></strong><img
+	src="<?php echo $this->getLogoSrc() ?>"
+	alt="<?php echo $this->getLogoAlt() ?>" /></a> </div><?php endif?>
+ 
+    <a class="list_btn broswer_header" href="<?php echo Mage::getBaseUrl().'booking/property/form';?>" >
+	<?php echo Mage::helper('airhotels')->__('Add Your Space') ?></a>
+    
+<ul class="headermenu broswer_header">
+
+<?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+        <li><a href="<?php echo $this->getUrl() ?>"><?php echo Mage::helper('airhotels')->__('Home') ?></a></li>
+	<li><a href="<?php echo Mage::helper('customer')->getRegisterUrl(); ?>"><?php echo Mage::helper('airhotels')->__('Sign Up') ?></a></li>
+        <li class="last_child_grid"><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>"><?php echo Mage::helper('airhotels')->__('Log In') ?></a></li>
+
+        <?php } else {?>
+	<li><!-- Welcome Username script -->
+            <?php $loggedIn = $this->helper("customer")->isLoggedIn();
+                    if ($loggedIn) {
+                        $Customer = Mage::getSingleton('customer/session')->getCustomer();
+                        $firstN = Mage::helper('airhotels')->__('Hi').","." ".$Customer->getFirstname(). '!';
+                    } ?>
+            <a href="<?php echo Mage::getBaseUrl().'booking/index/profile/id/'.$Customer->getId();?>"> <?php echo $firstN;?> <!-- Welcome Username script End -->
+                </a>
+	</li>
+        <li><a href="<?php echo Mage::helper('airhotels')->getyourlisturl(); ?>"><?php echo Mage::helper('airhotels')->__('My Listings') ?></a></li>
+        <li><a href="<?php echo Mage::helper('airhotels')->getyourtripurl(); ?>"><?php echo Mage::helper('airhotels')->__('My Trips') ?></a></li>
+        <li class="last_child_grid"><a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>"><?php echo Mage::helper('airhotels')->__('Log Out') ?></a></li>
+	<?php }?>
+</ul>
+
+
+
+    
+    
+    <script type="text/javascript">
+
+
+ddaccordion.init({
+	headerclass: "submenuheader", //Shared CSS class name of headers group
+	contentclass: "submenu", //Shared CSS class name of contents group
+	revealtype: "click", //Reveal content when user clicks or onmouseover the header? Valid value: "click", "clickgo", or "mouseover"
+	mouseoverdelay: 200, //if revealtype="mouseover", set delay in milliseconds before header expands onMouseover
+	collapseprev: true, //Collapse previous content (so only one open at any time)? true/false 
+	defaultexpanded: [], //index of content(s) open by default [index1, index2, etc] [] denotes no content
+	onemustopen: false, //Specify whether at least one header should be open always (so never all headers closed)
+	animatedefault: false, //Should contents open by default be animated into view?
+	persiststate: true, //persist state of opened contents within browser session?
+	toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
+	
+	animatespeed: "fast", //speed of animation: integer in milliseconds (ie: 200), or keywords "fast", "normal", or "slow"
+	oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
+		//do nothing
+	},
+	onopenclose:function(header, index, state, isuseractivated){ //custom code to run whenever a header is opened or closed
+		//do nothing
+	}
+})
+
+
+</script>
+<!--mobile-->
+<div class="glossymenu">
+
+<a class="menuitem submenuheader" href="#" ><?php echo $this->__('Categories'); ?></a>
+<div class="clear"></div>
+
+<div class="submenu">
+	<ul>
+
+<?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+        <li><a href="<?php echo $this->getUrl() ?>"><?php echo Mage::helper('airhotels')->__('Home') ?></a></li>
+	<li><a href="<?php echo Mage::helper('customer')->getRegisterUrl(); ?>"><?php echo Mage::helper('airhotels')->__('Sign Up') ?></a></li>
+        <li class="last_child"><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>"><?php echo Mage::helper('airhotels')->__('Log In') ?></a></li>
+
+        <?php } else {?>
+	<li><!-- Welcome Username script -->
+             <?php $loggedIn = $this->helper("customer")->isLoggedIn();
+                    if ($loggedIn) {
+                        $Customer = Mage::getSingleton('customer/session')->getCustomer();
+                        $firstN = Mage::helper('airhotels')->__('Hi').","." ".$Customer->getFirstname(). '!';
+                    } ?>
+            <a  style="cursor: default;" href="<?php echo Mage::getBaseUrl().'booking/index/profile/id/'.$Customer->getId();?>"> <?php echo $firstN;?> <!-- Welcome Username script End -->
+                </a>
+           
+	</li>
+	<li><a
+		href="<?php echo Mage::helper('airhotels')->getyourlisturl(); ?>"><?php echo Mage::helper('airhotels')->__('My Listings') ?></a></li>
+	<li><a
+		href="<?php echo Mage::helper('airhotels')->getyourtripurl(); ?>"><?php echo Mage::helper('airhotels')->__('My Trips') ?></a></li>
+                <li class="last_child_grid"><a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>"><?php echo Mage::helper('airhotels')->__('Log Out') ?></a></li>
+	<?php }?>
+</ul>
+    <div class="clear"></div>
+    <a class="space_btn" href="<?php echo Mage::getBaseUrl().'booking/property/form';?>" >
+        <?php echo  Mage::helper('airhotels')->__('Add Your Space') ?>
+    </a>
+</div>
+		
+</div>
+
+<div class="search-bar">
+             <i class="icon icon-search"></i>
+             <form action="<?php echo Mage::getBaseUrl() . 'booking/property/advsearch/' ?>" >
+             <input  id="searchTexttop" name="searchTextField" type="text" placeholder="<?php echo $this->__('Where are you going') . "?"; ?>" autocomplete="off" class="header-search">
+              <div id="map_canvas_top"></div>
+             </form>          
+</div>
+ 
+<div class="quick-access">
+</div>
+	<?php echo $this->getChildHtml('topContainer'); ?>
+<div class="clear"></div>
+</div>
+</div>
+<script type="text/javascript">
+    function showPopUp(){
+        if(document.getElementById('currencyPopup').style.display == "none"){
+            document.getElementById('currencyPopup').style.display = "block";
+        }
+        else{
+            document.getElementById('currencyPopup').style.display = "none";
+        }
+    }
+    function initialize() {
+        var mapOptions = {
+            //center: new google.maps.LatLng(-33.8688, 151.2195),
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById('map_canvas_top'),
+        mapOptions);
+
+        var input = document.getElementById('searchTexttop');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.bindTo('bounds', map);
+        // Autocomplete.
+        function setupClickListener(id, types) {
+            var radioButton = document.getElementById(id);
+            google.maps.event.addDomListener(radioButton, 'click', function() {
+                autocomplete.setTypes(types);
+            });
+        }
+
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<!-- sample data popup -->
+        <?php   $status = Mage::getStoreConfig('airhotels/sampledata/enable_data');
+        if($status == 0)  :?>
+            <div id="sample-data-popup">
+                <a href="javascript:void(0)" onclick="document.getElementById('sample-data-popup').style.display='none'; document.getElementById('sample-fade').style.display='none';" class="close_link"></a>
+
+                <p><?php echo Mage::helper('airhotels')->__('You want to install sample data on your store !!') ?></p>
+                <div class="yes-no">
+                    <?php $uri = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK).'booking/index/add'; ?>
+                    <a href="<?php echo $uri?>" class="button yes-sample">Yes</a>
+                    <a onclick="document.getElementById('sample-data-popup').style.display='none'; document.getElementById('sample-fade').style.display='none';" title="No" class="button no-sample">No</a>
+
+<!--                    <button type="button" title="Yes" class="button yes-sample"><span class="span1"><span class="span2">Yes</span></span></button>
+                    -->
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div id="sample-fade" class="black_overlay" style="display: block;"></div>
+
+        <?php Mage::app()->getCacheInstance()->flush(); endif; ?>
+         <?php
+        $configSwitch = new Mage_Core_Model_Config();
+        $configSwitch->saveConfig('airhotels/sampledata/enable_data', "1", 'default', 0);        
+        ?>
+<!-- sample data popup -->
+

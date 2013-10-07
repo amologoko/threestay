@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<confi>        
+    <modules>
+        
+        <Apptha_Airhotels>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Apptha_Airhotels>
+    </modules>
+</confi>
