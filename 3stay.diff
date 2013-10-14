@@ -1,0 +1,1271 @@
+commit 0013269323e77358a4a91073f777413c45695968
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Wed Jun 26 20:08:27 2013 -0400
+
+    Temporary solution for accessCode passed through session object
+
+diff --git a/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php b/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php
+index 71114c6..42f870f 100644
+--- a/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php
++++ b/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php
+@@ -27,7 +27,8 @@ class Apptha_Airhotels_Block_Sales_Order_Items_Renderer_Default extends Mage_Sal
+ 				$checkOut =$options1['todate'];
+ 				$rooms = $options1['accomodate'];
+ 				$guests = $options1['serviceFee'];
+-				$accessCode = $options1['accessCode'];
++				#$accessCode = $options1['accessCode'];
++				$accessCode = Mage::getSingleton('core/session')->getAccessCode();
+ 				
+ 	            break;
+ 			}
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index 83a5499..51f7dff 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -39,14 +39,14 @@ class Apptha_Airhotels_Model_Observer
+          $orderCurrency = $orders->getFirstItem()->getOrderCurrencyCode();
+          $address = Mage::getModel('sales/order_address')->load($order_item_id)->getBillingAddress();
+ 
+-     	 foreach ($session->getQuote()->getAllItems() as $item){
++     	 #$mainItem = $orders->getFirstItem();
++	 foreach ($session->getQuote()->getAllItems() as $item){
+ 
+      	 	$productId = $item->getProductId();
+-                 $productData = Mage::getModel('catalog/product')->load($productId);
++                $productData = Mage::getModel('catalog/product')->load($productId);
+                 $productName = $productData->getName();
+                 $hostId = $productData->getUserid();
+ 		$secret_key = $productData->getSecretKey();
+-
+      	 }
+      	 $customer = Mage::getSingleton('customer/session')->getCustomer();
+      	 $cusId = $customer->getId();
+@@ -79,6 +79,9 @@ class Apptha_Airhotels_Model_Observer
+        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+          Mage::getSingleton('core/session')->setProductID($productId);
+ 	 Mage::getSingleton('core/session')->setAccessCode($access_code);
++      	 #$productOptions = $mainItem->getProductOptions();
++	 #$productOptions['accessCode'] = $access_code;
++	 #$mainItem->setProductOptions($productOptions);
+          }
+ 
+     }
+diff --git a/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml b/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
+index 1cd628b..459f00f 100644
+--- a/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
++++ b/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
+@@ -38,7 +38,8 @@
+          $checkOut= $det['todate'];
+         $serviceFee = $det['serviceFee']; 
+         $accomodate = $det['accomodate'];
+-        $accessCode = $det['accessCode'];
++        #$accessCode = $det['accessCode'];
++	$accessCode = Mage::getSingleton('core/session')->getAccessCode();
+      }
+ 
+     
+diff --git a/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml b/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
+index 5cc6f72..189cda4 100644
+--- a/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
++++ b/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
+@@ -32,7 +32,8 @@ $details = unserialize($_item['product_options']);
+          $checkOut= $det['todate'];
+         $serviceFee = $det['serviceFee'];
+         $accomodate = $det['accomodate'];
+-	$accessCode = $det['accessCode'];
++	#$accessCode = $det['accessCode'];
++	$accessCode = Mage::getSingleton('core/session')->getAccessCode();
+      }
+         
+         
+
+commit eeb6df8c3abcb6012b44172ac89e797ff7e18e9f
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Wed Jun 26 09:36:20 2013 -0400
+
+    Changed renderer and email templates to incorporate accessCode
+
+diff --git a/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php b/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php
+index 378383d..838015f 100644
+--- a/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php
++++ b/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php
+@@ -59,7 +59,7 @@ class Apptha_Airhotels_Block_Adminhtml_Airhotels_Edit_Tab_Details extends Mage_A
+         ));
+         $fieldset->addField('access_code', 'text', array(
+             'label' => Mage::helper('airhotels')->__('Access Code :'),
+-            'readonly' => false,
++            'readonly' => true,
+         ));
+ 
+        
+diff --git a/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php b/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php
+index 829566d..71114c6 100644
+--- a/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php
++++ b/app/code/local/Apptha/Airhotels/Block/Sales/Order/Items/Renderer/Default.php
+@@ -27,6 +27,7 @@ class Apptha_Airhotels_Block_Sales_Order_Items_Renderer_Default extends Mage_Sal
+ 				$checkOut =$options1['todate'];
+ 				$rooms = $options1['accomodate'];
+ 				$guests = $options1['serviceFee'];
++				$accessCode = $options1['accessCode'];
+ 				
+ 	            break;
+ 			}
+@@ -35,7 +36,8 @@ class Apptha_Airhotels_Block_Sales_Order_Items_Renderer_Default extends Mage_Sal
+ 				array('label' => $this->__('Check In'), 'value' => str_replace('@','/',$checkIn)),
+ 				array('label' => $this->__('Check Out'), 'value' => str_replace('@','/',$checkOut)),
+ 				array('label' => $this->__('Accommodate'), 'value' => $rooms),			
+-				array('label' => $this->__('Processing Fee'), 'value' => $guests)
++				array('label' => $this->__('Processing Fee'), 'value' => $guests),
++				array('label' => $this->__('Access Code'), 'value' => $accessCode)
+ 			);
+ 		}
+ 		return $result;
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index 8af7e64..83a5499 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -78,6 +78,7 @@ class Apptha_Airhotels_Model_Observer
+          $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
+        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+          Mage::getSingleton('core/session')->setProductID($productId);
++	 Mage::getSingleton('core/session')->setAccessCode($access_code);
+          }
+ 
+     }
+diff --git a/app/locale/en_US/template/email/airhotels/hoster_reminder.html b/app/locale/en_US/template/email/airhotels/hoster_reminder.html
+index 94c4a57..b5e9709 100644
+--- a/app/locale/en_US/template/email/airhotels/hoster_reminder.html
++++ b/app/locale/en_US/template/email/airhotels/hoster_reminder.html
+@@ -35,7 +35,6 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
+                     <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Hello, {{htmlescape var=$order.getCustomerName()}}</h1>
+                     <p style="font-size:12px; line-height:16px; margin:0;">
+                         Thank you for your order from {{var store.getFrontendName()}}.
+-                        Once your package ships we will send an email with a link to track your order.
+                         You can check the status of your order by <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">logging into your account</a>.
+                         If you have any questions about your order please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span> Monday - Friday, 8am - 5pm PST.
+                     </p>
+@@ -99,7 +98,7 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
+                 </td>
+             </tr>
+             <tr>
+-                <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
++                <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you from <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+             </tr>
+         </table>
+     </td>
+diff --git a/app/locale/en_US/template/email/sales/order_new.html b/app/locale/en_US/template/email/sales/order_new.html
+index 94c4a57..b5e9709 100644
+--- a/app/locale/en_US/template/email/sales/order_new.html
++++ b/app/locale/en_US/template/email/sales/order_new.html
+@@ -35,7 +35,6 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
+                     <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Hello, {{htmlescape var=$order.getCustomerName()}}</h1>
+                     <p style="font-size:12px; line-height:16px; margin:0;">
+                         Thank you for your order from {{var store.getFrontendName()}}.
+-                        Once your package ships we will send an email with a link to track your order.
+                         You can check the status of your order by <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">logging into your account</a>.
+                         If you have any questions about your order please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span> Monday - Friday, 8am - 5pm PST.
+                     </p>
+@@ -99,7 +98,7 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
+                 </td>
+             </tr>
+             <tr>
+-                <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
++                <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you from <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+             </tr>
+         </table>
+     </td>
+
+commit c7d5d1d3d266eaa6eaca2def94127935ba7746f6
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue Jun 25 22:57:43 2013 -0400
+
+    Fixed issue with SOAP result being stdClass object rather than array
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index 33c747c..8af7e64 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -73,8 +73,7 @@ class Apptha_Airhotels_Model_Observer
+ #        $access_code = $result['AccessCode'];
+ 	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+ 	 $soap->setSoapVersion(SOAP_1_1);
+-	 $result = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate));
+-         $access_code = $result['GenerateCodeResult'];
++	 $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
+ 
+          $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
+        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+
+commit 43ba564b1bb8e8493f93c438b5c8e7d7eefa5c4a
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue Jun 25 22:44:26 2013 -0400
+
+    Fixed SOAP call to GenerateCode
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index 6525d2f..33c747c 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -10,8 +10,8 @@ class Apptha_Airhotels_Model_Observer
+ {
+     public function booking($observer)
+     {
+-	$event = $observer->getEvent();
+-	Mage::log($event);
++#	$event = $observer->getEvent();
++#	Mage::log($event);
+         
+ 	$fromdate =  Mage::getSingleton('core/session')->getFromdate();
+ 
+@@ -27,7 +27,7 @@ class Apptha_Airhotels_Model_Observer
+      	 $session = Mage::getSingleton('checkout/session');
+ 
+      	 $productId = "";
+-	 $secret_key = "123456";
++	 $secret_key = "";
+      	 $orders = Mage::getModel('sales/order')->getCollection()
+      	 ->setOrder('created_at','DESC')
+      	 ->setPageSize(1)
+@@ -67,14 +67,14 @@ class Apptha_Airhotels_Model_Observer
+          $hostFee = ($subtotal/100) * ($config["airhotels_hostfee"] ) ;
+          $hostFee = number_format($hostFee,2,'.','' ) ;
+ 
+-	 $access_code = '';
+ #	 $soap = new Zend_Soap_Client("https://www.kaba-ecode.com/KWWS_WS/KWWSService.asmx?WSDL", array('compression' => SOAP_COMPRESSION_ACCEPT));
+ #	 $result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
+ #	 $status = $result['ReturnStatus'];
+ #        $access_code = $result['AccessCode'];
+-#	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+-#	 $result = $soap->GenerateCode('626379', $fromdate, $todate);
+-#         $access_code = $result['GenerateCodeResult'];
++	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
++	 $soap->setSoapVersion(SOAP_1_1);
++	 $result = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate));
++         $access_code = $result['GenerateCodeResult'];
+ 
+          $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
+        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+
+commit 2afef54927a7494413ddfa52eed6399c86a98a85
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue Jun 25 21:37:16 2013 -0400
+
+    Added $observer argument to booking() method
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index 90e0a69..6525d2f 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -8,10 +8,10 @@
+  */
+ class Apptha_Airhotels_Model_Observer
+ {
+-    public function booking()
++    public function booking($observer)
+     {
+ 	$event = $observer->getEvent();
+-	Mage::log($event, null, "event.log");
++	Mage::log($event);
+         
+ 	$fromdate =  Mage::getSingleton('core/session')->getFromdate();
+ 
+
+commit aa72ea36c7bbe571e0825298f416c1a6160216e9
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue Jun 25 21:27:46 2013 -0400
+
+    Changed event hook to sales_order_place_after
+
+diff --git a/app/code/local/Apptha/Airhotels/etc/config.xml b/app/code/local/Apptha/Airhotels/etc/config.xml
+index efd3024..bcaef80 100644
+--- a/app/code/local/Apptha/Airhotels/etc/config.xml
++++ b/app/code/local/Apptha/Airhotels/etc/config.xml
+@@ -323,7 +323,7 @@
+             </checkout_type_onepage_save_order_after>
+ -->        
+         
+-     <sales_order_save_after>
++     <sales_order_place_after>
+ 	<observers>
+ 		<airhotels>
+ 			<type>singleton</type>
+@@ -331,7 +331,7 @@
+ 			<method>booking</method>
+ 		</airhotels>
+ 	</observers>
+-     </sales_order_save_after>
++     </sales_order_place_after>
+     </events>
+     </global>
+ </config>
+\ No newline at end of file
+
+commit 5f341c7f0e3f8091bff88c443b11a5fc1ef91c2c
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue Jun 25 21:08:39 2013 -0400
+
+    Changed event hook to sales_order_save_after
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index c485a48..90e0a69 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -10,7 +10,10 @@ class Apptha_Airhotels_Model_Observer
+ {
+     public function booking()
+     {
+-         $fromdate =  Mage::getSingleton('core/session')->getFromdate();
++	$event = $observer->getEvent();
++	Mage::log($event, null, "event.log");
++        
++	$fromdate =  Mage::getSingleton('core/session')->getFromdate();
+ 
+         //$todate = Mage::getSingleton('core/session')->getTodate();
+ 
+@@ -24,7 +27,7 @@ class Apptha_Airhotels_Model_Observer
+      	 $session = Mage::getSingleton('checkout/session');
+ 
+      	 $productId = "";
+-	 $secret_key = "2010201120122013";
++	 $secret_key = "123456";
+      	 $orders = Mage::getModel('sales/order')->getCollection()
+      	 ->setOrder('created_at','DESC')
+      	 ->setPageSize(1)
+diff --git a/app/code/local/Apptha/Airhotels/etc/config.xml b/app/code/local/Apptha/Airhotels/etc/config.xml
+index c8032db..efd3024 100644
+--- a/app/code/local/Apptha/Airhotels/etc/config.xml
++++ b/app/code/local/Apptha/Airhotels/etc/config.xml
+@@ -310,6 +310,8 @@
+                 </observers>
+ 
+             </paypal_prepare_line_items>
++
++<!--
+             <checkout_type_onepage_save_order_after>
+                 <observers>
+                     <airhotels>
+@@ -319,17 +321,17 @@
+                     </airhotels>
+                 </observers>
+             </checkout_type_onepage_save_order_after>
++-->        
+         
+-        
+-     <!--<sales_order_save_after>
+-				<observers>
+-					<airhotels>
+-						<type>singleton</type>
+-						<class>Apptha_Airhotels_Model_Observer</class>
+-						<method>booking_update</method>
+-					</airhotels>
+-				</observers>
+-			</sales_order_save_after>-->
+-        </events>
++     <sales_order_save_after>
++	<observers>
++		<airhotels>
++			<type>singleton</type>
++			<class>Apptha_Airhotels_Model_Observer</class>
++			<method>booking</method>
++		</airhotels>
++	</observers>
++     </sales_order_save_after>
++    </events>
+     </global>
+ </config>
+\ No newline at end of file
+
+commit 6b62443cfe672c4b6f99aa49dc26494b703e631a
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue Jun 25 20:04:55 2013 -0400
+
+    Fixed multiple bugs in Airhotels.php
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Airhotels.php b/app/code/local/Apptha/Airhotels/Model/Airhotels.php
+index 9422077..0829b6a 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Airhotels.php
++++ b/app/code/local/Apptha/Airhotels/Model/Airhotels.php
+@@ -301,9 +301,10 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
+ 
+         $range = $read->fetchAll($date_range);
+         $count = count($range);
++	$dates_range = array();
+         for ($i = 0; $i <= $count; $i++) {
+-            $fromdate = $range[$i][fromdate];
+-            $todate = $range[$i][todate];
++            $fromdate = $range[$i]['fromdate'];
++            $todate = $range[$i]['todate'];
+             if ($fromdate < $todate) {
+                 $dates_range[] = date('Y-n-j', strtotime($fromdate));
+                 $date1 = strtotime($fromdate);
+@@ -890,6 +891,9 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
+                 ->where('ct.product_id =?', $productid);
+         $range = $read->fetchAll($date_range);
+         $count = count($range);
++        $dates_available = array();
++	$dates_booked = array();
++	$dates_notavailable = array();
+         for ($i = 0; $i <= $count; $i++) {
+             $bookavail = $range[$i]['book_avail'];
+             $fromdate = $range[$i]['blockfrom'];
+@@ -933,6 +937,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
+      * @return array $availDays
+      */
+     public function getDays($count, $value) {
++	$availDay = array();
+         for ($j = 0; $j < $count; $j++) {
+             $availDay[] = $value[$j][1];
+         }
+
+commit 6522746e3a3add20afa0a9a7949049dd6065b3ee
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Sun Jun 23 18:41:39 2013 -0400
+
+    Commented out web service call
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index b716207..c485a48 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -69,9 +69,9 @@ class Apptha_Airhotels_Model_Observer
+ #	 $result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
+ #	 $status = $result['ReturnStatus'];
+ #        $access_code = $result['AccessCode'];
+-	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+-	 $result = $soap->GenerateCode('626379', $fromdate, $todate);
+-         $access_code = $result['GenerateCodeResult'];
++#	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
++#	 $result = $soap->GenerateCode('626379', $fromdate, $todate);
++#         $access_code = $result['GenerateCodeResult'];
+ 
+          $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
+        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+diff --git a/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml b/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
+index 1fe72df..1cd628b 100644
+--- a/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
++++ b/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
+@@ -31,7 +31,7 @@
+ ?>
+ 
+ <?php if ($_item = $this->getItem()): 
+-    $details = unserialize($_item[product_options]);
++    $details = unserialize($_item['product_options']);
+     
+      foreach($details as $det){
+          $checkIn = $det['fromdate'];
+diff --git a/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml b/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
+index 4596d36..5cc6f72 100644
+--- a/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
++++ b/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
+@@ -25,7 +25,7 @@
+  */
+ ?>
+ <?php $_item = $this->getItem() ;
+-$details = unserialize($_item[product_options]);
++$details = unserialize($_item['product_options']);
+     
+      foreach($details as $det){
+          $checkIn = $det['fromdate'];
+
+commit 17c12b344774a5d2b8aae7e019665ba7f0491d1a
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Sun Jun 23 18:22:59 2013 -0400
+
+    Fixed missing quotes minor bug and added accessCode to rendering
+
+diff --git a/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml b/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
+index 3a632ff..1fe72df 100644
+--- a/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
++++ b/app/design/adminhtml/default/default/template/airhotels/sales/items/column/name.phtml
+@@ -34,10 +34,11 @@
+     $details = unserialize($_item[product_options]);
+     
+      foreach($details as $det){
+-         $checkIn = $det[fromdate];
+-         $checkOut= $det[todate];
+-        $serviceFee = $det[serviceFee]; 
+-        $accomodate = $det[accomodate];
++         $checkIn = $det['fromdate'];
++         $checkOut= $det['todate'];
++        $serviceFee = $det['serviceFee']; 
++        $accomodate = $det['accomodate'];
++        $accessCode = $det['accessCode'];
+      }
+ 
+     
+@@ -48,6 +49,7 @@
+     <div><strong><?php echo $this->helper('sales')->__('CheckOut') ?>:</strong> <?php echo str_replace('@','/', $checkOut); ?></div>
+     <div><strong><?php echo $this->helper('sales')->__('Accommodate') ?>:</strong> <?php echo $accomodate;?></div>
+     <div><strong><?php echo $this->helper('sales')->__('Processing Fee') ?>:</strong> <?php echo $serviceFee;?></div>
++    <div><strong><?php echo $this->helper('sales')->__('Access Code') ?>:</strong> <?php echo $accessCode;?></div>
+     <?php if ($this->getOrderOptions()): ?>
+         <dl class="item-options">
+         <?php foreach ($this->getOrderOptions() as $_option): ?>
+diff --git a/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml b/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
+index 42c64c1..4596d36 100644
+--- a/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
++++ b/app/design/frontend/default/stylish/template/sales/order/items/renderer/default.phtml
+@@ -28,10 +28,11 @@
+ $details = unserialize($_item[product_options]);
+     
+      foreach($details as $det){
+-         $checkIn = $det[fromdate];
+-         $checkOut= $det[todate];
+-        $serviceFee = $det[serviceFee];
+-        $accomodate = $det[accomodate];
++         $checkIn = $det['fromdate'];
++         $checkOut= $det['todate'];
++        $serviceFee = $det['serviceFee'];
++        $accomodate = $det['accomodate'];
++	$accessCode = $det['accessCode'];
+      }
+         
+         
+@@ -42,6 +43,7 @@ $details = unserialize($_item[product_options]);
+     <div><strong><?php echo $this->helper('sales')->__('CheckOut') ?>:</strong> <?php echo str_replace('@','/', $checkOut); ?></div>
+     <div><strong><?php echo $this->helper('sales')->__('Accomodate') ?>:</strong> <?php echo $accomodate;?></div>
+     <div><strong><?php echo $this->helper('sales')->__('ServiceFee') ?>:</strong> <?php echo $serviceFee;?></div>
++    <div><strong><?php echo $this->helper('sales')->__('AccessCode') ?>:</strong> <?php echo $accessCode;?></div>
+         
+         <?php $addtInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
+         <?php if ($addtInfoBlock) :?>
+
+commit b15578bfac899448c6a4da044fa3550427a0da71
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Fri Jun 21 18:58:11 2013 -0400
+
+    Fixing email sender issue
+
+diff --git a/app/code/core/Mage/Core/Model/Email/Template.php b/app/code/core/Mage/Core/Model/Email/Template.php
+index 56168d3..214a469 100644
+--- a/app/code/core/Mage/Core/Model/Email/Template.php
++++ b/app/code/core/Mage/Core/Model/Email/Template.php
+@@ -138,22 +138,8 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
+     public function getMail()
+     {
+         if (is_null($this->_mail)) {
+-
+-	  $my_smtp_host = Mage::getStoreConfig('system/smtp/host');
+-          $my_smtp_port = Mage::getStoreConfig('system/smtp/port');
+-          $config = array(
+-               'ssl' => 'tls',
+-               'port' => '587',
+-               'auth' => 'login',
+-               'username' => 'sasham@gmail.com',
+-                'password' => 'imthe123'
+-          );
+-          $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+-          Zend_Mail::setDefaultTransport($transport);
+-
+-          $this->_mail = new Zend_Mail('utf-8');
++            $this->_mail = new Zend_Mail('utf-8');
+         }
+-
+         return $this->_mail;
+     }
+ 
+diff --git a/app/code/local/Apptha/Airhotels/Model/Order.php b/app/code/local/Apptha/Airhotels/Model/Order.php
+index a64e3eb..d8274aa 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Order.php
++++ b/app/code/local/Apptha/Airhotels/Model/Order.php
+@@ -59,8 +59,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
+     const XML_PATH_OWNER_TEMPLATE = 'dealcoupon/email/owner_template';
+     const XML_PATH_NO_EMAIL_TEMPLATE = 'dealcoupon/email/email_template';
+     const XML_PATH_EMAIL_RECIPIENT = 'contacts/email/recipient_email';
+-    const XML_PATH_EMAIL_SENDER = 'airhotels/order_reminder/sender_email_identity';
+-    
++    #const XML_PATH_EMAIL_SENDER = 'airhotels/order_reminder/sender_email_identity';
++    const XML_PATH_EMAIL_SENDER = 'contacts/email/sender_email_identity';
+     /**
+      * Email Update template contus
+      */
+
+commit 4b14716c64922581d70bad9d6a65de2fee77ed6b
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Fri Jun 21 06:28:43 2013 -0400
+
+    Enabled GenerateCode web service
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index 95e04ed..b716207 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -69,6 +69,9 @@ class Apptha_Airhotels_Model_Observer
+ #	 $result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
+ #	 $status = $result['ReturnStatus'];
+ #        $access_code = $result['AccessCode'];
++	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
++	 $result = $soap->GenerateCode('626379', $fromdate, $todate);
++         $access_code = $result['GenerateCodeResult'];
+ 
+          $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
+        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+
+commit 04bb46a29929d260c0e729d21d1d2290f05c74c9
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Fri Jun 21 04:42:42 2013 -0400
+
+    Disabled web service call
+
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index b5913aa..95e04ed 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -65,10 +65,10 @@ class Apptha_Airhotels_Model_Observer
+          $hostFee = number_format($hostFee,2,'.','' ) ;
+ 
+ 	 $access_code = '';
+-	 $soap = new Zend_Soap_Client("https://www.kaba-ecode.com/KWWS_WS/KWWSService.asmx?WSDL", array('compression' => SOAP_COMPRESSION_ACCEPT));
+-	 $result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
+-	 $status = $result['ReturnStatus'];
+-         $access_code = $result['AccessCode'];
++#	 $soap = new Zend_Soap_Client("https://www.kaba-ecode.com/KWWS_WS/KWWSService.asmx?WSDL", array('compression' => SOAP_COMPRESSION_ACCEPT));
++#	 $result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
++#	 $status = $result['ReturnStatus'];
++#        $access_code = $result['AccessCode'];
+ 
+          $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
+        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+
+commit d46169ae9f7bc4013b95aa36d48742eaff53d4fe
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Sat May 25 21:44:09 2013 -0400
+
+    Removed 'Airhotels' references
+
+diff --git a/app/code/local/Apptha/Airhotels/controllers/IndexController.php b/app/code/local/Apptha/Airhotels/controllers/IndexController.php
+index c57806b..9943bc4 100644
+--- a/app/code/local/Apptha/Airhotels/controllers/IndexController.php
++++ b/app/code/local/Apptha/Airhotels/controllers/IndexController.php
+@@ -12,7 +12,7 @@ class Apptha_Airhotels_IndexController extends Mage_Core_Controller_Front_Action
+     public function indexAction() {
+         $this->loadLayout();
+         $this->_initLayoutMessages('catalog/session');
+-        $this->getLayout()->getBlock('head')->setTitle($this->__('Airhotels'));
++        #$this->getLayout()->getBlock('head')->setTitle($this->__('Airhotels'));
+         $this->renderLayout();
+     }
+ 
+diff --git a/app/code/local/Apptha/Airhotels/controllers/PropertyController.php b/app/code/local/Apptha/Airhotels/controllers/PropertyController.php
+index c182dd7..ce3a0e1 100644
+--- a/app/code/local/Apptha/Airhotels/controllers/PropertyController.php
++++ b/app/code/local/Apptha/Airhotels/controllers/PropertyController.php
+@@ -184,7 +184,7 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
+         $post = $this->getRequest()->getPost();
+         $this->loadLayout();
+         $this->_initLayoutMessages('catalog/session');
+-        $this->getLayout()->getBlock('head')->setTitle($this->__('Airhotels'));
++        #$this->getLayout()->getBlock('head')->setTitle($this->__('Airhotels'));
+         $this->renderLayout();
+         $result = Mage::getModel('airhotels/airhotels')->updateproperty($post);
+         if ($result == 1) {
+diff --git a/app/code/local/Apptha/Airhotels/etc/adminhtml.xml b/app/code/local/Apptha/Airhotels/etc/adminhtml.xml
+index 81ae2f6..851d1c3 100644
+--- a/app/code/local/Apptha/Airhotels/etc/adminhtml.xml
++++ b/app/code/local/Apptha/Airhotels/etc/adminhtml.xml
+@@ -20,14 +20,14 @@
+ 							<config>
+ 								<children>
+ 									<airhotels translate="title" module="airhotels">
+-										<title>Airhotels</title>
++										<title>ThreeStay</title>
+ 									</airhotels>
+ 								</children>
+ 							</config>
+ 						</children>
+ 					</system>
+ 					<airhotels>
+-						<title>Airhotels</title>
++						<title>ThreeStay</title>
+ 						<children>
+ 							<items translate="title" module="airhotels">
+ 								<title>Booking Information</title>
+@@ -48,7 +48,7 @@
+ 								<action>adminhtml/rating</action>
+ 							</manage_rating>
+ 							<manage_configuration module="airhotels">
+-								<title>Airhotels</title>
++								<title>ThreeStay</title>
+ 								<sort_order>4</sort_order>
+ 								<action>adminhtml/system_config/edit/section/airhotels
+ 								</action>
+diff --git a/app/code/local/Apptha/Airhotels/etc/config.xml b/app/code/local/Apptha/Airhotels/etc/config.xml
+index 1dcc897..c8032db 100644
+--- a/app/code/local/Apptha/Airhotels/etc/config.xml
++++ b/app/code/local/Apptha/Airhotels/etc/config.xml
+@@ -46,7 +46,7 @@
+     <adminhtml>
+         <menu>
+             <airhotels module="airhotels">
+-                <title>Airhotels</title>
++                <title>ThreeStay</title>
+                 <sort_order>71</sort_order>               
+                 <children>
+                     <items module="airhotels">
+@@ -70,7 +70,7 @@
+                         <action>adminhtml/rating</action>
+                     </manage_rating>
+                     <manage_configuration module="airhotels">
+-                        <title>Airhotels</title>
++                        <title>ThreeStay</title>
+                         <sort_order>4</sort_order>
+                         <action>adminhtml/system_config/edit/section/airhotels</action>
+                     </manage_configuration>
+diff --git a/app/design/frontend/default/stylish/template/persistent/customer/form/login.phtml b/app/design/frontend/default/stylish/template/persistent/customer/form/login.phtml
+index aa03a7a..2b2f242 100644
+--- a/app/design/frontend/default/stylish/template/persistent/customer/form/login.phtml
++++ b/app/design/frontend/default/stylish/template/persistent/customer/form/login.phtml
+@@ -35,7 +35,7 @@
+ <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+ <div class="new-account-login">
+     <div class="fb-login-section">
+-      <h1 style="text-align: center;"><?php echo $this->__('Log In to Airhotels') ?></h1>
++      <h1 style="text-align: center;"><?php echo $this->__('Log In to ThreeStay') ?></h1>
+         <p class="best-places"><?php echo $this->__('Find the best places to stay recommended by your friends.') ?></p>
+         <div class="fb-button-container-centered">
+             <a class="fb-button" href="#" title="Facebook Connect" rel="facebook-connect" id="fb-auth">
+
+commit a58d97b946a4ed7afa083ad4888488968c7200d3
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Sat May 25 14:36:13 2013 -0400
+
+    Increased video size to 960 x 540
+
+diff --git a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+index 2763b19..4b2383a 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+@@ -174,7 +174,7 @@ $threeDiv = $threeDiv + 1;
+             <div id="main_content" class="box">
+                 <div class="tabhomepage">
+                     <div id="video">
+-			<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
++			<iframe src="http://player.vimeo.com/video/66514891" width="960" height="540" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+ 		    </div>
+ 
+                     <ul id="main_content_sub_navhomepage" class="rooms_sub_navhomepage clearfix">
+
+commit 94ce47cdfadea71c06a6ed8c861db847f13dacaa
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Thu May 23 21:53:07 2013 -0400
+
+    Replaced empty grid with video
+
+diff --git a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+index 3006611..2763b19 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+@@ -45,11 +45,6 @@ if(count($_productCollection)!= 0){
+ 
+ ?>
+ <ul>
+-<li class="home-medium-dealboxextra">
+-<div id="video">
+-<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+-</div>
+-</li>
+ <?php
+ foreach($_productCollection as $product){   
+     
+@@ -168,7 +163,7 @@ $threeDiv = $threeDiv + 1;
+   
+    }
+ } else {
+-    echo '<div class="emty_grid" style="height: 221px;">' . $this->__('No Records!') . '</div>';
++    echo '<div class="clear"></div>';
+ }
+     ?>
+ </ul>
+@@ -178,7 +173,10 @@ $threeDiv = $threeDiv + 1;
+         <div id="left_columnhomepage">
+             <div id="main_content" class="box">
+                 <div class="tabhomepage">
+-                    
++                    <div id="video">
++			<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
++		    </div>
++
+                     <ul id="main_content_sub_navhomepage" class="rooms_sub_navhomepage clearfix">
+                         <li id="menuwhatnew" class="main_link selected">
+                             <a href="#whatnew" onclick="showTabs('whatsnew','menuwhatnew')"><?php echo $this->__('What\'s New'); ?></a>
+
+commit 11e8e3159319bf5463bc2633ab2c745b4f9b89fd
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue May 21 23:45:21 2013 -0400
+
+    Revert "Revert "Added embedded video""
+    
+    This reverts commit a0419258e85e3881ca5c3b87c187da06a3c1bad8.
+
+diff --git a/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml b/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
+index ff2e3f5..c702540 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
+@@ -43,8 +43,8 @@
+             <div class="container">
+                 <div class="banner_outer">
+                     <div class="banner_transparent">
+-                        <h1><?php echo $this->__('Explore great place to stay!') ?></h1>
+-                        <h2><?php echo $this->__('Let it be from any part of the world, make it yours!') ?></h2>
++                        <h1><?php echo $this->__('Explore great places to stay!') ?></h1>
++                        <h2><?php echo $this->__('Wherever you are in the world, make it yours!') ?></h2>
+                     </div>
+                 </div>
+ 
+diff --git a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+index 01942e9..3006611 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+@@ -45,6 +45,11 @@ if(count($_productCollection)!= 0){
+ 
+ ?>
+ <ul>
++<li class="home-medium-dealboxextra">
++<div id="video">
++<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
++</div>
++</li>
+ <?php
+ foreach($_productCollection as $product){   
+     
+diff --git a/app/locale/en_US/Airhotels.csv b/app/locale/en_US/Airhotels.csv
+index 79639d9..4e29f2b 100644
+--- a/app/locale/en_US/Airhotels.csv
++++ b/app/locale/en_US/Airhotels.csv
+@@ -199,8 +199,8 @@
+ "How do you rate this product?","How do you rate this property?"
+ "Checkout as a Guest or Register","Checkout as a Register"
+ "Room Service ","Service"
+-"Explore great place to stay!","Explore great place to stay!"
+-"Let it be from any part of the world, make it yours!","Let it be from any part of the world, make it yours!"
++"Explore great places to stay!","Explore great places to stay!"
++"Wherever you are in the world, make it yours!","Wherever you are in the world, make it yours!"
+ "Where are you going?","Where are you going?"
+ "How it Works","How it Works"
+ "Popular","Popular"
+
+commit a0419258e85e3881ca5c3b87c187da06a3c1bad8
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Tue May 21 23:30:22 2013 -0400
+
+    Revert "Added embedded video"
+    
+    This reverts commit 20f93b6b640c348198c4072185f523ffe082c559.
+
+diff --git a/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml b/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
+index c702540..ff2e3f5 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
+@@ -43,8 +43,8 @@
+             <div class="container">
+                 <div class="banner_outer">
+                     <div class="banner_transparent">
+-                        <h1><?php echo $this->__('Explore great places to stay!') ?></h1>
+-                        <h2><?php echo $this->__('Wherever you are in the world, make it yours!') ?></h2>
++                        <h1><?php echo $this->__('Explore great place to stay!') ?></h1>
++                        <h2><?php echo $this->__('Let it be from any part of the world, make it yours!') ?></h2>
+                     </div>
+                 </div>
+ 
+diff --git a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+index 3006611..01942e9 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+@@ -45,11 +45,6 @@ if(count($_productCollection)!= 0){
+ 
+ ?>
+ <ul>
+-<li class="home-medium-dealboxextra">
+-<div id="video">
+-<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+-</div>
+-</li>
+ <?php
+ foreach($_productCollection as $product){   
+     
+diff --git a/app/locale/en_US/Airhotels.csv b/app/locale/en_US/Airhotels.csv
+index 4e29f2b..79639d9 100644
+--- a/app/locale/en_US/Airhotels.csv
++++ b/app/locale/en_US/Airhotels.csv
+@@ -199,8 +199,8 @@
+ "How do you rate this product?","How do you rate this property?"
+ "Checkout as a Guest or Register","Checkout as a Register"
+ "Room Service ","Service"
+-"Explore great places to stay!","Explore great places to stay!"
+-"Wherever you are in the world, make it yours!","Wherever you are in the world, make it yours!"
++"Explore great place to stay!","Explore great place to stay!"
++"Let it be from any part of the world, make it yours!","Let it be from any part of the world, make it yours!"
+ "Where are you going?","Where are you going?"
+ "How it Works","How it Works"
+ "Popular","Popular"
+
+commit 20f93b6b640c348198c4072185f523ffe082c559
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Sun May 19 16:56:15 2013 -0400
+
+    Added embedded video
+
+diff --git a/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml b/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
+index ff2e3f5..c702540 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/airhotels.phtml
+@@ -43,8 +43,8 @@
+             <div class="container">
+                 <div class="banner_outer">
+                     <div class="banner_transparent">
+-                        <h1><?php echo $this->__('Explore great place to stay!') ?></h1>
+-                        <h2><?php echo $this->__('Let it be from any part of the world, make it yours!') ?></h2>
++                        <h1><?php echo $this->__('Explore great places to stay!') ?></h1>
++                        <h2><?php echo $this->__('Wherever you are in the world, make it yours!') ?></h2>
+                     </div>
+                 </div>
+ 
+diff --git a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+index 01942e9..3006611 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/property/list.phtml
+@@ -45,6 +45,11 @@ if(count($_productCollection)!= 0){
+ 
+ ?>
+ <ul>
++<li class="home-medium-dealboxextra">
++<div id="video">
++<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
++</div>
++</li>
+ <?php
+ foreach($_productCollection as $product){   
+     
+diff --git a/app/locale/en_US/Airhotels.csv b/app/locale/en_US/Airhotels.csv
+index 79639d9..4e29f2b 100644
+--- a/app/locale/en_US/Airhotels.csv
++++ b/app/locale/en_US/Airhotels.csv
+@@ -199,8 +199,8 @@
+ "How do you rate this product?","How do you rate this property?"
+ "Checkout as a Guest or Register","Checkout as a Register"
+ "Room Service ","Service"
+-"Explore great place to stay!","Explore great place to stay!"
+-"Let it be from any part of the world, make it yours!","Let it be from any part of the world, make it yours!"
++"Explore great places to stay!","Explore great places to stay!"
++"Wherever you are in the world, make it yours!","Wherever you are in the world, make it yours!"
+ "Where are you going?","Where are you going?"
+ "How it Works","How it Works"
+ "Popular","Popular"
+
+commit e5a701e498343184ceff8c7bb5fbc3c8c53d2332
+Author: Alexander Mologoko <sasham@gmail.com>
+Date:   Sun May 12 22:53:20 2013 -0400
+
+    Updated logo
+
+diff --git a/skin/frontend/default/stylish/images/logo.gif b/skin/frontend/default/stylish/images/logo.gif
+index d091800..8be5084 100644
+Binary files a/skin/frontend/default/stylish/images/logo.gif and b/skin/frontend/default/stylish/images/logo.gif differ
+
+commit f1cfc2d47e011d077eaadbf402a0f85ad02c8ee2
+Author: Sasha M <sasham@gmail.com>
+Date:   Sun Feb 3 22:32:13 2013 -0500
+
+    Changed DB settings
+
+diff --git a/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php b/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php
+index e3225b3..378383d 100644
+--- a/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php
++++ b/app/code/local/Apptha/Airhotels/Block/Adminhtml/Airhotels/Edit/Tab/Details.php
+@@ -57,6 +57,10 @@ class Apptha_Airhotels_Block_Adminhtml_Airhotels_Edit_Tab_Details extends Mage_A
+             'label' => Mage::helper('airhotels')->__('Host Fee :'),
+             'readonly' => true,
+         ));
++        $fieldset->addField('access_code', 'text', array(
++            'label' => Mage::helper('airhotels')->__('Access Code :'),
++            'readonly' => false,
++        ));
+ 
+        
+         if ( Mage::getSingleton('adminhtml/session')->getAirhotelsData() )
+diff --git a/app/code/local/Apptha/Airhotels/Helper/Data.php b/app/code/local/Apptha/Airhotels/Helper/Data.php
+index c022bc1..0131f90 100644
+--- a/app/code/local/Apptha/Airhotels/Helper/Data.php
++++ b/app/code/local/Apptha/Airhotels/Helper/Data.php
+@@ -106,6 +106,17 @@ class Apptha_Airhotels_Helper_Data extends Mage_Core_Helper_Abstract
+ 
+ 	}
+ 	/**
++     * Retrieve attribute id for secret_key
++     *
++     * @return (int)secretkeyId
++	 */
++	public  function getsecretkey()
++	{
++		return Mage::getResourceModel('eav/entity_attribute')->getIdByCode('catalog_product', 'secret_key');
++
++
++	}
++	/**
+      * Retrieve attribute id for amenity
+      *
+      * @return (int)amenityId
+diff --git a/app/code/local/Apptha/Airhotels/Model/Airhotels.php b/app/code/local/Apptha/Airhotels/Model/Airhotels.php
+index a4faf14..9422077 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Airhotels.php
++++ b/app/code/local/Apptha/Airhotels/Model/Airhotels.php
+@@ -47,7 +47,8 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
+                     ->setMetaTitle($post['meta_title'])//Meta title
+                     ->setMetaKeyword($post['meta_keyword'])//Meta keywords
+                     ->setMetaDescription($post['meta_description'])//Meta description
+-                    ->setCancelpolicy($post['cancelpolicy']);
++                    ->setCancelpolicy($post['cancelpolicy'])
++		    ->setSecretKey($post['secret_key']);
+             $product->save();
+             return true;
+         } else {
+diff --git a/app/code/local/Apptha/Airhotels/Model/Observer.php b/app/code/local/Apptha/Airhotels/Model/Observer.php
+index 9c1c549..b5913aa 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Observer.php
++++ b/app/code/local/Apptha/Airhotels/Model/Observer.php
+@@ -24,6 +24,7 @@ class Apptha_Airhotels_Model_Observer
+      	 $session = Mage::getSingleton('checkout/session');
+ 
+      	 $productId = "";
++	 $secret_key = "2010201120122013";
+      	 $orders = Mage::getModel('sales/order')->getCollection()
+      	 ->setOrder('created_at','DESC')
+      	 ->setPageSize(1)
+@@ -41,6 +42,7 @@ class Apptha_Airhotels_Model_Observer
+                  $productData = Mage::getModel('catalog/product')->load($productId);
+                 $productName = $productData->getName();
+                 $hostId = $productData->getUserid();
++		$secret_key = $productData->getSecretKey();
+ 
+      	 }
+      	 $customer = Mage::getSingleton('customer/session')->getCustomer();
+@@ -62,8 +64,14 @@ class Apptha_Airhotels_Model_Observer
+          $hostFee = ($subtotal/100) * ($config["airhotels_hostfee"] ) ;
+          $hostFee = number_format($hostFee,2,'.','' ) ;
+ 
+-         $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id)
+-       	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id)");
++	 $access_code = '';
++	 $soap = new Zend_Soap_Client("https://www.kaba-ecode.com/KWWS_WS/KWWSService.asmx?WSDL", array('compression' => SOAP_COMPRESSION_ACCEPT));
++	 $result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
++	 $status = $result['ReturnStatus'];
++         $access_code = $result['AccessCode'];
++
++         $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
++       	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
+          Mage::getSingleton('core/session')->setProductID($productId);
+          }
+ 
+diff --git a/app/code/local/Apptha/Airhotels/Model/Property.php b/app/code/local/Apptha/Airhotels/Model/Property.php
+index 40c0be4..0a3a742 100644
+--- a/app/code/local/Apptha/Airhotels/Model/Property.php
++++ b/app/code/local/Apptha/Airhotels/Model/Property.php
+@@ -32,7 +32,8 @@ class Apptha_Airhotels_Model_Property extends Mage_Core_Model_Abstract {
+                 ->addAttributeToSelect('cancelpolicy')
+                 ->addAttributeToSelect('pets')
+                 ->addAttributeToSelect('maplocation')
+-                ->addAttributeToSelect('accomodates');
++                ->addAttributeToSelect('accomodates')
++		->addAttributeToSelect('secret_key');
+         return $PropertyCollection;
+     }
+ 
+diff --git a/app/code/local/Apptha/Airhotels/controllers/PropertyController.php b/app/code/local/Apptha/Airhotels/controllers/PropertyController.php
+index 1ce9685..c182dd7 100644
+--- a/app/code/local/Apptha/Airhotels/controllers/PropertyController.php
++++ b/app/code/local/Apptha/Airhotels/controllers/PropertyController.php
+@@ -64,6 +64,7 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
+                     ->setMetaDescription($post['meta_description'])//Meta description
+                     ->setPropertytype(array($post['proptype']))//property type
+                     ->setPrivacy(array($post['privacy']))//privacy
++		    ->setSecretKey($post['secret_key'])//secret key
+                     ->setCategoryIds(Mage::app()->getStore()->getRootCategoryId())//Default Category
+                     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)//Visibility in both catalog and search
+                     ->setStatus(1)//enable the Status
+diff --git a/app/code/local/Apptha/Airhotels/sql/airhotels_setup/mysql4-install-0.2.0.php b/app/code/local/Apptha/Airhotels/sql/airhotels_setup/mysql4-install-0.2.0.php
+index 6844695..d56ea81 100644
+--- a/app/code/local/Apptha/Airhotels/sql/airhotels_setup/mysql4-install-0.2.0.php
++++ b/app/code/local/Apptha/Airhotels/sql/airhotels_setup/mysql4-install-0.2.0.php
+@@ -33,6 +33,7 @@ $installer->run("
+               `order_item_id` int(100) NOT NULL ,
+               `order_status` smallint(6) NOT NULL default '0',
+               `status` smallint(6) NOT NULL default '0',
++	      `access_code` varchar(16) NOT NULL default '',
+               PRIMARY KEY (`id`)
+             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+@@ -147,6 +148,28 @@ $installer->run("
+         'unique' => false,
+         'apply_to' => 'property',
+     ));
++    $installer->addAttribute('catalog_product', 'secret_key', array(
++        'group' => 'Property Information',
++        'label' => 'Secret Key',
++        'type' => 'varchar',
++        'input' => 'text',
++        'default' => '',
++        'class' => 'validate-digits',
++        'backend' => '',
++        'frontend' => '',
++        'source' => '',
++        'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
++        'visible' => true,
++        'required' => true,
++        'user_defined' => false,
++        'searchable' => false,
++        'filterable' => false,
++        'comparable' => false,
++        'visible_on_front' => true,
++        'visible_in_advanced_search' => false,
++        'unique' => false,
++        'apply_to' => 'property',
++    ));
+     $installer->addAttribute('catalog_product', 'privacy', array(
+         'group' => 'Property Information',
+         'label' => 'Room Type',
+diff --git a/app/design/frontend/default/stylish/template/airhotels/property/edit.phtml b/app/design/frontend/default/stylish/template/airhotels/property/edit.phtml
+index 531d029..1cc3e67 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/property/edit.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/property/edit.phtml
+@@ -53,6 +53,7 @@ $_product = $model->load($entity_id);
+                 $metaTitle = $_product->getMetaTitle();
+                 $metaKeyword = $_product->getMetaKeyword();
+                 $metaDescription = $_product->getMetaDescription();
++		$secret_key = $_product->getSecretKey();
+ 
+ $getamenity= explode(',' , $_product->getAmenity()); 
+ $propertytypeId = Mage::helper('airhotels')->getpropertytype();
+@@ -73,6 +74,12 @@ $currencyCountry = Mage::app()->getLocale()->currency(Mage::app()->getStore()->g
+ $currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getBaseCurrencyCode())->getShortName();
+ $PropertyType = array();
+ $select ='';
++$cancelpolicy_select ='';
++$countryselect ='';
++$pets_select ='';
++$bedtype_select ='';
++$privacy_select ='';
++
+ foreach ($propertytypeAttribute->getSource()->getAllOptions() as $option) {
+     $value = $option['value'];
+ 
+@@ -228,11 +235,17 @@ foreach ($privacyAttribute->getSource()->getAllOptions() as $privacy_option) {
+ <!--                        <input type=text name=limit size=4 readonly value="35">-->
+                     </div>
+                     <div class="input-box_inner">
++                    <label for="name" class="required left lable_inner"> <?php echo $this->__('Secret Key') ?> </label>
++                    <div class="floatleft">
++                        <input name="secret_key" id="secret_key"   title="<?php echo $this->__('Secret Key') ?>" value="<?php echo $secret_key; ?>" class="input-text required-entry input-text_inner" type="text"   onkeyup=limiter() maxlength="16"/>
++                    </div>
++                    </div>
++                    <div class="input-box_inner">
+                     <label for="desc" class="required left lable_inner"><?php echo $this->__('Description') ?> <em>*</em></label>
+                     <div class="floatleft"> 
+-                    <textarea name="desc" id="desc" title="<?php echo $this->__('Description') ?>" class="required-entry input-text input-text_descri" cols="5" rows="5"><?php echo $description; ?></textarea>
++                    	<textarea name="desc" id="desc" title="<?php echo $this->__('Description') ?>" class="required-entry input-text input-text_descri" cols="5" rows="5"><?php echo $description; ?></textarea>
++                    </div>
+                     </div>
+-                </div>
+                     <div class="input-box">
+                     <label for="sdesc" class="required left lable_inner"><?php echo $this->__('House rules') ?> <em>*</em></label>
+                     <div class="floatleft">
+@@ -251,7 +264,6 @@ foreach ($privacyAttribute->getSource()->getAllOptions() as $privacy_option) {
+                   foreach ($amenityAttribute->getSource()->getAllOptions() as $amenity) {
+                   	
+                         $value = $amenity['value'];
+-                        $checkAmenity = $getamenity[$i];
+ 
+                          if($x == 1)
+                             echo "<ul id='amenities_panel'> ";
+@@ -262,11 +274,11 @@ foreach ($privacyAttribute->getSource()->getAllOptions() as $privacy_option) {
+                               ?>
+                     <li class="checkbox lable_inner checkbox_inner">
+                             <?php if(in_array($amenity['value'],$getamenity)){ ?>
+-                             <input type="checkbox" name="amenity[<?php $i?>]" id="amenity[<?php $i?>]" value="<?php echo $amenity['value']; ?>"  checked="checked" > <?php echo $amenity['label']; ?>
++                             <input type="checkbox" name="amenity[<?php $x?>]" id="amenity[<?php $x?>]" value="<?php echo $amenity['value']; ?>"  checked="checked" > <?php echo $amenity['label']; ?>
+                             <?php
+                             } else {
+                             ?>
+-                          <input type="checkbox" name="amenity[<?php $i?>]" id="amenity[<?php $i?>]" value="<?php echo $amenity['value']; ?>" /> <?php echo $amenity['label']; ?>
++                          <input type="checkbox" name="amenity[<?php $x?>]" id="amenity[<?php $x?>]" value="<?php echo $amenity['value']; ?>" /> <?php echo $amenity['label']; ?>
+                          <?php }?>
+                     </li>
+                          <?php }
+diff --git a/app/design/frontend/default/stylish/template/airhotels/property/form.phtml b/app/design/frontend/default/stylish/template/airhotels/property/form.phtml
+index b084602..ce859ea 100644
+--- a/app/design/frontend/default/stylish/template/airhotels/property/form.phtml
++++ b/app/design/frontend/default/stylish/template/airhotels/property/form.phtml
+@@ -42,6 +42,11 @@ $currencyCountry = Mage::app()->getLocale()->currency(Mage::app()->getStore()->g
+ $currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getBaseCurrencyCode())->getShortName();
+ $PropertyType = array();
+ $select = '';
++$cancelpolicy_select ='';
++$countryselect ='';
++$pets_select ='';
++$bedtype_select ='';
++$privacy_select ='';
+ $countryList = Mage::getResourceModel('directory/country_collection')
+                     ->loadData()
+                     ->toOptionArray(false);
+@@ -141,6 +146,14 @@ foreach ($bedtypeAttribute->getSource()->getAllOptions() as $bedtype_option) {
+                         <div class="floatleft"><input name="name" id="name"   title="<?php echo $this->__('Name') ?>" value="" class="input-text required-entry input-text_inner" type="text"   onkeyup=limiter() maxlength="35"/></div>
+ <!--                        <input type=text name=limit size=4 readonly value="35">-->
+                     </div>
++
++                    <div class="input-box_inner">
++                    <label for="name" class="required left lable_inner"> <?php echo $this->__('Secret Key') ?> </label>
++                    <div class="floatleft">
++                        <input name="secret_key" id="secret_key"   title="<?php echo $this->__('Secret Key') ?>" value="" class="input-text required-entry input-text_inner" type="text"   onkeyup=limiter() maxlength="16"/>
++                    </div>
++                    </div>
++
+                      <div class="input-box_inner">
+                     <label for="desc" class="required left lable_inner"><?php echo $this->__('Description') ?> <em>*</em></label>
+ 
+diff --git a/app/etc/local.xml b/app/etc/local.xml
+index 2c908cc..367c3a9 100644
+--- a/app/etc/local.xml
++++ b/app/etc/local.xml
+@@ -41,16 +41,17 @@
+             <default_setup>
+                 <connection>
+ <!--    
+-                <host><![CDATA[127.0.0.1:3306]]></host>
++                    <host><![CDATA[127.0.0.1:3306]]></host>
+                     <username><![CDATA[twodrive]]></username>
+                     <password><![CDATA[12drive]]></password>
+                     <dbname><![CDATA[twodrive]]></dbname>
+-
+ -->
++
+                     <host><![CDATA[us-cdbr-azure-east-b.cloudapp.net]]></host>
+                     <username><![CDATA[bf6d1c6af34b76]]></username>
+                     <password><![CDATA[c55478a0]]></password>
+                     <dbname><![CDATA[threestay]]></dbname>
++
+                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+                     <model><![CDATA[mysql4]]></model>
+                     <type><![CDATA[pdo_mysql]]></type>
+
+commit d84a5ba4e3235e2b2327e0870fa053ffadc5bcbc
+Author: Sasha M <sasham@gmail.com>
+Date:   Sun Feb 3 22:05:19 2013 -0500
+
+    Added secret key and access code
+
+diff --git a/app/code/local/Apptha/Airhotels/sql/airhotels_setup/mysql4-upgrade-custom-0.0.1.php b/app/code/local/Apptha/Airhotels/sql/airhotels_setup/mysql4-upgrade-custom-0.0.1.php
+new file mode 100644
+index 0000000..9ac6a22
+--- /dev/null
++++ b/app/code/local/Apptha/Airhotels/sql/airhotels_setup/mysql4-upgrade-custom-0.0.1.php
+@@ -0,0 +1,11 @@
++<?php
++
++$installer = $this;
++
++$installer->startSetup();
++$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
++$installer->run("
++ALTER TABLE  {$this->getTable('airhotels_booking')} ADD `access_code` VARCHAR( 16 ) NOT NULL DEFAULT  '';
++");
++
++$installer->endSetup();

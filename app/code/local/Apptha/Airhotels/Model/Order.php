@@ -59,8 +59,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
     const XML_PATH_OWNER_TEMPLATE = 'dealcoupon/email/owner_template';
     const XML_PATH_NO_EMAIL_TEMPLATE = 'dealcoupon/email/email_template';
     const XML_PATH_EMAIL_RECIPIENT = 'contacts/email/recipient_email';
-    const XML_PATH_EMAIL_SENDER = 'airhotels/order_reminder/sender_email_identity';
-    
+    #const XML_PATH_EMAIL_SENDER = 'airhotels/order_reminder/sender_email_identity';
+    const XML_PATH_EMAIL_SENDER = 'contacts/email/sender_email_identity';
     /**
      * Email Update template contus
      */

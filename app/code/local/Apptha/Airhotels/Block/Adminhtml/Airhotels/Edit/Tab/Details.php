@@ -57,6 +57,10 @@ class Apptha_Airhotels_Block_Adminhtml_Airhotels_Edit_Tab_Details extends Mage_A
             'label' => Mage::helper('airhotels')->__('Host Fee :'),
             'readonly' => true,
         ));
+        $fieldset->addField('access_code', 'text', array(
+            'label' => Mage::helper('airhotels')->__('Access Code :'),
+            'readonly' => true,
+        ));
 
        
         if ( Mage::getSingleton('adminhtml/session')->getAirhotelsData() )

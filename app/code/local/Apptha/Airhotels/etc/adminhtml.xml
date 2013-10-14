@@ -20,14 +20,14 @@
 							<config>
 								<children>
 									<airhotels translate="title" module="airhotels">
-										<title>Airhotels</title>
+										<title>ThreeStay</title>
 									</airhotels>
 								</children>
 							</config>
 						</children>
 					</system>
 					<airhotels>
-						<title>Airhotels</title>
+						<title>ThreeStay</title>
 						<children>
 							<items translate="title" module="airhotels">
 								<title>Booking Information</title>
@@ -48,7 +48,7 @@
 								<action>adminhtml/rating</action>
 							</manage_rating>
 							<manage_configuration module="airhotels">
-								<title>Airhotels</title>
+								<title>ThreeStay</title>
 								<sort_order>4</sort_order>
 								<action>adminhtml/system_config/edit/section/airhotels
 								</action>

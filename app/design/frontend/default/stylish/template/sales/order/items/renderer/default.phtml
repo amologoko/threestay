@@ -25,13 +25,15 @@
  */
 ?>
 <?php $_item = $this->getItem() ;
-$details = unserialize($_item[product_options]);
+$details = unserialize($_item['product_options']);
     
      foreach($details as $det){
-         $checkIn = $det[fromdate];
-         $checkOut= $det[todate];
-        $serviceFee = $det[serviceFee];
-        $accomodate = $det[accomodate];
+         $checkIn = $det['fromdate'];
+         $checkOut= $det['todate'];
+        $serviceFee = $det['serviceFee'];
+        $accomodate = $det['accomodate'];
+	#$accessCode = $det['accessCode'];
+	$accessCode = Mage::getSingleton('core/session')->getAccessCode();
      }
         
         
@@ -42,7 +44,7 @@ $details = unserialize($_item[product_options]);
     <div><strong><?php echo $this->helper('airhotels')->__('Check Out') ?> : </strong> <?php echo str_replace('@','/', $checkOut); ?></div>
     <div><strong><?php echo $this->helper('airhotels')->__('Accomodate') ?> : </strong> <?php echo $accomodate;?></div>
     <div><strong><?php echo $this->helper('airhotels')->__('Processing Fee') ?> : </strong> <?php echo $this->getOrder()->formatPrice($serviceFee);?></div>
-        
+    <div><strong><?php echo $this->helper('airhotels')->__('Access Code') ?> : </strong> <?php echo $accessCode;?></div>
         <?php $addtInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
         <?php if ($addtInfoBlock) :?>
             <?php echo $addtInfoBlock->setItem($_item)->toHtml(); ?>

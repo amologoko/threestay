@@ -138,8 +138,22 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     public function getMail()
     {
         if (is_null($this->_mail)) {
-            $this->_mail = new Zend_Mail('utf-8');
+
+	  $my_smtp_host = Mage::getStoreConfig('system/smtp/host');
+          $my_smtp_port = Mage::getStoreConfig('system/smtp/port');
+          $config = array(
+               'ssl' => '',
+               'port' => '',
+               'auth' => 'login',
+               'username' => '',
+                'password' => ''
+          );
+          $transport = new Zend_Mail_Transport_Smtp('', $config);
+          Zend_Mail::setDefaultTransport($transport);
+
+          $this->_mail = new Zend_Mail('utf-8');
         }
+
         return $this->_mail;
     }
 

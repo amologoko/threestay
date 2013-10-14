@@ -42,7 +42,7 @@
                 <connection>
                     <host><![CDATA[127.0.0.1:3306]]></host>
                     <username><![CDATA[bn_magento]]></username>
-                    <password><![CDATA[ee70f8c5f7]]></password>
+		    <password><![CDATA[67747b4a5e]]></password>
                     <dbname><![CDATA[bitnami_magento]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>

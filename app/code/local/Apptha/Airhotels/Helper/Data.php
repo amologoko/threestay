@@ -108,6 +108,17 @@ class Apptha_Airhotels_Helper_Data extends Mage_Core_Helper_Abstract
 
 	}
 	/**
+     * Retrieve attribute id for secret_key
+     *
+     * @return (int)secretkeyId
+	 */
+	public  function getsecretkey()
+	{
+		return Mage::getResourceModel('eav/entity_attribute')->getIdByCode('catalog_product', 'secret_key');
+
+
+	}
+	/**
      * Retrieve attribute id for amenity
      *
      * @return (int)amenityId

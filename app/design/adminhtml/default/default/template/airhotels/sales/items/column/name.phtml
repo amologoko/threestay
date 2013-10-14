@@ -31,13 +31,15 @@
 ?>
 
 <?php if ($_item = $this->getItem()): 
-    $details = unserialize($_item[product_options]);
+    $details = unserialize($_item['product_options']);
     
      foreach($details as $det){
-         $checkIn = $det[fromdate];
-         $checkOut= $det[todate];
-        $serviceFee = $det[serviceFee]; 
-        $accomodate = $det[accomodate];
+         $checkIn = $det['fromdate'];
+         $checkOut= $det['todate'];
+        $serviceFee = $det['serviceFee']; 
+        $accomodate = $det['accomodate'];
+        #$accessCode = $det['accessCode'];
+	$accessCode = Mage::getSingleton('core/session')->getAccessCode();	
      }
 
     
@@ -48,6 +50,7 @@
     <div><strong><?php echo $this->helper('sales')->__('CheckOut') ?>:</strong> <?php echo str_replace('@','/', $checkOut); ?></div>
     <div><strong><?php echo $this->helper('sales')->__('Accommodate') ?>:</strong> <?php echo $accomodate;?></div>
     <div><strong><?php echo $this->helper('sales')->__('Processing Fee') ?>:</strong> <?php echo $serviceFee;?></div>
+    <div><strong><?php echo $this->helper('sales')->__('Access Code') ?>:</strong> <?php echo $accessCode;?></div>
     <?php if ($this->getOrderOptions()): ?>
         <dl class="item-options">
         <?php foreach ($this->getOrderOptions() as $_option): ?>

@@ -42,6 +42,13 @@ if(count($_productCollection)!= 0){
 
 ?>
 <ul>
+<!--
+<li class="home-medium-dealboxextra">
+<div id="video">
+<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+</div>
+</li>
+-->
 <?php
 foreach($_productCollection as $product){   
     
@@ -187,7 +194,7 @@ $threeDiv = $threeDiv + 1;
   
    }
 } else {
-    echo '<div class="emty_grid" style="height: 221px;">' . $this->__('No Records!') . '</div>';
+    echo '<div class="clear"></div>';
 }
     ?>
 </ul>
@@ -197,7 +204,10 @@ $threeDiv = $threeDiv + 1;
         <div id="left_columnhomepage">
             <div id="main_content" class="box">
                 <div class="tabhomepage">
-                    
+                    <div id="video">
+			<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+		    </div>
+
                     <ul id="main_content_sub_navhomepage" class="rooms_sub_navhomepage clearfix">
                         <li id="menuwhatnew" class="main_link selected">
                             <a href="#whatnew" onclick="showTabs('whatsnew','menuwhatnew')"><?php echo $this->__('What\'s New'); ?></a>

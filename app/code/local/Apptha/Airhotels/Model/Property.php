@@ -32,7 +32,8 @@ class Apptha_Airhotels_Model_Property extends Mage_Core_Model_Abstract {
                 ->addAttributeToSelect('pets')
                 ->addAttributeToSelect('maplocation')
                 ->addAttributeToSelect('accomodates')
-                 ->addAttributeToSelect('propertyapproved');
+                ->addAttributeToSelect('propertyapproved')
+		->addAttributeToSelect('secret_key');
         return $PropertyCollection;
     }
 

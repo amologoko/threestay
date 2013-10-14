@@ -28,6 +28,7 @@ class Apptha_Airhotels_Model_Observer
      	 $session = Mage::getSingleton('checkout/session');
 
      	 $productId = "";
+	 $secret_key = "2010201120122013";
      	 $orders = Mage::getModel('sales/order')->getCollection()
      	 ->setOrder('created_at','DESC')
      	 ->setPageSize(1)
@@ -45,6 +46,7 @@ class Apptha_Airhotels_Model_Observer
                  $productData = Mage::getModel('catalog/product')->load($productId);
                 $productName = $productData->getName();
                 $hostId = $productData->getUserid();
+		$secret_key = $productData->getSecretKey();
 
      	 }
      	 $customer = Mage::getSingleton('customer/session')->getCustomer();
@@ -66,9 +68,22 @@ class Apptha_Airhotels_Model_Observer
          $hostFee = ($subtotal/100) * ($config["airhotels_hostfee"] ) ;
          $hostFee = number_format($hostFee,2,'.','' ) ;
 
-         $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id)
-       	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id)");
+	 $access_code = '';
+	 #$soap = new Zend_Soap_Client("https://www.kaba-ecode.com/KWWS_WS/KWWSService.asmx?WSDL", array('compression' => SOAP_COMPRESSION_ACCEPT));
+	 #$result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
+	 #$status = $result['ReturnStatus'];
+         #$access_code = $result['AccessCode'];
+         $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+	 $soap->setSoapVersion(SOAP_1_1);
+	 $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
+
+         $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
+       	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
          Mage::getSingleton('core/session')->setProductID($productId);
+	 Mage::getSingleton('core/session')->setAccessCode($access_code);
+      	 #$productOptions = $mainItem->getProductOptions();
+	 #$productOptions['accessCode'] = $access_code;
+	 #$mainItem->setProductOptions($productOptions);
          }
                 }
     }

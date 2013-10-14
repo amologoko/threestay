@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Oct 08, 2013 at 07:38 PM
+-- Generation Time: Oct 14, 2013 at 04:40 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.20
 
@@ -19,6 +19,113 @@ SET time_zone = "+00:00";
 --
 -- Database: `bitnami_magento`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `adminnotification_inbox`
+--
+
+CREATE TABLE IF NOT EXISTS `adminnotification_inbox` (
+  `notification_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Notification id',
+  `severity` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Problem type',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Create date',
+  `title` varchar(255) NOT NULL COMMENT 'Title',
+  `description` text COMMENT 'Description',
+  `url` varchar(255) DEFAULT NULL COMMENT 'Url',
+  `is_read` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification read',
+  `is_remove` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification might be removed',
+  PRIMARY KEY (`notification_id`),
+  KEY `IDX_ADMINNOTIFICATION_INBOX_SEVERITY` (`severity`),
+  KEY `IDX_ADMINNOTIFICATION_INBOX_IS_READ` (`is_read`),
+  KEY `IDX_ADMINNOTIFICATION_INBOX_IS_REMOVE` (`is_remove`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Adminnotification Inbox' AUTO_INCREMENT=81 ;
+
+--
+-- Dumping data for table `adminnotification_inbox`
+--
+
+INSERT INTO `adminnotification_inbox` (`notification_id`, `severity`, `date_added`, `title`, `description`, `url`, `is_read`, `is_remove`) VALUES
+(1, 4, '2008-07-25 09:24:40', 'Magento 1.1 Production Version Now Available', 'We are thrilled to announce the availability of the production release of Magento 1.1. Read more about the release in the Magento Blog.', 'http://www.magentocommerce.com/blog/comments/magento-11-is-here-1/', 1, 0),
+(2, 4, '2008-08-02 09:30:16', 'Updated iPhone Theme is now available', 'Updated iPhone theme for Magento 1.1 is now available on Magento Connect and for upgrade through your Magento Connect Manager.', 'http://www.magentocommerce.com/blog/comments/updated-iphone-theme-for-magento-11-is-now-available/', 1, 0),
+(3, 3, '2008-08-02 09:40:27', 'Magento version 1.1.2 is now available', 'Magento version 1.1.2 is now available for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-version-112-is-now-available/', 1, 0),
+(4, 3, '2008-08-14 01:51:46', 'Magento version 1.1.3 is now available', 'Magento version 1.1.3 is now available', 'http://www.magentocommerce.com/blog/comments/magento-version-113-is-now-available/', 1, 0),
+(5, 1, '2008-09-03 05:10:31', 'Magento Version 1.1.4 Security Update Now Available', 'Magento 1.1.4 Security Update Now Available. If you are using Magento version 1.1.x, we highly recommend upgrading to this version as soon as possible.', 'http://www.magentocommerce.com/blog/comments/magento-version-114-security-update/', 1, 0),
+(6, 3, '2008-09-16 06:09:54', 'Magento version 1.1.5 Now Available', 'Magento version 1.1.5 Now Available.\n\nThis release includes many bug fixes, a new category manager and a new skin for the default Magento theme.', 'http://www.magentocommerce.com/blog/comments/magento-version-115-now-available/', 1, 0),
+(7, 3, '2008-09-18 04:18:35', 'Magento version 1.1.6 Now Available', 'Magento version 1.1.6 Now Available.\n\nThis version includes bug fixes for Magento 1.1.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-116-now-available/', 1, 0),
+(8, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 1, 0),
+(9, 3, '2008-11-20 11:31:12', 'Magento version 1.1.7 Now Available', 'Magento version 1.1.7 Now Available.\n\nThis version includes over 350 issue resolutions for Magento 1.1.x that are listed in the release notes section, and new functionality that includes:\n\n-Google Website Optimizer integration\n-Google Base integration\n-Scheduled DB logs cleaning option', 'http://www.magentocommerce.com/blog/comments/magento-version-117-now-available/', 1, 0),
+(10, 3, '2008-11-27 07:24:50', 'Magento Version 1.1.8 Now Available', 'Magento version 1.1.8 now available.\n\nThis version includes some issue resolutions for Magento 1.1.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-118-now-available/', 1, 0),
+(11, 3, '2008-12-30 17:45:59', 'Magento version 1.2.0 is now available for download and upgrade', 'We are extremely happy to announce the availability of Magento version 1.2.0 for download and upgrade.\n\nThis version includes numerous issue resolutions for Magento version 1.1.x and some highly requested new features such as:\n\n    * Support for Downloadable/Digital Products. \n    * Added Layered Navigation to site search result page.\n    * Improved site search to utilize MySQL fulltext search\n    * Added support for fixed-taxes on product level.\n    * Upgraded Zend Framework to the latest stable version 1.7.2', 'http://www.magentocommerce.com/blog/comments/magento-version-120-is-now-available/', 1, 0),
+(12, 2, '2008-12-31 07:59:22', 'Magento version 1.2.0.1 now available', 'Magento version 1.2.0.1 now available.This version includes some issue resolutions for Magento 1.2.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-1201-available/', 1, 0),
+(13, 2, '2009-01-13 06:41:49', 'Magento version 1.2.0.2 now available', 'Magento version 1.2.0.2 is now available for download and upgrade. This version includes an issue resolutions for Magento version 1.2.0.x as listed in the release notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1202-now-available/', 1, 0),
+(14, 3, '2009-01-24 10:25:56', 'Magento version 1.2.0.3 now available', 'Magento version 1.2.0.3 is now available for download and upgrade. This version includes issue resolutions for Magento version 1.2.0.x as listed in the release notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1203-now-available/', 1, 0),
+(15, 3, '2009-02-03 07:57:00', 'Magento version 1.2.1 is now available for download and upgrade', 'We are happy to announce the availability of Magento version 1.2.1 for download and upgrade.\n\nThis version includes some issue resolutions for Magento version 1.2.x. A full list of items included in this release can be found on the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-121-now-available/', 1, 0),
+(16, 3, '2009-02-24 10:45:47', 'Magento version 1.2.1.1 now available', 'Magento version 1.2.1.1 now available.This version includes some issue resolutions for Magento 1.2.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-1211-now-available/', 1, 0),
+(17, 3, '2009-02-27 11:39:24', 'CSRF Attack Prevention', 'We have just posted a blog entry about a hypothetical CSRF attack on a Magento admin panel. Please read the post to find out if your Magento installation is at risk at http://www.magentocommerce.com/blog/comments/csrf-vulnerabilities-in-web-application-and-how-to-avoid-them-in-magento/', 'http://www.magentocommerce.com/blog/comments/csrf-vulnerabilities-in-web-application-and-how-to-avoid-them-in-magento/', 1, 0),
+(18, 2, '2009-03-04 09:03:58', 'Magento version 1.2.1.2 now available', 'Magento version 1.2.1.2 is now available for download and upgrade.\nThis version includes some updates to improve admin security as described in the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-1212-now-available/', 1, 0),
+(19, 3, '2009-03-31 10:22:40', 'Magento version 1.3.0 now available', 'Magento version 1.3.0 is now available for download and upgrade. This version includes numerous issue resolutions for Magento version 1.2.x and new features as described on the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-130-is-now-available/', 1, 0),
+(20, 3, '2009-04-18 12:06:02', 'Magento version 1.3.1 now available', 'Magento version 1.3.1 is now available for download and upgrade. This version includes some issue resolutions for Magento version 1.3.x and new features such as Checkout By Amazon and Amazon Flexible Payment. To see a full list of updates please check the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-131-now-available/', 1, 0),
+(21, 3, '2009-05-20 06:31:21', 'Magento version 1.3.1.1 now available', 'Magento version 1.3.1.1 is now available for download and upgrade. This version includes some issue resolutions for Magento version 1.3.x and a security update for Magento installations that run on multiple domains or sub-domains. If you are running Magento with multiple domains or sub-domains we highly recommend upgrading to this version.', 'http://www.magentocommerce.com/blog/comments/magento-version-1311-now-available/', 1, 0),
+(22, 3, '2009-05-30 06:54:06', 'Magento version 1.3.2 now available', 'This version includes some improvements and issue resolutions for version 1.3.x that are listed on the release notes page. also included is a Beta version of the Compile module.', 'http://www.magentocommerce.com/blog/comments/magento-version-132-now-available/', 1, 0),
+(23, 3, '2009-06-02 03:32:52', 'Magento version 1.3.2.1 now available', 'Magento version 1.3.2.1 now available for download and upgrade.\n\nThis release solves an issue for users running Magento with PHP 5.2.0, and changes to index.php to support the new Compiler Module.', 'http://www.magentocommerce.com/blog/comments/magento-version-1321-now-available/', 1, 0),
+(24, 3, '2009-07-02 09:21:44', 'Magento version 1.3.2.2 now available', 'Magento version 1.3.2.2 is now available for download and upgrade.\n\nThis release includes issue resolution for Magento version 1.3.x. To see a full list of changes please visit the release notes page http://www.magentocommerce.com/download/release_notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1322-now-available/', 1, 0),
+(25, 3, '2009-07-23 14:48:54', 'Magento version 1.3.2.3 now available', 'Magento version 1.3.2.3 is now available for download and upgrade.\n\nThis release includes issue resolution for Magento version 1.3.x. We recommend to upgrade to this version if PayPal payment modules are in use. To see a full list of changes please visit the release notes page http://www.magentocommerce.com/download/release_notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1323-now-available/', 1, 0),
+(26, 4, '2009-08-29 02:26:28', 'PayPal is updating Payflow Pro and Website Payments Pro (Payflow Edition) UK.', 'If you are using Payflow Pro and/or Website Payments Pro (Payflow Edition) UK.  payment methods, you will need to update the URLâ€˜s in your Magento Administrator Panel in order to process transactions after September 1, 2009. Full details are available here: http://www.magentocommerce.com/wiki/paypal_payflow_changes', 'http://www.magentocommerce.com/wiki/paypal_payflow_changes', 1, 0),
+(27, 2, '2009-09-24 04:16:49', 'Magento Version 1.3.2.4 Security Update', 'Magento Version 1.3.2.4 is now available. This version includes a security updates for Magento 1.3.x that solves possible XSS vulnerability issue on customer registration page and is available through SVN, Download Page and through the Magento Connect Manager.', 'http://www.magentocommerce.com/blog/comments/magento-version-1324-security-update/', 1, 0),
+(28, 4, '2009-09-25 22:57:54', 'Magento Preview Version 1.4.0.0-alpha2 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-alpha2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-alpha2-now-available/', 1, 0),
+(29, 4, '2009-10-07 08:55:40', 'Magento Preview Version 1.4.0.0-alpha3 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-alpha3 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-alpha3-now-available/', 1, 0),
+(30, 4, '2009-12-09 09:30:36', 'Magento Preview Version 1.4.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-beta1-now-available/', 1, 0),
+(31, 4, '2009-12-31 19:22:12', 'Magento Preview Version 1.4.0.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-rc1-now-available/', 1, 0),
+(32, 4, '2010-02-13 13:39:53', 'Magento CE Version 1.4.0.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.0.0 Stable for upgrade and download.', 'http://bit.ly/c53rpK', 1, 0),
+(33, 3, '2010-02-20 12:39:36', 'Magento CE Version 1.4.0.1 Stable is now available', 'Magento CE 1.4.0.1 Stable is now available for upgrade and download.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1401-stable-now-available/', 1, 0),
+(34, 4, '2010-04-24 04:09:03', 'Magento Version CE 1.3.3.0 Stable - Now Available With Support for 3-D Secure', 'Based on community requests, we are excited to announce the release of Magento CE 1.3.3.0-Stable with support for 3-D Secure. This release is intended for Magento merchants using version 1.3.x, who want to add support for 3-D Secure.', 'http://www.magentocommerce.com/blog/comments/magento-version-ce-1330-stable-now-available-with-support-for-3-d-secure/', 1, 0),
+(35, 4, '2010-06-01 01:20:21', 'Announcing the Launch of Magento Mobile', 'The Magento team is pleased to announce the launch of Magento mobile, a new product that will allow Magento merchants to easily create branded, native mobile storefront applications that are deeply integrated with Magentoâ€™s market-leading eCommerce platform. The product includes a new administrative manager, a native iPhone app that is fully customizable, and a service where Magento manages the submission and maintenance process for the iTunes App Store.\n\nLearn more by visiting the Magento mobile product page and sign-up to be the first to launch a native mobile commerce app, fully integrated with Magento.', 'http://www.magentocommerce.com/product/mobile', 1, 0),
+(36, 4, '2010-06-11 04:08:08', 'Magento CE Version 1.4.1.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.1.0 Stable for upgrade and download. Some of the highlights of this release include: Enhanced PayPal integration (more info to follow), Change of Database structure of the Sales module to no longer use EAV, and much more.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1410-stable-now-available/', 1, 0),
+(37, 4, '2010-07-27 05:37:34', 'Magento CE Version 1.4.1.1 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.1.1 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1411-stable-now-available/', 1, 0),
+(38, 4, '2010-07-28 13:12:12', 'Magento CE Version 1.4.2.0-beta1 Preview Release Now Available', 'This release gives a preview of the new Magento Connect Manager.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1420-beta1-now-available/', 1, 0),
+(39, 4, '2010-07-29 04:15:01', 'Magento CE Version 1.4.1.1 Patch Available', 'As some users experienced issues with upgrading to CE 1.4.1.1 through PEAR channels we provided a patch for it that is available on our blog http://www.magentocommerce.com/blog/comments/magento-ce-version-1411-stable-patch/', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1411-stable-patch/', 1, 0),
+(40, 4, '2010-10-12 08:13:25', 'Magento Mobile is now live!', 'Magento Mobile is now live! Signup today to have your own native iPhone mobile-shopping app in iTunes for the holiday season! Learn more at http://www.magentomobile.com/', 'http://www.magentomobile.com/', 1, 0),
+(41, 4, '2010-11-09 07:52:06', 'Magento CE Version 1.4.2.0-RC1 Preview Release Now Available', 'We are happy to announce the availability of Magento Preview Version 1.4.2.0-RC1 for download.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1420-rc1-now-available/', 1, 0),
+(42, 4, '2010-12-03 06:33:00', 'Magento CE Version 1.4.2.0-RC2 Preview Release Now Available', 'We are happy to announce the availability of Magento Preview Version 1.4.2.0-RC2 for download.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1420-rc2-now-available/', 1, 0),
+(43, 4, '2010-12-09 08:29:55', 'Magento CE Version 1.4.2.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.2.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1420-stable-now-available/', 1, 0),
+(44, 4, '2010-12-18 09:23:55', 'Magento Preview Version CE 1.5.0.0-alpha1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-alpha1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-alpha1-now-available/', 1, 0),
+(45, 4, '2010-12-30 09:51:08', 'Magento Preview Version CE 1.5.0.0-alpha2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-alpha2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-alpha2-now-available/', 1, 0),
+(46, 4, '2011-01-14 10:35:36', 'Magento Preview Version CE 1.5.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-beta1-now-available/', 1, 0),
+(47, 4, '2011-01-22 07:19:09', 'Magento Preview Version CE 1.5.0.0-beta2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-beta2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-beta2-now-available/', 1, 0),
+(48, 4, '2011-01-28 07:27:57', 'Magento Preview Version CE 1.5.0.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-rc1-now-available/', 1, 0),
+(49, 4, '2011-02-04 07:56:33', 'Magento Preview Version CE 1.5.0.0-rc2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-rc2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-rc2-now-available/', 1, 0),
+(50, 4, '2011-02-09 05:43:23', 'Magento CE Version 1.5.0.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.5.0.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-community-professional-and-enterprise-editions-releases-now-availab/', 1, 0),
+(51, 4, '2011-02-10 09:42:57', 'Magento CE 1.5.0.1 stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.5.0.1 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-1501-stable-now-available/', 1, 0),
+(52, 4, '2011-03-19 04:15:45', 'Magento CE 1.5.1.0-beta1 Now Available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.1.0-beta1 for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1510-beta1-now-available/', 1, 0),
+(53, 4, '2011-04-01 02:43:02', 'Magento CE 1.5.1.0-rc1 Now Available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.1.0-rc1 for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1510-rc1-now-available/', 1, 0),
+(54, 4, '2011-04-27 03:21:07', 'Magento CE 1.5.1.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.5.1.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1510-stable-now-available/', 1, 0),
+(55, 4, '2011-05-27 03:33:23', 'Magento Preview Version CE 1.6.0.0-alpha1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-alpha1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-alpha1-now-available/', 1, 0),
+(56, 4, '2011-06-16 02:12:08', 'Magento Preview Version CE 1.6.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-beta1for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-beta1-now-available/', 1, 0),
+(57, 4, '2011-07-01 03:03:58', 'Magento Preview Version CE 1.6.0.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-rc1-now-available/', 1, 0),
+(58, 4, '2011-07-12 03:07:39', 'Magento Preview Version CE 1.6.0.0-rc2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-rc2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-rc2-now-available/', 1, 0),
+(59, 4, '2011-08-20 01:58:31', 'Magento CE 1.6.0.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.6.0.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1600-stable-now-available/', 1, 0),
+(60, 4, '2011-09-17 09:31:26', 'Magento Preview Version CE 1.6.1.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.1.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1610-beta1-now-available/', 1, 0),
+(61, 4, '2011-09-29 23:44:10', 'Magento Preview Version CE 1.6.1.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.1.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1610-rc1-now-available/', 1, 0),
+(62, 4, '2011-10-20 01:50:05', 'Magento CE 1.6.1.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.6.1.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1610-stable-now-available/', 1, 0),
+(63, 4, '2011-12-31 03:39:35', 'Magento Preview Version CE 1.7.0.0-alpha1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.7.0.0-alpha1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1700-alpha1-now-available/', 1, 0),
+(64, 4, '2012-01-12 03:24:20', 'Magento CE 1.6.2.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.6.2.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1620-stable-now-available/', 1, 0),
+(65, 4, '2012-03-03 05:54:12', 'Magento Preview Version CE 1.7.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.7.0.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1700-beta1-now-available/', 1, 0),
+(66, 4, '2012-04-23 18:02:40', 'Magento Community Preview Version CE 1.7.0.0-RC1 has been released!', 'Learn more about the exciting new features and updates in this release and how you can take it for a test drive. As this is a preview version, we need to stress that it''s likely unstable and that we DON''T recommend that you use it in any production environment just yet.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1700-rc1-now-available/', 1, 0),
+(67, 4, '2012-05-11 13:46:54', 'Magento Community 1.7 and Magento Enterprise 1.12 now available!', 'Learn more about the exciting new features and updates in these releases.', 'http://www.magentocommerce.com/blog/comments/magento-enterprise-112-and-community-17-now-available/', 1, 0),
+(68, 4, '2012-06-20 22:54:07', 'Magento Community Edition 1.7.0.1 now available! ', 'We have just released an updated version of Magento Community Edition, version 1.7.0.1. This update delivers new, minor functionality and fixes for some potential security vulnerabilities.', 'http://www.magentocommerce.com/blog/comments/magento-community-edition-1701-released/', 1, 0),
+(69, 4, '2012-07-05 23:21:43', 'Important Security Update - Zend Platform Vulnerability', 'We have recently learned of a serious vulnerability in the Zend platform on which Magento is built. Learn more and access a patch that addresses this issue. ', 'http://www.magentocommerce.com/blog/comments/important-security-update-zend-platform-vulnerability/', 1, 0),
+(70, 4, '2012-11-20 01:27:42', 'Wrap up more holiday sales with financing', 'Give your customers up to 6 months financing. You get paid right away with Bill Me Later, a PayPal service. It’s a great way to extend financing in time for the holidays. Learn More.', 'http://www.magentocommerce.com/paypal/billmelater?utm_source=CEMessaging&utm_medium=copy&utm_content=sixmonths&utm_campaign=BML', 1, 0),
+(71, 4, '2012-12-07 16:22:30', 'Increase Your Sales With PayPal', 'Magento merchants using PayPal Express Checkout can help increase their sales on average 18%. It is one simple thing you can do right now to help boost your sales. Learn more.', 'http://www.magentocommerce.com/add-paypal?utm_source=CEModule&utm_medium=copy&utm_content=18&utm_campaign=choosepaypal', 1, 0),
+(72, 4, '2013-01-16 03:02:07', 'Imagine 2013 Registration is Now Open!', 'Join 1500 merchants, partners, developers and enthusiasts from 35+ countries around the world for Magento’s premier global conference! Collaborate, learn, network and get inspired by the future of eCommerce. Tickets will sell out fast! April 8th – 10th in Las Vegas.', 'https://registration.imagineecommerce.com/', 1, 0),
+(73, 4, '2013-02-12 22:53:42', 'Get More eCommerce Power with Magento Enterprise', 'Limited time offer: Get a free, customized evaluation of your Community Edition site from a Magento Solution Partner. This evaluation gives you a clear look at the numerous benefits you can achieve by upgrading to Enterprise Edition. ', 'http://www.magentocommerce.com/community-to-enterprise?utm_source=CEMM&utm_medium=copy&utm_campaign=CE2EE', 1, 0),
+(74, 2, '2013-09-27 21:28:13', 'Magento Community Edition 1.8.0.0 - now available for download!', 'Get tax, security, performance, and many other improvements. \n\nLearn more at http://www.magentocommerce.com/blog/comments/magento-community-edition-one-eight-now-available/ ', 'http://www.magentocommerce.com/blog/comments/magento-community-edition-one-eight-now-available/', 1, 0),
+(75, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0),
+(76, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0),
+(77, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0),
+(78, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0),
+(79, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0),
+(80, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -117,110 +224,7 @@ CREATE TABLE IF NOT EXISTS `admin_user` (
 --
 
 INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`) VALUES
-(1, 'Admin', 'Bitnami', 'sasham@gmail.com', 'admin', '518d49c6de8521fc49c91cd73b17c18f:s5ek3aOkL80Zvt50u5YQJjbSoGLUwlTj', '2013-09-29 23:08:00', '2013-09-29 23:08:00', '2013-09-29 23:20:45', 3, 0, 1, 'a:1:{s:11:"configState";a:42:{s:22:"airhotels_custom_group";s:1:"1";s:22:"airhotels_custom_email";s:1:"1";s:23:"airhotels_custom_banner";s:1:"1";s:25:"airhotels_layout_settings";s:1:"1";s:17:"airhotels_max_min";s:1:"1";s:24:"airhotels_order_reminder";s:1:"1";s:22:"airhotels_refund_email";s:1:"1";s:20:"airhotels_sampledata";s:1:"1";s:25:"trans_email_ident_general";s:1:"1";s:23:"trans_email_ident_sales";s:1:"1";s:25:"trans_email_ident_support";s:1:"1";s:25:"trans_email_ident_custom1";s:1:"1";s:25:"trans_email_ident_custom2";s:1:"1";s:16:"checkout_options";s:1:"1";s:13:"checkout_cart";s:1:"0";s:18:"checkout_cart_link";s:1:"0";s:16:"checkout_sidebar";s:1:"0";s:23:"checkout_payment_failed";s:1:"0";s:14:"design_package";s:1:"1";s:12:"design_theme";s:1:"1";s:11:"design_head";s:1:"1";s:13:"design_header";s:1:"0";s:13:"design_footer";s:1:"1";s:16:"design_watermark";s:1:"0";s:17:"design_pagination";s:1:"0";s:12:"design_email";s:1:"0";s:12:"dev_restrict";s:1:"0";s:9:"dev_debug";s:1:"1";s:12:"dev_template";s:1:"1";s:20:"dev_translate_inline";s:1:"1";s:7:"dev_log";s:1:"1";s:6:"dev_js";s:1:"0";s:7:"dev_css";s:1:"0";s:22:"customer_account_share";s:1:"0";s:25:"customer_online_customers";s:1:"0";s:23:"customer_create_account";s:1:"0";s:17:"customer_password";s:1:"0";s:16:"customer_address";s:1:"0";s:16:"customer_startup";s:1:"1";s:17:"customer_facebook";s:1:"1";s:26:"customer_address_templates";s:1:"0";s:16:"customer_captcha";s:1:"0";}}', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `adminnotification_inbox`
---
-
-CREATE TABLE IF NOT EXISTS `adminnotification_inbox` (
-  `notification_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Notification id',
-  `severity` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Problem type',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Create date',
-  `title` varchar(255) NOT NULL COMMENT 'Title',
-  `description` text COMMENT 'Description',
-  `url` varchar(255) DEFAULT NULL COMMENT 'Url',
-  `is_read` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification read',
-  `is_remove` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification might be removed',
-  PRIMARY KEY (`notification_id`),
-  KEY `IDX_ADMINNOTIFICATION_INBOX_SEVERITY` (`severity`),
-  KEY `IDX_ADMINNOTIFICATION_INBOX_IS_READ` (`is_read`),
-  KEY `IDX_ADMINNOTIFICATION_INBOX_IS_REMOVE` (`is_remove`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Adminnotification Inbox' AUTO_INCREMENT=77 ;
-
---
--- Dumping data for table `adminnotification_inbox`
---
-
-INSERT INTO `adminnotification_inbox` (`notification_id`, `severity`, `date_added`, `title`, `description`, `url`, `is_read`, `is_remove`) VALUES
-(1, 4, '2008-07-25 09:24:40', 'Magento 1.1 Production Version Now Available', 'We are thrilled to announce the availability of the production release of Magento 1.1. Read more about the release in the Magento Blog.', 'http://www.magentocommerce.com/blog/comments/magento-11-is-here-1/', 1, 0),
-(2, 4, '2008-08-02 09:30:16', 'Updated iPhone Theme is now available', 'Updated iPhone theme for Magento 1.1 is now available on Magento Connect and for upgrade through your Magento Connect Manager.', 'http://www.magentocommerce.com/blog/comments/updated-iphone-theme-for-magento-11-is-now-available/', 1, 0),
-(3, 3, '2008-08-02 09:40:27', 'Magento version 1.1.2 is now available', 'Magento version 1.1.2 is now available for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-version-112-is-now-available/', 1, 0),
-(4, 3, '2008-08-14 01:51:46', 'Magento version 1.1.3 is now available', 'Magento version 1.1.3 is now available', 'http://www.magentocommerce.com/blog/comments/magento-version-113-is-now-available/', 1, 0),
-(5, 1, '2008-09-03 05:10:31', 'Magento Version 1.1.4 Security Update Now Available', 'Magento 1.1.4 Security Update Now Available. If you are using Magento version 1.1.x, we highly recommend upgrading to this version as soon as possible.', 'http://www.magentocommerce.com/blog/comments/magento-version-114-security-update/', 1, 0),
-(6, 3, '2008-09-16 06:09:54', 'Magento version 1.1.5 Now Available', 'Magento version 1.1.5 Now Available.\n\nThis release includes many bug fixes, a new category manager and a new skin for the default Magento theme.', 'http://www.magentocommerce.com/blog/comments/magento-version-115-now-available/', 1, 0),
-(7, 3, '2008-09-18 04:18:35', 'Magento version 1.1.6 Now Available', 'Magento version 1.1.6 Now Available.\n\nThis version includes bug fixes for Magento 1.1.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-116-now-available/', 1, 0),
-(8, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 1, 0),
-(9, 3, '2008-11-20 11:31:12', 'Magento version 1.1.7 Now Available', 'Magento version 1.1.7 Now Available.\n\nThis version includes over 350 issue resolutions for Magento 1.1.x that are listed in the release notes section, and new functionality that includes:\n\n-Google Website Optimizer integration\n-Google Base integration\n-Scheduled DB logs cleaning option', 'http://www.magentocommerce.com/blog/comments/magento-version-117-now-available/', 1, 0),
-(10, 3, '2008-11-27 07:24:50', 'Magento Version 1.1.8 Now Available', 'Magento version 1.1.8 now available.\n\nThis version includes some issue resolutions for Magento 1.1.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-118-now-available/', 1, 0),
-(11, 3, '2008-12-30 17:45:59', 'Magento version 1.2.0 is now available for download and upgrade', 'We are extremely happy to announce the availability of Magento version 1.2.0 for download and upgrade.\n\nThis version includes numerous issue resolutions for Magento version 1.1.x and some highly requested new features such as:\n\n    * Support for Downloadable/Digital Products. \n    * Added Layered Navigation to site search result page.\n    * Improved site search to utilize MySQL fulltext search\n    * Added support for fixed-taxes on product level.\n    * Upgraded Zend Framework to the latest stable version 1.7.2', 'http://www.magentocommerce.com/blog/comments/magento-version-120-is-now-available/', 1, 0),
-(12, 2, '2008-12-31 07:59:22', 'Magento version 1.2.0.1 now available', 'Magento version 1.2.0.1 now available.This version includes some issue resolutions for Magento 1.2.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-1201-available/', 1, 0),
-(13, 2, '2009-01-13 06:41:49', 'Magento version 1.2.0.2 now available', 'Magento version 1.2.0.2 is now available for download and upgrade. This version includes an issue resolutions for Magento version 1.2.0.x as listed in the release notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1202-now-available/', 1, 0),
-(14, 3, '2009-01-24 10:25:56', 'Magento version 1.2.0.3 now available', 'Magento version 1.2.0.3 is now available for download and upgrade. This version includes issue resolutions for Magento version 1.2.0.x as listed in the release notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1203-now-available/', 1, 0),
-(15, 3, '2009-02-03 07:57:00', 'Magento version 1.2.1 is now available for download and upgrade', 'We are happy to announce the availability of Magento version 1.2.1 for download and upgrade.\n\nThis version includes some issue resolutions for Magento version 1.2.x. A full list of items included in this release can be found on the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-121-now-available/', 1, 0),
-(16, 3, '2009-02-24 10:45:47', 'Magento version 1.2.1.1 now available', 'Magento version 1.2.1.1 now available.This version includes some issue resolutions for Magento 1.2.x that are listed in the release notes section.', 'http://www.magentocommerce.com/blog/comments/magento-version-1211-now-available/', 1, 0),
-(17, 3, '2009-02-27 11:39:24', 'CSRF Attack Prevention', 'We have just posted a blog entry about a hypothetical CSRF attack on a Magento admin panel. Please read the post to find out if your Magento installation is at risk at http://www.magentocommerce.com/blog/comments/csrf-vulnerabilities-in-web-application-and-how-to-avoid-them-in-magento/', 'http://www.magentocommerce.com/blog/comments/csrf-vulnerabilities-in-web-application-and-how-to-avoid-them-in-magento/', 1, 0),
-(18, 2, '2009-03-04 09:03:58', 'Magento version 1.2.1.2 now available', 'Magento version 1.2.1.2 is now available for download and upgrade.\nThis version includes some updates to improve admin security as described in the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-1212-now-available/', 1, 0),
-(19, 3, '2009-03-31 10:22:40', 'Magento version 1.3.0 now available', 'Magento version 1.3.0 is now available for download and upgrade. This version includes numerous issue resolutions for Magento version 1.2.x and new features as described on the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-130-is-now-available/', 1, 0),
-(20, 3, '2009-04-18 12:06:02', 'Magento version 1.3.1 now available', 'Magento version 1.3.1 is now available for download and upgrade. This version includes some issue resolutions for Magento version 1.3.x and new features such as Checkout By Amazon and Amazon Flexible Payment. To see a full list of updates please check the release notes page.', 'http://www.magentocommerce.com/blog/comments/magento-version-131-now-available/', 1, 0),
-(21, 3, '2009-05-20 06:31:21', 'Magento version 1.3.1.1 now available', 'Magento version 1.3.1.1 is now available for download and upgrade. This version includes some issue resolutions for Magento version 1.3.x and a security update for Magento installations that run on multiple domains or sub-domains. If you are running Magento with multiple domains or sub-domains we highly recommend upgrading to this version.', 'http://www.magentocommerce.com/blog/comments/magento-version-1311-now-available/', 1, 0),
-(22, 3, '2009-05-30 06:54:06', 'Magento version 1.3.2 now available', 'This version includes some improvements and issue resolutions for version 1.3.x that are listed on the release notes page. also included is a Beta version of the Compile module.', 'http://www.magentocommerce.com/blog/comments/magento-version-132-now-available/', 1, 0),
-(23, 3, '2009-06-02 03:32:52', 'Magento version 1.3.2.1 now available', 'Magento version 1.3.2.1 now available for download and upgrade.\n\nThis release solves an issue for users running Magento with PHP 5.2.0, and changes to index.php to support the new Compiler Module.', 'http://www.magentocommerce.com/blog/comments/magento-version-1321-now-available/', 1, 0),
-(24, 3, '2009-07-02 09:21:44', 'Magento version 1.3.2.2 now available', 'Magento version 1.3.2.2 is now available for download and upgrade.\n\nThis release includes issue resolution for Magento version 1.3.x. To see a full list of changes please visit the release notes page http://www.magentocommerce.com/download/release_notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1322-now-available/', 1, 0),
-(25, 3, '2009-07-23 14:48:54', 'Magento version 1.3.2.3 now available', 'Magento version 1.3.2.3 is now available for download and upgrade.\n\nThis release includes issue resolution for Magento version 1.3.x. We recommend to upgrade to this version if PayPal payment modules are in use. To see a full list of changes please visit the release notes page http://www.magentocommerce.com/download/release_notes.', 'http://www.magentocommerce.com/blog/comments/magento-version-1323-now-available/', 1, 0),
-(26, 4, '2009-08-29 02:26:28', 'PayPal is updating Payflow Pro and Website Payments Pro (Payflow Edition) UK.', 'If you are using Payflow Pro and/or Website Payments Pro (Payflow Edition) UK.  payment methods, you will need to update the URLâ€˜s in your Magento Administrator Panel in order to process transactions after September 1, 2009. Full details are available here: http://www.magentocommerce.com/wiki/paypal_payflow_changes', 'http://www.magentocommerce.com/wiki/paypal_payflow_changes', 1, 0),
-(27, 2, '2009-09-24 04:16:49', 'Magento Version 1.3.2.4 Security Update', 'Magento Version 1.3.2.4 is now available. This version includes a security updates for Magento 1.3.x that solves possible XSS vulnerability issue on customer registration page and is available through SVN, Download Page and through the Magento Connect Manager.', 'http://www.magentocommerce.com/blog/comments/magento-version-1324-security-update/', 1, 0),
-(28, 4, '2009-09-25 22:57:54', 'Magento Preview Version 1.4.0.0-alpha2 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-alpha2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-alpha2-now-available/', 1, 0),
-(29, 4, '2009-10-07 08:55:40', 'Magento Preview Version 1.4.0.0-alpha3 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-alpha3 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-alpha3-now-available/', 1, 0),
-(30, 4, '2009-12-09 09:30:36', 'Magento Preview Version 1.4.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-beta1-now-available/', 1, 0),
-(31, 4, '2009-12-31 19:22:12', 'Magento Preview Version 1.4.0.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version 1.4.0.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1400-rc1-now-available/', 1, 0),
-(32, 4, '2010-02-13 13:39:53', 'Magento CE Version 1.4.0.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.0.0 Stable for upgrade and download.', 'http://bit.ly/c53rpK', 1, 0),
-(33, 3, '2010-02-20 12:39:36', 'Magento CE Version 1.4.0.1 Stable is now available', 'Magento CE 1.4.0.1 Stable is now available for upgrade and download.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1401-stable-now-available/', 1, 0),
-(34, 4, '2010-04-24 04:09:03', 'Magento Version CE 1.3.3.0 Stable - Now Available With Support for 3-D Secure', 'Based on community requests, we are excited to announce the release of Magento CE 1.3.3.0-Stable with support for 3-D Secure. This release is intended for Magento merchants using version 1.3.x, who want to add support for 3-D Secure.', 'http://www.magentocommerce.com/blog/comments/magento-version-ce-1330-stable-now-available-with-support-for-3-d-secure/', 1, 0),
-(35, 4, '2010-06-01 01:20:21', 'Announcing the Launch of Magento Mobile', 'The Magento team is pleased to announce the launch of Magento mobile, a new product that will allow Magento merchants to easily create branded, native mobile storefront applications that are deeply integrated with Magentoâ€™s market-leading eCommerce platform. The product includes a new administrative manager, a native iPhone app that is fully customizable, and a service where Magento manages the submission and maintenance process for the iTunes App Store.\n\nLearn more by visiting the Magento mobile product page and sign-up to be the first to launch a native mobile commerce app, fully integrated with Magento.', 'http://www.magentocommerce.com/product/mobile', 1, 0),
-(36, 4, '2010-06-11 04:08:08', 'Magento CE Version 1.4.1.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.1.0 Stable for upgrade and download. Some of the highlights of this release include: Enhanced PayPal integration (more info to follow), Change of Database structure of the Sales module to no longer use EAV, and much more.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1410-stable-now-available/', 1, 0),
-(37, 4, '2010-07-27 05:37:34', 'Magento CE Version 1.4.1.1 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.1.1 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1411-stable-now-available/', 1, 0),
-(38, 4, '2010-07-28 13:12:12', 'Magento CE Version 1.4.2.0-beta1 Preview Release Now Available', 'This release gives a preview of the new Magento Connect Manager.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1420-beta1-now-available/', 1, 0),
-(39, 4, '2010-07-29 04:15:01', 'Magento CE Version 1.4.1.1 Patch Available', 'As some users experienced issues with upgrading to CE 1.4.1.1 through PEAR channels we provided a patch for it that is available on our blog http://www.magentocommerce.com/blog/comments/magento-ce-version-1411-stable-patch/', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1411-stable-patch/', 1, 0),
-(40, 4, '2010-10-12 08:13:25', 'Magento Mobile is now live!', 'Magento Mobile is now live! Signup today to have your own native iPhone mobile-shopping app in iTunes for the holiday season! Learn more at http://www.magentomobile.com/', 'http://www.magentomobile.com/', 1, 0),
-(41, 4, '2010-11-09 07:52:06', 'Magento CE Version 1.4.2.0-RC1 Preview Release Now Available', 'We are happy to announce the availability of Magento Preview Version 1.4.2.0-RC1 for download.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1420-rc1-now-available/', 1, 0),
-(42, 4, '2010-12-03 06:33:00', 'Magento CE Version 1.4.2.0-RC2 Preview Release Now Available', 'We are happy to announce the availability of Magento Preview Version 1.4.2.0-RC2 for download.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-1420-rc2-now-available/', 1, 0),
-(43, 4, '2010-12-09 08:29:55', 'Magento CE Version 1.4.2.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.4.2.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1420-stable-now-available/', 1, 0),
-(44, 4, '2010-12-18 09:23:55', 'Magento Preview Version CE 1.5.0.0-alpha1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-alpha1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-alpha1-now-available/', 1, 0),
-(45, 4, '2010-12-30 09:51:08', 'Magento Preview Version CE 1.5.0.0-alpha2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-alpha2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-alpha2-now-available/', 1, 0),
-(46, 4, '2011-01-14 10:35:36', 'Magento Preview Version CE 1.5.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-beta1-now-available/', 1, 0),
-(47, 4, '2011-01-22 07:19:09', 'Magento Preview Version CE 1.5.0.0-beta2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-beta2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-beta2-now-available/', 1, 0),
-(48, 4, '2011-01-28 07:27:57', 'Magento Preview Version CE 1.5.0.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-rc1-now-available/', 1, 0),
-(49, 4, '2011-02-04 07:56:33', 'Magento Preview Version CE 1.5.0.0-rc2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.0.0-rc2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1500-rc2-now-available/', 1, 0),
-(50, 4, '2011-02-09 05:43:23', 'Magento CE Version 1.5.0.0 Stable is now available', 'We are excited to announce the availability of Magento CE Version 1.5.0.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-community-professional-and-enterprise-editions-releases-now-availab/', 1, 0),
-(51, 4, '2011-02-10 09:42:57', 'Magento CE 1.5.0.1 stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.5.0.1 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-1501-stable-now-available/', 1, 0),
-(52, 4, '2011-03-19 04:15:45', 'Magento CE 1.5.1.0-beta1 Now Available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.1.0-beta1 for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1510-beta1-now-available/', 1, 0),
-(53, 4, '2011-04-01 02:43:02', 'Magento CE 1.5.1.0-rc1 Now Available', 'We are happy to announce the availability of Magento Preview Version CE 1.5.1.0-rc1 for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1510-rc1-now-available/', 1, 0),
-(54, 4, '2011-04-27 03:21:07', 'Magento CE 1.5.1.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.5.1.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1510-stable-now-available/', 1, 0),
-(55, 4, '2011-05-27 03:33:23', 'Magento Preview Version CE 1.6.0.0-alpha1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-alpha1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-alpha1-now-available/', 1, 0),
-(56, 4, '2011-06-16 02:12:08', 'Magento Preview Version CE 1.6.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-beta1for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-beta1-now-available/', 1, 0),
-(57, 4, '2011-07-01 03:03:58', 'Magento Preview Version CE 1.6.0.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-rc1-now-available/', 1, 0),
-(58, 4, '2011-07-12 03:07:39', 'Magento Preview Version CE 1.6.0.0-rc2 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.0.0-rc2 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1600-rc2-now-available/', 1, 0),
-(59, 4, '2011-08-20 01:58:31', 'Magento CE 1.6.0.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.6.0.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1600-stable-now-available/', 1, 0),
-(60, 4, '2011-09-17 09:31:26', 'Magento Preview Version CE 1.6.1.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.1.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1610-beta1-now-available/', 1, 0),
-(61, 4, '2011-09-29 23:44:10', 'Magento Preview Version CE 1.6.1.0-rc1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.6.1.0-rc1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1610-rc1-now-available/', 1, 0),
-(62, 4, '2011-10-20 01:50:05', 'Magento CE 1.6.1.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.6.1.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1610-stable-now-available/', 1, 0),
-(63, 4, '2011-12-31 03:39:35', 'Magento Preview Version CE 1.7.0.0-alpha1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.7.0.0-alpha1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1700-alpha1-now-available/', 1, 0),
-(64, 4, '2012-01-12 03:24:20', 'Magento CE 1.6.2.0-stable Now Available', 'We are excited to announce the availability of Magento CE Version 1.6.2.0 Stable for download and upgrade.', 'http://www.magentocommerce.com/blog/comments/magento-ce-version-1620-stable-now-available/', 1, 0),
-(65, 4, '2012-03-03 05:54:12', 'Magento Preview Version CE 1.7.0.0-beta1 is now available', 'We are happy to announce the availability of Magento Preview Version CE 1.7.0.0-beta1 for download.\nAs this is a preview version it is NOT recommended in any way to be used in a production environment.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1700-beta1-now-available/', 1, 0),
-(66, 4, '2012-04-23 18:02:40', 'Magento Community Preview Version CE 1.7.0.0-RC1 has been released!', 'Learn more about the exciting new features and updates in this release and how you can take it for a test drive. As this is a preview version, we need to stress that it''s likely unstable and that we DON''T recommend that you use it in any production environment just yet.', 'http://www.magentocommerce.com/blog/comments/magento-preview-version-ce-1700-rc1-now-available/', 1, 0),
-(67, 4, '2012-05-11 13:46:54', 'Magento Community 1.7 and Magento Enterprise 1.12 now available!', 'Learn more about the exciting new features and updates in these releases.', 'http://www.magentocommerce.com/blog/comments/magento-enterprise-112-and-community-17-now-available/', 1, 0),
-(68, 4, '2012-06-20 22:54:07', 'Magento Community Edition 1.7.0.1 now available! ', 'We have just released an updated version of Magento Community Edition, version 1.7.0.1. This update delivers new, minor functionality and fixes for some potential security vulnerabilities.', 'http://www.magentocommerce.com/blog/comments/magento-community-edition-1701-released/', 1, 0),
-(69, 4, '2012-07-05 23:21:43', 'Important Security Update - Zend Platform Vulnerability', 'We have recently learned of a serious vulnerability in the Zend platform on which Magento is built. Learn more and access a patch that addresses this issue. ', 'http://www.magentocommerce.com/blog/comments/important-security-update-zend-platform-vulnerability/', 1, 0),
-(70, 4, '2012-11-20 01:27:42', 'Wrap up more holiday sales with financing', 'Give your customers up to 6 months financing. You get paid right away with Bill Me Later, a PayPal service. It’s a great way to extend financing in time for the holidays. Learn More.', 'http://www.magentocommerce.com/paypal/billmelater?utm_source=CEMessaging&utm_medium=copy&utm_content=sixmonths&utm_campaign=BML', 1, 0),
-(71, 4, '2012-12-07 16:22:30', 'Increase Your Sales With PayPal', 'Magento merchants using PayPal Express Checkout can help increase their sales on average 18%. It is one simple thing you can do right now to help boost your sales. Learn more.', 'http://www.magentocommerce.com/add-paypal?utm_source=CEModule&utm_medium=copy&utm_content=18&utm_campaign=choosepaypal', 1, 0),
-(72, 4, '2013-01-16 03:02:07', 'Imagine 2013 Registration is Now Open!', 'Join 1500 merchants, partners, developers and enthusiasts from 35+ countries around the world for Magento’s premier global conference! Collaborate, learn, network and get inspired by the future of eCommerce. Tickets will sell out fast! April 8th – 10th in Las Vegas.', 'https://registration.imagineecommerce.com/', 1, 0),
-(73, 4, '2013-02-12 22:53:42', 'Get More eCommerce Power with Magento Enterprise', 'Limited time offer: Get a free, customized evaluation of your Community Edition site from a Magento Solution Partner. This evaluation gives you a clear look at the numerous benefits you can achieve by upgrading to Enterprise Edition. ', 'http://www.magentocommerce.com/community-to-enterprise?utm_source=CEMM&utm_medium=copy&utm_campaign=CE2EE', 1, 0),
-(74, 2, '2013-09-27 21:28:13', 'Magento Community Edition 1.8.0.0 - now available for download!', 'Get tax, security, performance, and many other improvements. \n\nLearn more at http://www.magentocommerce.com/blog/comments/magento-community-edition-one-eight-now-available/ ', 'http://www.magentocommerce.com/blog/comments/magento-community-edition-one-eight-now-available/', 1, 0),
-(75, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0),
-(76, 4, '2008-11-08 09:46:42', 'Reminder: Change Magento`s default phone numbers and callouts before site launch', 'Before launching your Magento store, please remember to change Magento`s default phone numbers that appear in email templates, callouts, templates, etc.', '', 0, 0);
+(1, 'Admin', 'Bitnami', 'sasham@gmail.com', 'admin', '518d49c6de8521fc49c91cd73b17c18f:s5ek3aOkL80Zvt50u5YQJjbSoGLUwlTj', '2013-09-29 23:08:00', '2013-09-29 23:08:00', '2013-10-15 02:49:42', 6, 0, 1, 'a:1:{s:11:"configState";a:56:{s:22:"airhotels_custom_group";s:1:"1";s:22:"airhotels_custom_email";s:1:"1";s:23:"airhotels_custom_banner";s:1:"1";s:25:"airhotels_layout_settings";s:1:"1";s:17:"airhotels_max_min";s:1:"1";s:24:"airhotels_order_reminder";s:1:"1";s:22:"airhotels_refund_email";s:1:"1";s:20:"airhotels_sampledata";s:1:"1";s:25:"trans_email_ident_general";s:1:"1";s:23:"trans_email_ident_sales";s:1:"1";s:25:"trans_email_ident_support";s:1:"1";s:25:"trans_email_ident_custom1";s:1:"1";s:25:"trans_email_ident_custom2";s:1:"1";s:16:"checkout_options";s:1:"1";s:13:"checkout_cart";s:1:"0";s:18:"checkout_cart_link";s:1:"0";s:16:"checkout_sidebar";s:1:"0";s:23:"checkout_payment_failed";s:1:"0";s:14:"design_package";s:1:"1";s:12:"design_theme";s:1:"1";s:11:"design_head";s:1:"1";s:13:"design_header";s:1:"0";s:13:"design_footer";s:1:"1";s:16:"design_watermark";s:1:"0";s:17:"design_pagination";s:1:"0";s:12:"design_email";s:1:"0";s:12:"dev_restrict";s:1:"0";s:9:"dev_debug";s:1:"1";s:12:"dev_template";s:1:"1";s:20:"dev_translate_inline";s:1:"1";s:7:"dev_log";s:1:"1";s:6:"dev_js";s:1:"0";s:7:"dev_css";s:1:"0";s:22:"customer_account_share";s:1:"0";s:25:"customer_online_customers";s:1:"0";s:23:"customer_create_account";s:1:"0";s:17:"customer_password";s:1:"0";s:16:"customer_address";s:1:"0";s:16:"customer_startup";s:1:"1";s:17:"customer_facebook";s:1:"1";s:26:"customer_address_templates";s:1:"0";s:16:"customer_captcha";s:1:"0";s:11:"system_cron";s:1:"0";s:11:"system_smtp";s:1:"1";s:15:"system_currency";s:1:"0";s:10:"system_log";s:1:"0";s:24:"system_adminnotification";s:1:"0";s:26:"system_external_page_cache";s:1:"0";s:13:"system_backup";s:1:"0";s:34:"system_media_storage_configuration";s:1:"0";s:14:"system_smtppro";s:1:"1";s:21:"system_googlesettings";s:1:"0";s:19:"system_smtpsettings";s:1:"1";s:18:"system_sessettings";s:1:"0";s:17:"contacts_contacts";s:1:"1";s:14:"contacts_email";s:1:"1";}}', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -264,6 +268,7 @@ CREATE TABLE IF NOT EXISTS `airhotels_booking` (
   `base_currency_code` varchar(25) NOT NULL DEFAULT '',
   `order_currency_code` varchar(25) NOT NULL DEFAULT '',
   `message` text NOT NULL,
+  `access_code` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -514,6 +519,350 @@ CREATE TABLE IF NOT EXISTS `captcha_log` (
   `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Update Time',
   PRIMARY KEY (`type`,`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Count Login Attempts';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cataloginventory_stock`
+--
+
+CREATE TABLE IF NOT EXISTS `cataloginventory_stock` (
+  `stock_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Stock Id',
+  `stock_name` varchar(255) DEFAULT NULL COMMENT 'Stock Name',
+  PRIMARY KEY (`stock_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `cataloginventory_stock`
+--
+
+INSERT INTO `cataloginventory_stock` (`stock_id`, `stock_name`) VALUES
+(1, 'Default');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cataloginventory_stock_item`
+--
+
+CREATE TABLE IF NOT EXISTS `cataloginventory_stock_item` (
+  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Item Id',
+  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
+  `stock_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Stock Id',
+  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
+  `min_qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Min Qty',
+  `use_config_min_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Min Qty',
+  `is_qty_decimal` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Qty Decimal',
+  `backorders` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Backorders',
+  `use_config_backorders` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Backorders',
+  `min_sale_qty` decimal(12,4) NOT NULL DEFAULT '1.0000' COMMENT 'Min Sale Qty',
+  `use_config_min_sale_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Min Sale Qty',
+  `max_sale_qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Max Sale Qty',
+  `use_config_max_sale_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Max Sale Qty',
+  `is_in_stock` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is In Stock',
+  `low_stock_date` timestamp NULL DEFAULT NULL COMMENT 'Low Stock Date',
+  `notify_stock_qty` decimal(12,4) DEFAULT NULL COMMENT 'Notify Stock Qty',
+  `use_config_notify_stock_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Notify Stock Qty',
+  `manage_stock` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Manage Stock',
+  `use_config_manage_stock` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Manage Stock',
+  `stock_status_changed_auto` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Stock Status Changed Automatically',
+  `use_config_qty_increments` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Qty Increments',
+  `qty_increments` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty Increments',
+  `use_config_enable_qty_inc` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Enable Qty Increments',
+  `enable_qty_increments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Enable Qty Increments',
+  `is_decimal_divided` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Divided into Multiple Boxes for Shipping',
+  PRIMARY KEY (`item_id`),
+  UNIQUE KEY `UNQ_CATALOGINVENTORY_STOCK_ITEM_PRODUCT_ID_STOCK_ID` (`product_id`,`stock_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_ITEM_PRODUCT_ID` (`product_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_ITEM_STOCK_ID` (`stock_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Item' AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `cataloginventory_stock_item`
+--
+
+INSERT INTO `cataloginventory_stock_item` (`item_id`, `product_id`, `stock_id`, `qty`, `min_qty`, `use_config_min_qty`, `is_qty_decimal`, `backorders`, `use_config_backorders`, `min_sale_qty`, `use_config_min_sale_qty`, `max_sale_qty`, `use_config_max_sale_qty`, `is_in_stock`, `low_stock_date`, `notify_stock_qty`, `use_config_notify_stock_qty`, `manage_stock`, `use_config_manage_stock`, `stock_status_changed_auto`, `use_config_qty_increments`, `qty_increments`, `use_config_enable_qty_inc`, `enable_qty_increments`, `is_decimal_divided`) VALUES
+(1, 1, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(2, 2, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(3, 3, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(4, 4, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(5, 5, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(6, 6, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(7, 7, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(8, 8, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(9, 9, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(10, 10, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
+(11, 11, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cataloginventory_stock_status`
+--
+
+CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status` (
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
+  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
+  `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
+  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_STOCK_ID` (`stock_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_WEBSITE_ID` (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status';
+
+--
+-- Dumping data for table `cataloginventory_stock_status`
+--
+
+INSERT INTO `cataloginventory_stock_status` (`product_id`, `website_id`, `stock_id`, `qty`, `stock_status`) VALUES
+(2, 1, 1, '100000.0000', 1),
+(3, 1, 1, '100000.0000', 1),
+(4, 1, 1, '100000.0000', 1),
+(5, 1, 1, '100000.0000', 1),
+(6, 1, 1, '100000.0000', 1),
+(7, 1, 1, '100000.0000', 1),
+(8, 1, 1, '100000.0000', 1),
+(9, 1, 1, '100000.0000', 1),
+(10, 1, 1, '100000.0000', 1),
+(11, 1, 1, '100000.0000', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cataloginventory_stock_status_idx`
+--
+
+CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_idx` (
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
+  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
+  `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
+  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_STOCK_ID` (`stock_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_WEBSITE_ID` (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Idx';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cataloginventory_stock_status_tmp`
+--
+
+CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_tmp` (
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
+  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
+  `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
+  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_STOCK_ID` (`stock_id`),
+  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_WEBSITE_ID` (`website_id`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Tmp';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogrule`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogrule` (
+  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Id',
+  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `description` text COMMENT 'Description',
+  `from_date` date DEFAULT NULL COMMENT 'From Date',
+  `to_date` date DEFAULT NULL COMMENT 'To Date',
+  `is_active` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Active',
+  `conditions_serialized` mediumtext COMMENT 'Conditions Serialized',
+  `actions_serialized` mediumtext COMMENT 'Actions Serialized',
+  `stop_rules_processing` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Stop Rules Processing',
+  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
+  `simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action',
+  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
+  `sub_is_enable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Rule Enable For Subitems',
+  `sub_simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action For Subitems',
+  `sub_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount For Subitems',
+  PRIMARY KEY (`rule_id`),
+  KEY `IDX_CATALOGRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogrule_affected_product`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogrule_affected_product` (
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Affected Product';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogrule_customer_group`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogrule_customer_group` (
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
+  PRIMARY KEY (`rule_id`,`customer_group_id`),
+  KEY `IDX_CATALOGRULE_CUSTOMER_GROUP_RULE_ID` (`rule_id`),
+  KEY `IDX_CATALOGRULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID` (`customer_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Customer Groups Relations';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogrule_group_website`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogrule_group_website` (
+  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
+  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
+  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
+  PRIMARY KEY (`rule_id`,`customer_group_id`,`website_id`),
+  KEY `IDX_CATALOGRULE_GROUP_WEBSITE_RULE_ID` (`rule_id`),
+  KEY `IDX_CATALOGRULE_GROUP_WEBSITE_CUSTOMER_GROUP_ID` (`customer_group_id`),
+  KEY `IDX_CATALOGRULE_GROUP_WEBSITE_WEBSITE_ID` (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Group Website';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogrule_product`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogrule_product` (
+  `rule_product_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Product Id',
+  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
+  `from_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'From Time',
+  `to_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'To time',
+  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
+  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
+  `action_operator` varchar(10) DEFAULT 'to_fixed' COMMENT 'Action Operator',
+  `action_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Action Amount',
+  `action_stop` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Action Stop',
+  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `sub_simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action For Subitems',
+  `sub_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount For Subitems',
+  PRIMARY KEY (`rule_product_id`),
+  UNIQUE KEY `EAA51B56FF092A0DCB795D1CEF812B7B` (`rule_id`,`from_time`,`to_time`,`website_id`,`customer_group_id`,`product_id`,`sort_order`),
+  KEY `IDX_CATALOGRULE_PRODUCT_RULE_ID` (`rule_id`),
+  KEY `IDX_CATALOGRULE_PRODUCT_CUSTOMER_GROUP_ID` (`customer_group_id`),
+  KEY `IDX_CATALOGRULE_PRODUCT_WEBSITE_ID` (`website_id`),
+  KEY `IDX_CATALOGRULE_PRODUCT_FROM_TIME` (`from_time`),
+  KEY `IDX_CATALOGRULE_PRODUCT_TO_TIME` (`to_time`),
+  KEY `IDX_CATALOGRULE_PRODUCT_PRODUCT_ID` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogrule_product_price`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogrule_product_price` (
+  `rule_product_price_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Product PriceId',
+  `rule_date` date NOT NULL COMMENT 'Rule Date',
+  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
+  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
+  `rule_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Rule Price',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `latest_start_date` date DEFAULT NULL COMMENT 'Latest StartDate',
+  `earliest_end_date` date DEFAULT NULL COMMENT 'Earliest EndDate',
+  PRIMARY KEY (`rule_product_price_id`),
+  UNIQUE KEY `UNQ_CATRULE_PRD_PRICE_RULE_DATE_WS_ID_CSTR_GROUP_ID_PRD_ID` (`rule_date`,`website_id`,`customer_group_id`,`product_id`),
+  KEY `IDX_CATALOGRULE_PRODUCT_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
+  KEY `IDX_CATALOGRULE_PRODUCT_PRICE_WEBSITE_ID` (`website_id`),
+  KEY `IDX_CATALOGRULE_PRODUCT_PRICE_PRODUCT_ID` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product Price' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogrule_website`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogrule_website` (
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  PRIMARY KEY (`rule_id`,`website_id`),
+  KEY `IDX_CATALOGRULE_WEBSITE_RULE_ID` (`rule_id`),
+  KEY `IDX_CATALOGRULE_WEBSITE_WEBSITE_ID` (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Websites Relations';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogsearch_fulltext`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogsearch_fulltext` (
+  `fulltext_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `data_index` longtext COMMENT 'Data index',
+  PRIMARY KEY (`fulltext_id`),
+  UNIQUE KEY `UNQ_CATALOGSEARCH_FULLTEXT_PRODUCT_ID_STORE_ID` (`product_id`,`store_id`),
+  FULLTEXT KEY `FTI_CATALOGSEARCH_FULLTEXT_DATA_INDEX` (`data_index`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Catalog search result table' AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `catalogsearch_fulltext`
+--
+
+INSERT INTO `catalogsearch_fulltext` (`fulltext_id`, `product_id`, `store_id`, `data_index`) VALUES
+(1, 2, 1, '599513517|Jumeirah Beach Hotel|17|13|Dubai|United Arab Emirates|naresh@contus.in|||The Jumeirah Beach Hotel Dubai is located on the sandy beaches of Jumeirah, right next to the Burj Al Arab and amid the shores of the Arabian Gulf. It can be found about 25 kilometers from the downtown Dubai area. The hotel is found at Jumeirah Road in Dubai, United Arab Emirates. The Jumeirah Beach Hotel Dubai offers an amazing 617 luxury rooms and suites, most of which give guests a full view of the sea through the floor. The Jumeirah Beach Hotel Dubai is built in a unique way and one that offers lots of open space, allowing for an abundance of amenities and guest rooms. Business travelers will be well accommodated with the Club Executive program, which gives them 11 seminar rooms and a conference center capable of holding 2,000 people. There are 22 restaurants and bars onsite including options for outdoor dining. There are also exciting features like a fitness center, water sporting activities, tennis courts and golf practice. If the beach isn’t wet enough, then guests can still enjoy five swimming pools with a diving center.|PO Box 11416|- Smoking is not allowed - External catering services is not allowed - Cooking in the room is not allowed. - Please keep the equipment and furniture safe. - Prior to leaving the room, please check if you have closed the tap in the bathroom.||145|1'),
+(2, 3, 1, '97632003|Swimming Pool Castle|4|3|Singapore|Singapore|naresh@contus.in|||With a wish to provide even better and more enjoyable stay, in April 2009 we opened a new wing with the total area of 10,000 m2 with:|Singapore|Unless your valuables, money and documents are not stored in the room safe with personal password, the Hotel cannot guarantee their safety.||250|1'),
+(3, 4, 1, '168335650|Central Springs Inn|4|2|Daylesford|Dominica|naresh@contus.in|||The Central Springs Inn is ideally positioned in the centre of the town. The air-conditioned rooms feature plasma TVs and free Wi-Fi. Rooms at the Central Springs Inn have tea and coffee making facilities, a private bathroom and cable / satellite channels. Each includes a refrigerator, a mini bar and a DVD player. The inn''s on-site restaurant provides an ideal option for guests wishing to eat in. Breakfast is provided at the inn each morning. The Central Springs Inn conveniently provides free parking. Melbourne Airport (MEL) is within a 90 minute drive away.|Daylesford|- Please keep the equipment and furniture safe. - Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room||600|1'),
+(4, 5, 1, '205596647|Savoy Hotel Jonkoping|14|10|Jonkoping|Kazakhstan|naresh@contus.in|||This hotel is conveniently positioned in the centre of Jonkoping and offers a sauna, a heated pool and a steam room. The air-conditioned rooms are equipped with plasma TVs and free Wi-Fi. The Savoy Hotel Jonkoping features include a city centre shuttle service, a 24 hour reception and conference room(s). Facilities at the hotel include a laundry service, a dry cleaning service and meeting rooms. A well-equipped fitness centre is also available. All the rooms at the Savoy Hotel Jonkoping include cable / satellite channels, tea and coffee making facilities and a safe. Each includes amenities such as a DVD player, a mini bar and complimentary toiletries. The hotel has several rooms especially designed to accommodate families. The Savoy Hotel Jonkoping has a restaurant and an on-site bar. Alternatively, there are a variety of eating options in close proximity to the hotel. Room service is also available during limited hours. Jönköping Airport (JKG) is less than a 20-minute drive from the Savoy Hotel Jonkoping. Many popular tourist spots are within easy walking distance from the hotel.|Jonkoping|- Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||100|1'),
+(5, 6, 1, '406499685|Bonhomie Beach Cottage Krabi|3|3|Krabi|Kyrgyzstan|naresh@contus.in|||The Bonhomie Beach Cottage Krabi features include a laundry service and a beauty centre. It has exclusive access to a secluded beach. The property''s on-site restaurant provides an ideal option for guests wishing to dine in. In the evening, the lounge bar provides a nice place to relax and sample one of the drinks on offer.|Krabi|- Please keep the equipment and furniture safe. - Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants.||500|1'),
+(6, 7, 1, '135575812|Marambaia Cassino Hotel|13|9|Bairro Pioneiros|Austria|naresh@contus.in|||This beachfront hotel offers well-appointed rooms and quality services and amenities including free wireless internet, outdoor pool and fitness facilities. Balneario Camboriu town centre is within an easy 10-minute drive of the hotel. The Marambaia Cassino Hotel offers a range of personalised services for guests, like 24 hours room service, a car rental desk and a concierge. Amenities at the hotel include a lift, a beauty salon and a safe-deposit box. Additional features include a fitness centre, luggage storage and a ticket service. The rooms at the Marambaia Cassino Hotel include cable / satellite channels, a TV and a safe. Each has facilities such as a refrigerator, a mini bar and an iron. With a relaxing setting, the Marambaia Cassino Hotel''s on-site bar offers a choice of premium drinks and snacks. The hotel also provides the added convenience of an on-site restaurant.|Bairro Pioneiros|- Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||300|1'),
+(7, 8, 1, '398452916|Iberotel Makadi Saraya Resort|3|3|Madinat Makadi|Bahamas|naresh@contus.in|||This 5-star hotel sits right in the centre of Madinat Makadi and features a private beach and an outdoor pool. It offers panoramic views of the pool and the beach, stylish rooms with mini bars and personalised service. The Iberotel Makadi Saraya Resort features a jacuzzi and a sauna, and guests also have access to the gym. The 24-hour front desk provides services like car rentals and luggage storage, and free parking is available. Leisure options at the hotel include massage services and a Turkish steam bath. Each room at the Iberotel Makadi Saraya Resort comes with a kitchenette and a kitchen, while the bathrooms feature slippers and lighted makeup mirrors. Each has facilities such as a TV, a safe and cable / satellite channels. Private bathrooms come with a shower and a hair dryer. The Iberotel Makadi Saraya Resort also features a restaurant and a bar. A wide selection of dining options can also be found in close proximity to the property. Hurghada International Airport (HRG) is less than a 40-minute drive from the Iberotel Makadi Saraya Resort. The hotel''s multilingual staff will make sure your stay is enjoyable.|Madinat Makadi|- Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||600|1'),
+(8, 9, 1, '125529876|Ringhotel Johanniterbad|12|12|Rottweil|Germany|naresh@contus.in|||This hotel enjoys a central location in the heart of Rottweil, just a short stroll from a wide range of shops and restaurants. The Ringhotel Johanniterbad offers a range of facilities and services to make your stay both comfortable and memorable. Facilities include a terrace and a lift. Wi-Fi access is also available for use. Rooms at the Ringhotel Johanniterbad offer a TV, a balcony and cable / satellite channels. Each offers a mini bar and a telephone. For early risers, a leisurely breakfast in bed can be enjoyed in the privacy of the rooms. The Ringhotel Johanniterbad has an on-site restaurant, perfect for those who prefer to dine in. The Ringhotel Johanniterbad''s location allows guests to easily reach all local places of interest on foot. For guests travelling by car, parking is provided by the hotel.|Rottweil|- Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||700|1'),
+(9, 10, 1, '278465451|Snowlands Hotel|15|9|Tucson|Bahamas|naresh@contus.in|||Snowlands Hotel|Tucson|Please sign the bills for all hotel services personally.||400|1'),
+(10, 11, 1, '26028584|Wellness Park Pension|15|10|Gyenesdias|Australia|naresh@contus.in|||This hotel is ideally located in the centre of Gyenesdias and offers an outdoor pool, a sauna and a jacuzzi. The Wellness Park Pension facilities include a free airport shuttle, conference room(s) and tennis courts. Also available to the guests are a playground, a beauty salon and a hair salon. Guests of the Wellness Park Pension can also enjoy a relaxing massage, or rent a bike to discover the surrounding area. Rooms at the Wellness Park Pension are well-appointed and provide all the essentials including a TV, a refrigerator and a safe. Each has facilities such as a coffee maker and an iron. The bathrooms provide a shower and a hair dryer. The Wellness Park Pension has an on-site restaurant, perfect for guests who prefer to dine in. The hotel also provides a daily breakfast. Attractions near the Wellness Park Pension include the Lake Heviz and Keszthely Synagogue. Staff can help with planning excursions, and can assist with car rental.|Gyenesdias|- Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||200|1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogsearch_query`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogsearch_query` (
+  `query_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Query ID',
+  `query_text` varchar(255) DEFAULT NULL COMMENT 'Query text',
+  `num_results` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Num results',
+  `popularity` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Popularity',
+  `redirect` varchar(255) DEFAULT NULL COMMENT 'Redirect',
+  `synonym_for` varchar(255) DEFAULT NULL COMMENT 'Synonym for',
+  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
+  `display_in_terms` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Display in terms',
+  `is_active` smallint(6) DEFAULT '1' COMMENT 'Active status',
+  `is_processed` smallint(6) DEFAULT '0' COMMENT 'Processed status',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated at',
+  PRIMARY KEY (`query_id`),
+  KEY `IDX_CATALOGSEARCH_QUERY_QUERY_TEXT_STORE_ID_POPULARITY` (`query_text`,`store_id`,`popularity`),
+  KEY `IDX_CATALOGSEARCH_QUERY_STORE_ID` (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search query table' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalogsearch_result`
+--
+
+CREATE TABLE IF NOT EXISTS `catalogsearch_result` (
+  `query_id` int(10) unsigned NOT NULL COMMENT 'Query ID',
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
+  `relevance` decimal(20,4) NOT NULL DEFAULT '0.0000' COMMENT 'Relevance',
+  PRIMARY KEY (`query_id`,`product_id`),
+  KEY `IDX_CATALOGSEARCH_RESULT_QUERY_ID` (`query_id`),
+  KEY `IDX_CATALOGSEARCH_RESULT_PRODUCT_ID` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
 
 -- --------------------------------------------------------
 
@@ -1060,7 +1409,8 @@ INSERT INTO `catalog_eav_attribute` (`attribute_id`, `frontend_input_renderer`, 
 (149, NULL, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 'property', 1, 0, 0, 0),
 (150, NULL, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 'property', 1, 0, 0, 0),
 (151, NULL, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 'property', 0, 0, 0, 0),
-(152, NULL, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 'property', 0, 0, 0, 0);
+(152, NULL, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 'property', 0, 0, 0, 0),
+(154, NULL, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1281,7 +1631,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_decimal` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_ATTRIBUTE_ID` (`attribute_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Decimal Attribute Backend Table' AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Decimal Attribute Backend Table' AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `catalog_product_entity_decimal`
@@ -1359,7 +1709,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_int` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_ENTITY_ID` (`entity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Integer Attribute Backend Table' AUTO_INCREMENT=78 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Integer Attribute Backend Table' AUTO_INCREMENT=76 ;
 
 --
 -- Dumping data for table `catalog_product_entity_int`
@@ -1472,7 +1822,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_text` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_ENTITY_ID` (`entity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Text Attribute Backend Table' AUTO_INCREMENT=78 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Text Attribute Backend Table' AUTO_INCREMENT=75 ;
 
 --
 -- Dumping data for table `catalog_product_entity_text`
@@ -1563,7 +1913,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_varchar` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Varchar Attribute Backend Table' AUTO_INCREMENT=409 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Varchar Attribute Backend Table' AUTO_INCREMENT=397 ;
 
 --
 -- Dumping data for table `catalog_product_entity_varchar`
@@ -2489,16 +2839,6 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_tmp` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_TMP_MIN_PRICE` (`min_price`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Temp Table';
 
---
--- Dumping data for table `catalog_product_index_price_tmp`
---
-
-INSERT INTO `catalog_product_index_price_tmp` (`entity_id`, `customer_group_id`, `website_id`, `tax_class_id`, `price`, `final_price`, `min_price`, `max_price`, `tier_price`, `group_price`) VALUES
-(11, 0, 1, NULL, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(11, 1, 1, NULL, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(11, 2, 1, NULL, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(11, 3, 1, NULL, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -2874,350 +3214,6 @@ INSERT INTO `catalog_product_website` (`product_id`, `website_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cataloginventory_stock`
---
-
-CREATE TABLE IF NOT EXISTS `cataloginventory_stock` (
-  `stock_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Stock Id',
-  `stock_name` varchar(255) DEFAULT NULL COMMENT 'Stock Name',
-  PRIMARY KEY (`stock_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock' AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `cataloginventory_stock`
---
-
-INSERT INTO `cataloginventory_stock` (`stock_id`, `stock_name`) VALUES
-(1, 'Default');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cataloginventory_stock_item`
---
-
-CREATE TABLE IF NOT EXISTS `cataloginventory_stock_item` (
-  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Item Id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
-  `stock_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Stock Id',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
-  `min_qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Min Qty',
-  `use_config_min_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Min Qty',
-  `is_qty_decimal` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Qty Decimal',
-  `backorders` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Backorders',
-  `use_config_backorders` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Backorders',
-  `min_sale_qty` decimal(12,4) NOT NULL DEFAULT '1.0000' COMMENT 'Min Sale Qty',
-  `use_config_min_sale_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Min Sale Qty',
-  `max_sale_qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Max Sale Qty',
-  `use_config_max_sale_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Max Sale Qty',
-  `is_in_stock` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is In Stock',
-  `low_stock_date` timestamp NULL DEFAULT NULL COMMENT 'Low Stock Date',
-  `notify_stock_qty` decimal(12,4) DEFAULT NULL COMMENT 'Notify Stock Qty',
-  `use_config_notify_stock_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Notify Stock Qty',
-  `manage_stock` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Manage Stock',
-  `use_config_manage_stock` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Manage Stock',
-  `stock_status_changed_auto` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Stock Status Changed Automatically',
-  `use_config_qty_increments` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Qty Increments',
-  `qty_increments` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty Increments',
-  `use_config_enable_qty_inc` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Enable Qty Increments',
-  `enable_qty_increments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Enable Qty Increments',
-  `is_decimal_divided` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Divided into Multiple Boxes for Shipping',
-  PRIMARY KEY (`item_id`),
-  UNIQUE KEY `UNQ_CATALOGINVENTORY_STOCK_ITEM_PRODUCT_ID_STOCK_ID` (`product_id`,`stock_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_ITEM_PRODUCT_ID` (`product_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_ITEM_STOCK_ID` (`stock_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Item' AUTO_INCREMENT=12 ;
-
---
--- Dumping data for table `cataloginventory_stock_item`
---
-
-INSERT INTO `cataloginventory_stock_item` (`item_id`, `product_id`, `stock_id`, `qty`, `min_qty`, `use_config_min_qty`, `is_qty_decimal`, `backorders`, `use_config_backorders`, `min_sale_qty`, `use_config_min_sale_qty`, `max_sale_qty`, `use_config_max_sale_qty`, `is_in_stock`, `low_stock_date`, `notify_stock_qty`, `use_config_notify_stock_qty`, `manage_stock`, `use_config_manage_stock`, `stock_status_changed_auto`, `use_config_qty_increments`, `qty_increments`, `use_config_enable_qty_inc`, `enable_qty_increments`, `is_decimal_divided`) VALUES
-(1, 1, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(2, 2, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(3, 3, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(4, 4, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(5, 5, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(6, 6, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(7, 7, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(8, 8, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(9, 9, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(10, 10, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0),
-(11, 11, 1, '100000.0000', '0.0000', 1, 0, 0, 1, '1.0000', 1, '0.0000', 1, 1, NULL, NULL, 1, 0, 1, 0, 1, '0.0000', 1, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cataloginventory_stock_status`
---
-
-CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status` (
-  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
-  `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
-  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_STOCK_ID` (`stock_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_WEBSITE_ID` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status';
-
---
--- Dumping data for table `cataloginventory_stock_status`
---
-
-INSERT INTO `cataloginventory_stock_status` (`product_id`, `website_id`, `stock_id`, `qty`, `stock_status`) VALUES
-(2, 1, 1, '100000.0000', 1),
-(3, 1, 1, '100000.0000', 1),
-(4, 1, 1, '100000.0000', 1),
-(5, 1, 1, '100000.0000', 1),
-(6, 1, 1, '100000.0000', 1),
-(7, 1, 1, '100000.0000', 1),
-(8, 1, 1, '100000.0000', 1),
-(9, 1, 1, '100000.0000', 1),
-(10, 1, 1, '100000.0000', 1),
-(11, 1, 1, '100000.0000', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cataloginventory_stock_status_idx`
---
-
-CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_idx` (
-  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
-  `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
-  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_STOCK_ID` (`stock_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_WEBSITE_ID` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Idx';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cataloginventory_stock_status_tmp`
---
-
-CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_tmp` (
-  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
-  `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
-  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_STOCK_ID` (`stock_id`),
-  KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_WEBSITE_ID` (`website_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Tmp';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogrule`
---
-
-CREATE TABLE IF NOT EXISTS `catalogrule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Id',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
-  `description` text COMMENT 'Description',
-  `from_date` date DEFAULT NULL COMMENT 'From Date',
-  `to_date` date DEFAULT NULL COMMENT 'To Date',
-  `is_active` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Active',
-  `conditions_serialized` mediumtext COMMENT 'Conditions Serialized',
-  `actions_serialized` mediumtext COMMENT 'Actions Serialized',
-  `stop_rules_processing` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Stop Rules Processing',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `sub_is_enable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Rule Enable For Subitems',
-  `sub_simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action For Subitems',
-  `sub_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount For Subitems',
-  PRIMARY KEY (`rule_id`),
-  KEY `IDX_CATALOGRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogrule_affected_product`
---
-
-CREATE TABLE IF NOT EXISTS `catalogrule_affected_product` (
-  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Affected Product';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogrule_customer_group`
---
-
-CREATE TABLE IF NOT EXISTS `catalogrule_customer_group` (
-  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
-  PRIMARY KEY (`rule_id`,`customer_group_id`),
-  KEY `IDX_CATALOGRULE_CUSTOMER_GROUP_RULE_ID` (`rule_id`),
-  KEY `IDX_CATALOGRULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID` (`customer_group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Customer Groups Relations';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogrule_group_website`
---
-
-CREATE TABLE IF NOT EXISTS `catalogrule_group_website` (
-  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
-  PRIMARY KEY (`rule_id`,`customer_group_id`,`website_id`),
-  KEY `IDX_CATALOGRULE_GROUP_WEBSITE_RULE_ID` (`rule_id`),
-  KEY `IDX_CATALOGRULE_GROUP_WEBSITE_CUSTOMER_GROUP_ID` (`customer_group_id`),
-  KEY `IDX_CATALOGRULE_GROUP_WEBSITE_WEBSITE_ID` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Group Website';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogrule_product`
---
-
-CREATE TABLE IF NOT EXISTS `catalogrule_product` (
-  `rule_product_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Product Id',
-  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
-  `from_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'From Time',
-  `to_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'To time',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
-  `action_operator` varchar(10) DEFAULT 'to_fixed' COMMENT 'Action Operator',
-  `action_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Action Amount',
-  `action_stop` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Action Stop',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `sub_simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action For Subitems',
-  `sub_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount For Subitems',
-  PRIMARY KEY (`rule_product_id`),
-  UNIQUE KEY `EAA51B56FF092A0DCB795D1CEF812B7B` (`rule_id`,`from_time`,`to_time`,`website_id`,`customer_group_id`,`product_id`,`sort_order`),
-  KEY `IDX_CATALOGRULE_PRODUCT_RULE_ID` (`rule_id`),
-  KEY `IDX_CATALOGRULE_PRODUCT_CUSTOMER_GROUP_ID` (`customer_group_id`),
-  KEY `IDX_CATALOGRULE_PRODUCT_WEBSITE_ID` (`website_id`),
-  KEY `IDX_CATALOGRULE_PRODUCT_FROM_TIME` (`from_time`),
-  KEY `IDX_CATALOGRULE_PRODUCT_TO_TIME` (`to_time`),
-  KEY `IDX_CATALOGRULE_PRODUCT_PRODUCT_ID` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogrule_product_price`
---
-
-CREATE TABLE IF NOT EXISTS `catalogrule_product_price` (
-  `rule_product_price_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Product PriceId',
-  `rule_date` date NOT NULL COMMENT 'Rule Date',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
-  `rule_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Rule Price',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `latest_start_date` date DEFAULT NULL COMMENT 'Latest StartDate',
-  `earliest_end_date` date DEFAULT NULL COMMENT 'Earliest EndDate',
-  PRIMARY KEY (`rule_product_price_id`),
-  UNIQUE KEY `UNQ_CATRULE_PRD_PRICE_RULE_DATE_WS_ID_CSTR_GROUP_ID_PRD_ID` (`rule_date`,`website_id`,`customer_group_id`,`product_id`),
-  KEY `IDX_CATALOGRULE_PRODUCT_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
-  KEY `IDX_CATALOGRULE_PRODUCT_PRICE_WEBSITE_ID` (`website_id`),
-  KEY `IDX_CATALOGRULE_PRODUCT_PRICE_PRODUCT_ID` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product Price' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogrule_website`
---
-
-CREATE TABLE IF NOT EXISTS `catalogrule_website` (
-  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  PRIMARY KEY (`rule_id`,`website_id`),
-  KEY `IDX_CATALOGRULE_WEBSITE_RULE_ID` (`rule_id`),
-  KEY `IDX_CATALOGRULE_WEBSITE_WEBSITE_ID` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Websites Relations';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogsearch_fulltext`
---
-
-CREATE TABLE IF NOT EXISTS `catalogsearch_fulltext` (
-  `fulltext_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
-  `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
-  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
-  `data_index` longtext COMMENT 'Data index',
-  PRIMARY KEY (`fulltext_id`),
-  UNIQUE KEY `UNQ_CATALOGSEARCH_FULLTEXT_PRODUCT_ID_STORE_ID` (`product_id`,`store_id`),
-  FULLTEXT KEY `FTI_CATALOGSEARCH_FULLTEXT_DATA_INDEX` (`data_index`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Catalog search result table' AUTO_INCREMENT=11 ;
-
---
--- Dumping data for table `catalogsearch_fulltext`
---
-
-INSERT INTO `catalogsearch_fulltext` (`fulltext_id`, `product_id`, `store_id`, `data_index`) VALUES
-(1, 2, 1, '599513517|Jumeirah Beach Hotel|17|13|Dubai|United Arab Emirates|naresh@contus.in|||The Jumeirah Beach Hotel Dubai is located on the sandy beaches of Jumeirah, right next to the Burj Al Arab and amid the shores of the Arabian Gulf. It can be found about 25 kilometers from the downtown Dubai area. The hotel is found at Jumeirah Road in Dubai, United Arab Emirates. The Jumeirah Beach Hotel Dubai offers an amazing 617 luxury rooms and suites, most of which give guests a full view of the sea through the floor. The Jumeirah Beach Hotel Dubai is built in a unique way and one that offers lots of open space, allowing for an abundance of amenities and guest rooms. Business travelers will be well accommodated with the Club Executive program, which gives them 11 seminar rooms and a conference center capable of holding 2,000 people. There are 22 restaurants and bars onsite including options for outdoor dining. There are also exciting features like a fitness center, water sporting activities, tennis courts and golf practice. If the beach isn’t wet enough, then guests can still enjoy five swimming pools with a diving center.|PO Box 11416|- Smoking is not allowed - External catering services is not allowed - Cooking in the room is not allowed. - Please keep the equipment and furniture safe. - Prior to leaving the room, please check if you have closed the tap in the bathroom.||145|1'),
-(2, 3, 1, '97632003|Swimming Pool Castle|4|3|Singapore|Singapore|naresh@contus.in|||With a wish to provide even better and more enjoyable stay, in April 2009 we opened a new wing with the total area of 10,000 m2 with:|Singapore|Unless your valuables, money and documents are not stored in the room safe with personal password, the Hotel cannot guarantee their safety.||250|1'),
-(3, 4, 1, '168335650|Central Springs Inn|4|2|Daylesford|Dominica|naresh@contus.in|||The Central Springs Inn is ideally positioned in the centre of the town. The air-conditioned rooms feature plasma TVs and free Wi-Fi. Rooms at the Central Springs Inn have tea and coffee making facilities, a private bathroom and cable / satellite channels. Each includes a refrigerator, a mini bar and a DVD player. The inn''s on-site restaurant provides an ideal option for guests wishing to eat in. Breakfast is provided at the inn each morning. The Central Springs Inn conveniently provides free parking. Melbourne Airport (MEL) is within a 90 minute drive away.|Daylesford|- Please keep the equipment and furniture safe. - Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room||600|1'),
-(4, 5, 1, '205596647|Savoy Hotel Jonkoping|14|10|Jonkoping|Kazakhstan|naresh@contus.in|||This hotel is conveniently positioned in the centre of Jonkoping and offers a sauna, a heated pool and a steam room. The air-conditioned rooms are equipped with plasma TVs and free Wi-Fi. The Savoy Hotel Jonkoping features include a city centre shuttle service, a 24 hour reception and conference room(s). Facilities at the hotel include a laundry service, a dry cleaning service and meeting rooms. A well-equipped fitness centre is also available. All the rooms at the Savoy Hotel Jonkoping include cable / satellite channels, tea and coffee making facilities and a safe. Each includes amenities such as a DVD player, a mini bar and complimentary toiletries. The hotel has several rooms especially designed to accommodate families. The Savoy Hotel Jonkoping has a restaurant and an on-site bar. Alternatively, there are a variety of eating options in close proximity to the hotel. Room service is also available during limited hours. Jönköping Airport (JKG) is less than a 20-minute drive from the Savoy Hotel Jonkoping. Many popular tourist spots are within easy walking distance from the hotel.|Jonkoping|- Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||100|1'),
-(5, 6, 1, '406499685|Bonhomie Beach Cottage Krabi|3|3|Krabi|Kyrgyzstan|naresh@contus.in|||The Bonhomie Beach Cottage Krabi features include a laundry service and a beauty centre. It has exclusive access to a secluded beach. The property''s on-site restaurant provides an ideal option for guests wishing to dine in. In the evening, the lounge bar provides a nice place to relax and sample one of the drinks on offer.|Krabi|- Please keep the equipment and furniture safe. - Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants.||500|1'),
-(6, 7, 1, '135575812|Marambaia Cassino Hotel|13|9|Bairro Pioneiros|Austria|naresh@contus.in|||This beachfront hotel offers well-appointed rooms and quality services and amenities including free wireless internet, outdoor pool and fitness facilities. Balneario Camboriu town centre is within an easy 10-minute drive of the hotel. The Marambaia Cassino Hotel offers a range of personalised services for guests, like 24 hours room service, a car rental desk and a concierge. Amenities at the hotel include a lift, a beauty salon and a safe-deposit box. Additional features include a fitness centre, luggage storage and a ticket service. The rooms at the Marambaia Cassino Hotel include cable / satellite channels, a TV and a safe. Each has facilities such as a refrigerator, a mini bar and an iron. With a relaxing setting, the Marambaia Cassino Hotel''s on-site bar offers a choice of premium drinks and snacks. The hotel also provides the added convenience of an on-site restaurant.|Bairro Pioneiros|- Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||300|1'),
-(7, 8, 1, '398452916|Iberotel Makadi Saraya Resort|3|3|Madinat Makadi|Bahamas|naresh@contus.in|||This 5-star hotel sits right in the centre of Madinat Makadi and features a private beach and an outdoor pool. It offers panoramic views of the pool and the beach, stylish rooms with mini bars and personalised service. The Iberotel Makadi Saraya Resort features a jacuzzi and a sauna, and guests also have access to the gym. The 24-hour front desk provides services like car rentals and luggage storage, and free parking is available. Leisure options at the hotel include massage services and a Turkish steam bath. Each room at the Iberotel Makadi Saraya Resort comes with a kitchenette and a kitchen, while the bathrooms feature slippers and lighted makeup mirrors. Each has facilities such as a TV, a safe and cable / satellite channels. Private bathrooms come with a shower and a hair dryer. The Iberotel Makadi Saraya Resort also features a restaurant and a bar. A wide selection of dining options can also be found in close proximity to the property. Hurghada International Airport (HRG) is less than a 40-minute drive from the Iberotel Makadi Saraya Resort. The hotel''s multilingual staff will make sure your stay is enjoyable.|Madinat Makadi|- Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||600|1'),
-(8, 9, 1, '125529876|Ringhotel Johanniterbad|12|12|Rottweil|Germany|naresh@contus.in|||This hotel enjoys a central location in the heart of Rottweil, just a short stroll from a wide range of shops and restaurants. The Ringhotel Johanniterbad offers a range of facilities and services to make your stay both comfortable and memorable. Facilities include a terrace and a lift. Wi-Fi access is also available for use. Rooms at the Ringhotel Johanniterbad offer a TV, a balcony and cable / satellite channels. Each offers a mini bar and a telephone. For early risers, a leisurely breakfast in bed can be enjoyed in the privacy of the rooms. The Ringhotel Johanniterbad has an on-site restaurant, perfect for those who prefer to dine in. The Ringhotel Johanniterbad''s location allows guests to easily reach all local places of interest on foot. For guests travelling by car, parking is provided by the hotel.|Rottweil|- Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||700|1'),
-(9, 10, 1, '278465451|Snowlands Hotel|15|9|Tucson|Bahamas|naresh@contus.in|||Snowlands Hotel|Tucson|Please sign the bills for all hotel services personally.||400|1'),
-(10, 11, 1, '26028584|Wellness Park Pension|15|10|Gyenesdias|Australia|naresh@contus.in|||This hotel is ideally located in the centre of Gyenesdias and offers an outdoor pool, a sauna and a jacuzzi. The Wellness Park Pension facilities include a free airport shuttle, conference room(s) and tennis courts. Also available to the guests are a playground, a beauty salon and a hair salon. Guests of the Wellness Park Pension can also enjoy a relaxing massage, or rent a bike to discover the surrounding area. Rooms at the Wellness Park Pension are well-appointed and provide all the essentials including a TV, a refrigerator and a safe. Each has facilities such as a coffee maker and an iron. The bathrooms provide a shower and a hair dryer. The Wellness Park Pension has an on-site restaurant, perfect for guests who prefer to dine in. The hotel also provides a daily breakfast. Attractions near the Wellness Park Pension include the Lake Heviz and Keszthely Synagogue. Staff can help with planning excursions, and can assist with car rental.|Gyenesdias|- Prior to leaving the room, please check if you have closed the tap in the bathroom. - Please do not enter the hotel public areas dressed inappropriately, - Please note that you should be dressed appropriately during your visits to our restaurants. - Pets are allowed in Hotel room - Please sign the bills for all hotel services personally. - Room inventory are intended for your use, requested not to take them out. - Please sign the bills for all hotel services personally.||200|1');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogsearch_query`
---
-
-CREATE TABLE IF NOT EXISTS `catalogsearch_query` (
-  `query_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Query ID',
-  `query_text` varchar(255) DEFAULT NULL COMMENT 'Query text',
-  `num_results` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Num results',
-  `popularity` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Popularity',
-  `redirect` varchar(255) DEFAULT NULL COMMENT 'Redirect',
-  `synonym_for` varchar(255) DEFAULT NULL COMMENT 'Synonym for',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `display_in_terms` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Display in terms',
-  `is_active` smallint(6) DEFAULT '1' COMMENT 'Active status',
-  `is_processed` smallint(6) DEFAULT '0' COMMENT 'Processed status',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated at',
-  PRIMARY KEY (`query_id`),
-  KEY `IDX_CATALOGSEARCH_QUERY_QUERY_TEXT_STORE_ID_POPULARITY` (`query_text`,`store_id`,`popularity`),
-  KEY `IDX_CATALOGSEARCH_QUERY_STORE_ID` (`store_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search query table' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `catalogsearch_result`
---
-
-CREATE TABLE IF NOT EXISTS `catalogsearch_result` (
-  `query_id` int(10) unsigned NOT NULL COMMENT 'Query ID',
-  `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
-  `relevance` decimal(20,4) NOT NULL DEFAULT '0.0000' COMMENT 'Relevance',
-  PRIMARY KEY (`query_id`,`product_id`),
-  KEY `IDX_CATALOGSEARCH_RESULT_QUERY_ID` (`query_id`),
-  KEY `IDX_CATALOGSEARCH_RESULT_PRODUCT_ID` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `checkout_agreement`
 --
 
@@ -3410,7 +3406,7 @@ CREATE TABLE IF NOT EXISTS `core_config_data` (
   `value` text COMMENT 'Config Value',
   PRIMARY KEY (`config_id`),
   UNIQUE KEY `UNQ_CORE_CONFIG_DATA_SCOPE_SCOPE_ID_PATH` (`scope`,`scope_id`,`path`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Config Data' AUTO_INCREMENT=145 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Config Data' AUTO_INCREMENT=191 ;
 
 --
 -- Dumping data for table `core_config_data`
@@ -3418,8 +3414,8 @@ CREATE TABLE IF NOT EXISTS `core_config_data` (
 
 INSERT INTO `core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value`) VALUES
 (1, 'default', 0, 'admin/dashboard/enable_charts', '1'),
-(2, 'default', 0, 'web/unsecure/base_url', 'http://threestay.cloudapp.net:80/magento/'),
-(3, 'default', 0, 'web/secure/base_url', 'http://threestay.cloudapp.net:80/magento/'),
+(2, 'default', 0, 'web/unsecure/base_url', 'http://threestay.cloudapp.net'),
+(3, 'default', 0, 'web/secure/base_url', 'http://threestay.cloudapp.net'),
 (4, 'default', 0, 'general/locale/code', 'en_US'),
 (5, 'default', 0, 'general/locale/timezone', 'America/Los_Angeles'),
 (6, 'default', 0, 'currency/options/base', 'USD'),
@@ -3451,11 +3447,11 @@ INSERT INTO `core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value
 (32, 'default', 0, 'airhotels/order_reminder/admin_email', 'sasham@gmail.com'),
 (33, 'default', 0, 'airhotels/refund_email/refund_template', 'airhotels_refund_email_refund_template'),
 (34, 'default', 0, 'airhotels/sampledata/enable_data', '1'),
-(35, 'default', 0, 'trans_email/ident_general/name', 'General Contact'),
+(35, 'default', 0, 'trans_email/ident_general/name', 'Threestay'),
 (36, 'default', 0, 'trans_email/ident_general/email', 'sasham@gmail.com'),
-(37, 'default', 0, 'trans_email/ident_sales/name', 'Sales Representative'),
+(37, 'default', 0, 'trans_email/ident_sales/name', 'Threestay Sales'),
 (38, 'default', 0, 'trans_email/ident_sales/email', 'sasham@gmail.com'),
-(39, 'default', 0, 'trans_email/ident_support/name', 'Customer Support'),
+(39, 'default', 0, 'trans_email/ident_support/name', 'Threestay Support'),
 (40, 'default', 0, 'trans_email/ident_support/email', 'sasham@gmail.com'),
 (41, 'default', 0, 'trans_email/ident_custom1/name', 'Custom 1'),
 (42, 'default', 0, 'trans_email/ident_custom1/email', 'sasham@gmail.com'),
@@ -3560,7 +3556,53 @@ INSERT INTO `core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value
 (141, 'default', 0, 'customer/address_templates/html', '{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}<br/>\r\n{{depend company}}{{var company}}<br />{{/depend}}\r\n{{if street1}}{{var street1}}<br />{{/if}}\r\n{{depend street2}}{{var street2}}<br />{{/depend}}\r\n{{depend street3}}{{var street3}}<br />{{/depend}}\r\n{{depend street4}}{{var street4}}<br />{{/depend}}\r\n{{if city}}{{var city}},  {{/if}}{{if region}}{{var region}}, {{/if}}{{if postcode}}{{var postcode}}{{/if}}<br/>\r\n{{var country}}<br/>\r\n{{depend telephone}}T: {{var telephone}}{{/depend}}\r\n{{depend fax}}<br/>F: {{var fax}}{{/depend}}\r\n{{depend vat_id}}<br/>VAT: {{var vat_id}}{{/depend}}'),
 (142, 'default', 0, 'customer/address_templates/pdf', '{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}|\r\n{{depend company}}{{var company}}|{{/depend}}\r\n{{if street1}}{{var street1}}\r\n{{/if}}\r\n{{depend street2}}{{var street2}}|{{/depend}}\r\n{{depend street3}}{{var street3}}|{{/depend}}\r\n{{depend street4}}{{var street4}}|{{/depend}}\r\n{{if city}}{{var city}},|{{/if}}\r\n{{if region}}{{var region}}, {{/if}}{{if postcode}}{{var postcode}}{{/if}}|\r\n{{var country}}|\r\n{{depend telephone}}T: {{var telephone}}{{/depend}}|\r\n{{depend fax}}<br/>F: {{var fax}}{{/depend}}|\r\n{{depend vat_id}}<br/>VAT: {{var vat_id}}{{/depend}}|'),
 (143, 'default', 0, 'customer/address_templates/js_template', '#{prefix} #{firstname} #{middlename} #{lastname} #{suffix}<br/>#{company}<br/>#{street0}<br/>#{street1}<br/>#{street2}<br/>#{street3}<br/>#{city}, #{region}, #{postcode}<br/>#{country_id}<br/>T: #{telephone}<br/>F: #{fax}<br/>VAT: #{vat_id}'),
-(144, 'default', 0, 'customer/captcha/enable', '0');
+(144, 'default', 0, 'customer/captcha/enable', '0'),
+(145, 'default', 0, 'design/head/shortcut_icon', 'default/favicon.ico'),
+(146, 'default', 0, 'system/cron/schedule_generate_every', '15'),
+(147, 'default', 0, 'system/cron/schedule_ahead_for', '20'),
+(148, 'default', 0, 'system/cron/schedule_lifetime', '15'),
+(149, 'default', 0, 'system/cron/history_cleanup_every', '10'),
+(150, 'default', 0, 'system/cron/history_success_lifetime', '60'),
+(151, 'default', 0, 'system/cron/history_failure_lifetime', '600'),
+(152, 'default', 0, 'system/smtp/disable', '0'),
+(153, 'default', 0, 'system/smtp/host', 'localhost'),
+(154, 'default', 0, 'system/smtp/port', '25'),
+(155, 'default', 0, 'system/smtp/set_return_path', '0'),
+(156, 'default', 0, 'system/currency/installed', 'AFN,ALL,DZD,AOA,ARS,AMD,AWG,AUD,AZN,AZM,BSD,BHD,BDT,BBD,BYR,BZD,BMD,BTN,BOB,BAM,BWP,BRL,GBP,BND,BGN,BUK,BIF,XOF,XPF,KHR,CAD,CVE,KYD,CLP,CNY,COP,KMF,CDF,CRC,HRK,CUP,CZK,DKK,DJF,DOP,XCD,EGP,GQE,ERN,EEK,ETB,EUR,FKP,FJD,GMD,GEK,GEL,GHS,GIP,GTQ,GNF,GYD,HTG,HNL,HKD,HUF,ISK,INR,IDR,IRR,IQD,ILS,JMD,JPY,JOD,KZT,KES,KWD,KGS,LAK,LVL,LBP,LSL,LRD,LYD,LTL,MOP,MKD,MGA,MWK,MYR,MVR,MRO,MUR,MXN,MDL,MNT,MAD,MZN,MMK,NAD,NPR,ANG,TWD,NZD,NIC,NGN,KPW,NOK,ROL,TRL,OMR,PKR,PAB,PGK,PYG,PEN,PHP,PLN,QAR,RHD,RON,RUB,RWF,SHP,SVC,WST,SAR,RSD,SCR,SLL,SGD,SKK,SBD,SOS,ZAR,KRW,LKR,SDG,SRD,SZL,SEK,CHF,SYP,STD,TJS,TZS,THB,TOP,TTD,TND,TRY,TMM,USD,UGX,UAH,AED,UYU,UZS,VUV,VEB,VEF,VND,CHE,CHW,YER,ZMK,ZWD'),
+(157, 'default', 0, 'system/log/clean_after_day', '180'),
+(158, 'default', 0, 'system/log/enabled', '0'),
+(159, 'default', 0, 'system/log/time', '00,00,00'),
+(160, 'default', 0, 'system/log/frequency', 'D'),
+(161, 'default', 0, 'crontab/jobs/log_clean/schedule/cron_expr', NULL),
+(162, 'default', 0, 'crontab/jobs/log_clean/run/model', 'log/cron::logClean'),
+(163, 'default', 0, 'system/log/error_email', NULL),
+(164, 'default', 0, 'system/log/error_email_identity', 'general'),
+(165, 'default', 0, 'system/log/error_email_template', 'system_log_error_email_template'),
+(166, 'default', 0, 'system/adminnotification/use_https', '0'),
+(167, 'default', 0, 'system/adminnotification/frequency', '1'),
+(168, 'default', 0, 'system/external_page_cache/enabled', '0'),
+(169, 'default', 0, 'system/backup/enabled', '0'),
+(170, 'default', 0, 'system/media_storage_configuration/media_storage', '0'),
+(171, 'default', 0, 'system/media_storage_configuration/media_database', 'default_setup'),
+(172, 'default', 0, 'system/media_storage_configuration/configuration_update_time', '3600'),
+(173, 'default', 0, 'system/smtppro/option', 'smtp'),
+(174, 'default', 0, 'system/smtppro/store_addresses', '0'),
+(175, 'default', 0, 'system/smtppro/development', 'disabled'),
+(176, 'default', 0, 'system/smtppro/logenabled', '0'),
+(177, 'default', 0, 'system/googlesettings/email', NULL),
+(178, 'default', 0, 'system/googlesettings/gpassword', NULL),
+(179, 'default', 0, 'system/smtpsettings/authentication', 'login'),
+(180, 'default', 0, 'system/smtpsettings/username', 'azure_37f2b80b82bce7c61ddbd437e2559e8c@azure.com'),
+(181, 'default', 0, 'system/smtpsettings/password', 'jmidynty'),
+(182, 'default', 0, 'system/smtpsettings/host', 'smtp.sendgrid.net'),
+(183, 'default', 0, 'system/smtpsettings/port', '587'),
+(184, 'default', 0, 'system/smtpsettings/ssl', 'tls'),
+(185, 'default', 0, 'system/sessettings/aws_access_key', NULL),
+(186, 'default', 0, 'system/sessettings/aws_private_key', NULL),
+(187, 'default', 0, 'contacts/contacts/enabled', '1'),
+(188, 'default', 0, 'contacts/email/recipient_email', 'sasham@gmail.com'),
+(189, 'default', 0, 'contacts/email/sender_email_identity', 'support'),
+(190, 'default', 0, 'contacts/email/email_template', 'contacts_email_email_template');
 
 -- --------------------------------------------------------
 
@@ -3709,6 +3751,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 ('sendfriend_setup', '1.6.0.0', '1.6.0.0'),
 ('shipping_setup', '1.6.0.0', '1.6.0.0'),
 ('sitemap_setup', '1.6.0.0', '1.6.0.0'),
+('smtppro_setup', '1.4.3', '1.4.3'),
 ('tag_setup', '1.6.0.0', '1.6.0.0'),
 ('tax_setup', '1.6.0.4', '1.6.0.4'),
 ('usa_setup', '1.6.0.3', '1.6.0.3'),
@@ -4224,7 +4267,14 @@ CREATE TABLE IF NOT EXISTS `customer_entity` (
   KEY `IDX_CUSTOMER_ENTITY_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ENTITY_EMAIL_WEBSITE_ID` (`email`,`website_id`),
   KEY `IDX_CUSTOMER_ENTITY_WEBSITE_ID` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Customer Entity' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `customer_entity`
+--
+
+INSERT INTO `customer_entity` (`entity_id`, `entity_type_id`, `attribute_set_id`, `website_id`, `email`, `group_id`, `increment_id`, `store_id`, `created_at`, `updated_at`, `is_active`, `disable_auto_group_change`) VALUES
+(1, 1, 0, 1, 'sasham@gmail.com', 1, NULL, 1, '2013-10-15 03:09:18', '2013-10-15 03:09:18', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -4323,7 +4373,17 @@ CREATE TABLE IF NOT EXISTS `customer_entity_varchar` (
   KEY `IDX_CUSTOMER_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CUSTOMER_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`),
   KEY `IDX_CUSTOMER_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID_VALUE` (`entity_id`,`attribute_id`,`value`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Varchar' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Customer Entity Varchar' AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `customer_entity_varchar`
+--
+
+INSERT INTO `customer_entity_varchar` (`value_id`, `entity_type_id`, `attribute_id`, `entity_id`, `value`) VALUES
+(1, 1, 5, 1, 'Sasha'),
+(2, 1, 7, 1, 'M'),
+(3, 1, 12, 1, '256a1d6225a7e571ef7a150c2946f8d7:KTJj9fvf5wDbGq5jg9cPEKNWWgVmrs2o'),
+(5, 1, 3, 1, 'Default Store View');
 
 -- --------------------------------------------------------
 
@@ -6101,7 +6161,7 @@ CREATE TABLE IF NOT EXISTS `eav_attribute` (
   PRIMARY KEY (`attribute_id`),
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_ENTITY_TYPE_ID_ATTRIBUTE_CODE` (`entity_type_id`,`attribute_code`),
   KEY `IDX_EAV_ATTRIBUTE_ENTITY_TYPE_ID` (`entity_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Eav Attribute' AUTO_INCREMENT=154 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Eav Attribute' AUTO_INCREMENT=155 ;
 
 --
 -- Dumping data for table `eav_attribute`
@@ -6260,7 +6320,8 @@ INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`,
 (150, 4, 'pets', NULL, 'eav/entity_attribute_backend_array', 'varchar', NULL, NULL, 'select', 'Pets On Premises', NULL, NULL, 1, 0, NULL, 0, NULL),
 (151, 4, 'banner', NULL, NULL, 'int', NULL, NULL, 'select', 'Property Display in Homepage Banner', NULL, 'eav/entity_attribute_source_boolean', 0, 0, NULL, 0, NULL),
 (152, 4, 'propertyapproved', NULL, NULL, 'int', NULL, NULL, 'select', 'Property Approved', NULL, 'eav/entity_attribute_source_boolean', 0, 0, NULL, 0, NULL),
-(153, 1, 'facebook_uid', NULL, NULL, 'varchar', NULL, NULL, 'text', 'Facebook Uid', NULL, NULL, 0, 0, NULL, 0, NULL);
+(153, 1, 'facebook_uid', NULL, NULL, 'varchar', NULL, NULL, 'text', 'Facebook Uid', NULL, NULL, 0, 0, NULL, 0, NULL),
+(154, 4, 'secret_key', NULL, NULL, 'varchar', NULL, NULL, 'text', 'Secret Key', NULL, NULL, 0, 1, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -7037,7 +7098,7 @@ CREATE TABLE IF NOT EXISTS `index_event` (
   `new_data` mediumtext COMMENT 'New Data',
   PRIMARY KEY (`event_id`),
   UNIQUE KEY `UNQ_INDEX_EVENT_TYPE_ENTITY_ENTITY_PK` (`type`,`entity`,`entity_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Index Event' AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Index Event' AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `index_event`
@@ -7067,7 +7128,8 @@ INSERT INTO `index_event` (`event_id`, `type`, `entity`, `entity_pk`, `created_a
 (21, 'save', 'cataloginventory_stock_item', 10, '2013-09-29 23:47:40', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:0;s:37:"catalog_category_product_match_result";b:0;s:35:"catalogsearch_fulltext_match_result";b:0;}'),
 (22, 'save', 'catalog_product', 10, '2013-09-29 23:47:40', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}'),
 (23, 'save', 'cataloginventory_stock_item', 11, '2013-09-29 23:47:40', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:0;s:37:"catalog_category_product_match_result";b:0;s:35:"catalogsearch_fulltext_match_result";b:0;}'),
-(24, 'save', 'catalog_product', 11, '2013-09-29 23:47:40', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}');
+(24, 'save', 'catalog_product', 11, '2013-09-29 23:47:40', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}'),
+(25, 'save', 'catalog_eav_attribute', 154, '2013-10-15 01:58:44', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:0;s:37:"catalog_category_product_match_result";b:0;s:35:"catalogsearch_fulltext_match_result";b:1;}');
 
 -- --------------------------------------------------------
 
@@ -7091,13 +7153,13 @@ CREATE TABLE IF NOT EXISTS `index_process` (
 --
 
 INSERT INTO `index_process` (`process_id`, `indexer_code`, `status`, `started_at`, `ended_at`, `mode`) VALUES
-(1, 'catalog_product_attribute', 'pending', '2013-09-29 23:47:40', '2013-09-29 23:47:40', 'real_time'),
+(1, 'catalog_product_attribute', 'pending', '2013-10-15 01:58:44', '2013-10-15 01:58:44', 'real_time'),
 (2, 'catalog_product_price', 'pending', '2013-09-29 23:47:40', '2013-09-29 23:47:40', 'real_time'),
 (3, 'catalog_url', 'pending', '2013-09-29 23:47:40', '2013-09-29 23:47:40', 'real_time'),
 (4, 'catalog_product_flat', 'pending', '2013-09-29 23:08:01', '2013-09-29 23:08:01', 'real_time'),
 (5, 'catalog_category_flat', 'pending', '2013-09-29 23:08:01', '2013-09-29 23:08:01', 'real_time'),
 (6, 'catalog_category_product', 'pending', '2013-09-29 23:47:40', '2013-09-29 23:47:40', 'real_time'),
-(7, 'catalogsearch_fulltext', 'pending', '2013-09-29 23:47:40', '2013-09-29 23:47:40', 'real_time'),
+(7, 'catalogsearch_fulltext', 'require_reindex', '2013-10-15 01:58:44', '2013-10-15 01:58:44', 'real_time'),
 (8, 'cataloginventory_stock', 'pending', '2013-09-29 23:47:40', '2013-09-29 23:47:40', 'real_time'),
 (9, 'tag_summary', 'pending', '2013-09-29 23:47:40', '2013-09-29 23:47:40', 'real_time');
 
@@ -7130,7 +7192,14 @@ CREATE TABLE IF NOT EXISTS `log_customer` (
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   PRIMARY KEY (`log_id`),
   KEY `IDX_LOG_CUSTOMER_VISITOR_ID` (`visitor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Customers Table' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Log Customers Table' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `log_customer`
+--
+
+INSERT INTO `log_customer` (`log_id`, `visitor_id`, `customer_id`, `login_at`, `logout_at`, `store_id`) VALUES
+(1, 12, 1, '2013-10-15 03:09:20', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -7145,6 +7214,13 @@ CREATE TABLE IF NOT EXISTS `log_quote` (
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Deletion Time',
   PRIMARY KEY (`quote_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Quotes Table';
+
+--
+-- Dumping data for table `log_quote`
+--
+
+INSERT INTO `log_quote` (`quote_id`, `visitor_id`, `created_at`, `deleted_at`) VALUES
+(1, 12, '2013-10-15 03:09:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -7214,7 +7290,20 @@ INSERT INTO `log_url` (`url_id`, `visitor_id`, `visit_time`) VALUES
 (9, 3, '2013-09-30 07:22:58'),
 (10, 3, '2013-09-30 07:22:59'),
 (11, 3, '2013-09-30 07:23:05'),
-(12, 4, '2013-10-09 05:21:41');
+(12, 4, '2013-10-09 05:21:41'),
+(13, 5, '2013-10-09 06:59:05'),
+(14, 5, '2013-10-09 07:02:11'),
+(15, 5, '2013-10-09 07:02:28'),
+(16, 6, '2013-10-13 23:25:18'),
+(17, 12, '2013-10-15 02:29:38'),
+(18, 12, '2013-10-15 02:46:16'),
+(19, 12, '2013-10-15 02:58:48'),
+(20, 12, '2013-10-15 03:05:59'),
+(21, 12, '2013-10-15 03:08:40'),
+(22, 12, '2013-10-15 03:09:20'),
+(23, 12, '2013-10-15 03:09:21'),
+(24, 12, '2013-10-15 03:09:32'),
+(25, 12, '2013-10-15 03:10:38');
 
 -- --------------------------------------------------------
 
@@ -7227,25 +7316,38 @@ CREATE TABLE IF NOT EXISTS `log_url_info` (
   `url` varchar(255) DEFAULT NULL COMMENT 'URL',
   `referer` varchar(255) DEFAULT NULL COMMENT 'Referrer',
   PRIMARY KEY (`url_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table' AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `log_url_info`
 --
 
 INSERT INTO `log_url_info` (`url_id`, `url`, `referer`) VALUES
-(1, 'http://threestay.cloudapp.net/magento/', NULL),
-(2, 'http://threestay.cloudapp.net/magento/index.php/booking/index/add', 'http://threestay.cloudapp.net/magento/'),
-(3, 'http://threestay.cloudapp.net/magento/index.php/', 'http://threestay.cloudapp.net/magento/'),
-(4, 'http://threestay.cloudapp.net/magento/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/', 'http://threestay.cloudapp.net/magento/index.php/'),
-(5, 'http://threestay.cloudapp.net/magento/index.php/customer/account/create', 'http://threestay.cloudapp.net/magento/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/'),
-(6, 'http://threestay.cloudapp.net/magento/index.php/', 'http://threestay.cloudapp.net/magento/index.php/customer/account/create'),
-(7, 'http://threestay.cloudapp.net/magento/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/', 'http://threestay.cloudapp.net/magento/index.php/'),
-(8, 'http://threestay.cloudapp.net/magento/', NULL),
-(9, 'http://threestay.cloudapp.net/magento/index.php/booking/property/form', 'http://threestay.cloudapp.net/magento/'),
-(10, 'http://threestay.cloudapp.net/magento/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC9haXJob3RlbHMvcHJvcGVydHkvZm9ybS8,/', 'http://threestay.cloudapp.net/magento/'),
-(11, 'http://threestay.cloudapp.net/magento/', NULL),
-(12, 'http://threestay.cloudapp.net/magento/', NULL);
+(1, 'http://threestay.cloudapp.net/', NULL),
+(2, 'http://threestay.cloudapp.net/index.php/booking/index/add', 'http://threestay.cloudapp.net/'),
+(3, 'http://threestay.cloudapp.net/index.php/', 'http://threestay.cloudapp.net/'),
+(4, 'http://threestay.cloudapp.net/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/', 'http://threestay.cloudapp.net/index.php/'),
+(5, 'http://threestay.cloudapp.net/index.php/customer/account/create', 'http://threestay.cloudapp.net/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/'),
+(6, 'http://threestay.cloudapp.net/index.php/', 'http://threestay.cloudapp.net/index.php/customer/account/create'),
+(7, 'http://threestay.cloudapp.net/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/', 'http://threestay.cloudapp.net/index.php/'),
+(8, 'http://threestay.cloudapp.net/', NULL),
+(9, 'http://threestay.cloudapp.net/index.php/booking/property/form', 'http://threestay.cloudapp.net/'),
+(10, 'http://threestay.cloudapp.net/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC9haXJob3RlbHMvcHJvcGVydHkvZm9ybS8,/', 'http://threestay.cloudapp.net/'),
+(11, 'http://threestay.cloudapp.net/', NULL),
+(12, 'http://threestay.cloudapp.net/', NULL),
+(13, 'http://threestay.cloudapp.net/', NULL),
+(14, 'http://threestay.cloudapp.net/', NULL),
+(15, 'http://threestay.cloudapp.net/', NULL),
+(16, 'http://threestay.cloudapp.net/', NULL),
+(17, 'http://threestay.cloudapp.net/index.php', NULL),
+(18, 'http://threestay.cloudapp.net/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/', 'http://threestay.cloudapp.net/index.php'),
+(19, 'http://threestay.cloudapp.net/index.php/', 'http://threestay.cloudapp.net/index.php/admin/system_config/edit/section/system/key/776355df0131fe1858fb38675f9cbaa0/'),
+(20, 'http://threestay.cloudapp.net/index.php/', 'http://threestay.cloudapp.net/index.php/admin/system_config/edit/section/system/key/776355df0131fe1858fb38675f9cbaa0/'),
+(21, 'http://threestay.cloudapp.net/index.php/customer/account/create', 'http://threestay.cloudapp.net/index.php/customer/account/login/referer/aHR0cDovLzEyNy4wLjAuMTo4MC9tYWdlbnRvL2luZGV4LnBocC8,/'),
+(22, 'http://threestay.cloudapp.net/index.php/customer/account/createpost/', 'http://threestay.cloudapp.net/index.php/customer/account/create'),
+(23, 'http://threestay.cloudapp.net/index.php/customer/account/index/', 'http://threestay.cloudapp.net/index.php/customer/account/create'),
+(24, 'http://threestay.cloudapp.net/index.php/', 'http://threestay.cloudapp.net/index.php/customer/account/index/'),
+(25, 'http://threestay.cloudapp.net/index.php/booking/property/form', 'http://threestay.cloudapp.net/index.php/');
 
 -- --------------------------------------------------------
 
@@ -7261,7 +7363,7 @@ CREATE TABLE IF NOT EXISTS `log_visitor` (
   `last_url_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Last URL ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   PRIMARY KEY (`visitor_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table' AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `log_visitor`
@@ -7271,7 +7373,15 @@ INSERT INTO `log_visitor` (`visitor_id`, `session_id`, `first_visit_at`, `last_v
 (1, '56k7ru4aonhp7h2i72d5c2k7b6', '2013-09-29 23:39:55', '2013-09-29 23:39:55', 0, 1),
 (2, '56k7ru4aonhp7h2i72d5c2k7b6', '2013-09-29 23:47:30', '2013-09-30 00:39:15', 8, 1),
 (3, '3m1jqvqet1m13ftl44h7pm4gi5', '2013-09-30 07:22:58', '2013-09-30 07:23:05', 11, 1),
-(4, 'hjmfjqogk4aapupo7qmmc0c873', '2013-10-09 05:21:40', '2013-10-09 05:21:41', 12, 1);
+(4, 'hjmfjqogk4aapupo7qmmc0c873', '2013-10-09 05:21:40', '2013-10-09 05:21:41', 12, 1),
+(5, '64123tnqko3uard6fcho6bejp3', '2013-10-09 06:59:04', '2013-10-09 07:02:28', 15, 1),
+(6, 'if50q29eqsdf2ib683hj1qqlp1', '2013-10-13 23:25:14', '2013-10-13 23:25:18', 16, 1),
+(7, '58vcjq3mm11bjen1asnm8kqmc0', '2013-10-15 01:46:43', '2013-10-15 01:46:43', 0, 1),
+(8, '58vcjq3mm11bjen1asnm8kqmc0', '2013-10-15 01:47:04', '2013-10-15 01:47:04', 0, 1),
+(9, '58vcjq3mm11bjen1asnm8kqmc0', '2013-10-15 02:03:48', '2013-10-15 02:03:48', 0, 1),
+(10, '58vcjq3mm11bjen1asnm8kqmc0', '2013-10-15 02:03:52', '2013-10-15 02:03:52', 0, 1),
+(11, '58vcjq3mm11bjen1asnm8kqmc0', '2013-10-15 02:06:06', '2013-10-15 02:06:06', 0, 1),
+(12, '7d7cnmmqumjp6a7fjftk7121v3', '2013-10-15 02:29:37', '2013-10-15 03:10:38', 25, 1);
 
 -- --------------------------------------------------------
 
@@ -7297,8 +7407,16 @@ CREATE TABLE IF NOT EXISTS `log_visitor_info` (
 INSERT INTO `log_visitor_info` (`visitor_id`, `http_referer`, `http_user_agent`, `http_accept_charset`, `http_accept_language`, `server_addr`, `remote_addr`) VALUES
 (1, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
 (2, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
-(3, 'http://threestay.cloudapp.net/magento/', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
-(4, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433);
+(3, 'http://threestay.cloudapp.net/', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(4, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(5, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(6, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(7, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(8, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(9, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(10, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(11, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433),
+(12, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36', NULL, 'en-US,en;q=0.8', 2130706433, 2130706433);
 
 -- --------------------------------------------------------
 
@@ -8136,6 +8254,157 @@ CREATE TABLE IF NOT EXISTS `review_store` (
   PRIMARY KEY (`review_id`,`store_id`),
   KEY `IDX_REVIEW_STORE_STORE_ID` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review Store';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule` (
+  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Id',
+  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `description` text COMMENT 'Description',
+  `from_date` date DEFAULT NULL,
+  `to_date` date DEFAULT NULL,
+  `uses_per_customer` int(11) NOT NULL DEFAULT '0' COMMENT 'Uses Per Customer',
+  `is_active` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Active',
+  `conditions_serialized` mediumtext COMMENT 'Conditions Serialized',
+  `actions_serialized` mediumtext COMMENT 'Actions Serialized',
+  `stop_rules_processing` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Stop Rules Processing',
+  `is_advanced` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Advanced',
+  `product_ids` text COMMENT 'Product Ids',
+  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
+  `simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action',
+  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
+  `discount_qty` decimal(12,4) DEFAULT NULL COMMENT 'Discount Qty',
+  `discount_step` int(10) unsigned NOT NULL COMMENT 'Discount Step',
+  `simple_free_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Simple Free Shipping',
+  `apply_to_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Apply To Shipping',
+  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
+  `is_rss` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Rss',
+  `coupon_type` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Coupon Type',
+  `use_auto_generation` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Use Auto Generation',
+  `uses_per_coupon` int(11) NOT NULL DEFAULT '0' COMMENT 'Uses Per Coupon',
+  PRIMARY KEY (`rule_id`),
+  KEY `IDX_SALESRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule_coupon`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule_coupon` (
+  `coupon_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Coupon Id',
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  `code` varchar(255) DEFAULT NULL COMMENT 'Code',
+  `usage_limit` int(10) unsigned DEFAULT NULL COMMENT 'Usage Limit',
+  `usage_per_customer` int(10) unsigned DEFAULT NULL COMMENT 'Usage Per Customer',
+  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
+  `expiration_date` timestamp NULL DEFAULT NULL COMMENT 'Expiration Date',
+  `is_primary` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Primary',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Coupon Code Creation Date',
+  `type` smallint(6) DEFAULT '0' COMMENT 'Coupon Code Type',
+  PRIMARY KEY (`coupon_id`),
+  UNIQUE KEY `UNQ_SALESRULE_COUPON_CODE` (`code`),
+  UNIQUE KEY `UNQ_SALESRULE_COUPON_RULE_ID_IS_PRIMARY` (`rule_id`,`is_primary`),
+  KEY `IDX_SALESRULE_COUPON_RULE_ID` (`rule_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule_coupon_usage`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule_coupon_usage` (
+  `coupon_id` int(10) unsigned NOT NULL COMMENT 'Coupon Id',
+  `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
+  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
+  PRIMARY KEY (`coupon_id`,`customer_id`),
+  KEY `IDX_SALESRULE_COUPON_USAGE_COUPON_ID` (`coupon_id`),
+  KEY `IDX_SALESRULE_COUPON_USAGE_CUSTOMER_ID` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon Usage';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule_customer`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule_customer` (
+  `rule_customer_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Customer Id',
+  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
+  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Id',
+  `times_used` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
+  PRIMARY KEY (`rule_customer_id`),
+  KEY `IDX_SALESRULE_CUSTOMER_RULE_ID_CUSTOMER_ID` (`rule_id`,`customer_id`),
+  KEY `IDX_SALESRULE_CUSTOMER_CUSTOMER_ID_RULE_ID` (`customer_id`,`rule_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Customer' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule_customer_group`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule_customer_group` (
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
+  PRIMARY KEY (`rule_id`,`customer_group_id`),
+  KEY `IDX_SALESRULE_CUSTOMER_GROUP_RULE_ID` (`rule_id`),
+  KEY `IDX_SALESRULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID` (`customer_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Customer Groups Relations';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule_label`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule_label` (
+  `label_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Label Id',
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
+  `label` varchar(255) DEFAULT NULL COMMENT 'Label',
+  PRIMARY KEY (`label_id`),
+  UNIQUE KEY `UNQ_SALESRULE_LABEL_RULE_ID_STORE_ID` (`rule_id`,`store_id`),
+  KEY `IDX_SALESRULE_LABEL_STORE_ID` (`store_id`),
+  KEY `IDX_SALESRULE_LABEL_RULE_ID` (`rule_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Label' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule_product_attribute`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule_product_attribute` (
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
+  PRIMARY KEY (`rule_id`,`website_id`,`customer_group_id`,`attribute_id`),
+  KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_WEBSITE_ID` (`website_id`),
+  KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_CUSTOMER_GROUP_ID` (`customer_group_id`),
+  KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Product Attribute';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesrule_website`
+--
+
+CREATE TABLE IF NOT EXISTS `salesrule_website` (
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  PRIMARY KEY (`rule_id`,`website_id`),
+  KEY `IDX_SALESRULE_WEBSITE_RULE_ID` (`rule_id`),
+  KEY `IDX_SALESRULE_WEBSITE_WEBSITE_ID` (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Websites Relations';
 
 -- --------------------------------------------------------
 
@@ -9031,7 +9300,14 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote` (
   PRIMARY KEY (`entity_id`),
   KEY `IDX_SALES_FLAT_QUOTE_CUSTOMER_ID_STORE_ID_IS_ACTIVE` (`customer_id`,`store_id`,`is_active`),
   KEY `IDX_SALES_FLAT_QUOTE_STORE_ID` (`store_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `sales_flat_quote`
+--
+
+INSERT INTO `sales_flat_quote` (`entity_id`, `store_id`, `created_at`, `updated_at`, `converted_at`, `is_active`, `is_virtual`, `is_multi_shipping`, `items_count`, `items_qty`, `orig_order_id`, `store_to_base_rate`, `store_to_quote_rate`, `base_currency_code`, `store_currency_code`, `quote_currency_code`, `grand_total`, `base_grand_total`, `checkout_method`, `customer_id`, `customer_tax_class_id`, `customer_group_id`, `customer_email`, `customer_prefix`, `customer_firstname`, `customer_middlename`, `customer_lastname`, `customer_suffix`, `customer_dob`, `customer_note`, `customer_note_notify`, `customer_is_guest`, `remote_ip`, `applied_rule_ids`, `reserved_order_id`, `password_hash`, `coupon_code`, `global_currency_code`, `base_to_global_rate`, `base_to_quote_rate`, `customer_taxvat`, `customer_gender`, `subtotal`, `base_subtotal`, `subtotal_with_discount`, `base_subtotal_with_discount`, `is_changed`, `trigger_recollect`, `ext_shipping_info`, `gift_message_id`, `is_persistent`) VALUES
+(1, 1, '2013-10-15 03:09:18', '2013-10-15 03:09:18', NULL, 1, 0, 0, 0, '0.0000', 0, '1.0000', '1.0000', 'USD', 'USD', 'USD', '0.0000', '0.0000', NULL, 1, 3, 1, 'sasham@gmail.com', NULL, 'Sasha', NULL, 'M', NULL, NULL, NULL, 1, 0, '127.0.0.1', NULL, NULL, NULL, NULL, 'USD', '1.0000', '1.0000', NULL, NULL, '0.0000', '0.0000', '0.0000', '0.0000', 1, 0, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -9106,7 +9382,15 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_address` (
   `base_fee_amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`address_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ADDRESS_QUOTE_ID` (`quote_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address' AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `sales_flat_quote_address`
+--
+
+INSERT INTO `sales_flat_quote_address` (`address_id`, `quote_id`, `created_at`, `updated_at`, `customer_id`, `save_in_address_book`, `customer_address_id`, `address_type`, `email`, `prefix`, `firstname`, `middlename`, `lastname`, `suffix`, `company`, `street`, `city`, `region`, `region_id`, `postcode`, `country_id`, `telephone`, `fax`, `same_as_billing`, `free_shipping`, `collect_shipping_rates`, `shipping_method`, `shipping_description`, `weight`, `subtotal`, `base_subtotal`, `subtotal_with_discount`, `base_subtotal_with_discount`, `tax_amount`, `base_tax_amount`, `shipping_amount`, `base_shipping_amount`, `shipping_tax_amount`, `base_shipping_tax_amount`, `discount_amount`, `base_discount_amount`, `grand_total`, `base_grand_total`, `customer_notes`, `applied_taxes`, `discount_description`, `shipping_discount_amount`, `base_shipping_discount_amount`, `subtotal_incl_tax`, `base_subtotal_total_incl_tax`, `hidden_tax_amount`, `base_hidden_tax_amount`, `shipping_hidden_tax_amount`, `base_shipping_hidden_tax_amnt`, `shipping_incl_tax`, `base_shipping_incl_tax`, `vat_id`, `vat_is_valid`, `vat_request_id`, `vat_request_date`, `vat_request_success`, `gift_message_id`, `fee_amount`, `base_fee_amount`) VALUES
+(1, 1, '2013-10-15 03:09:19', '2013-10-15 03:09:19', 1, 0, NULL, 'billing', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', NULL, 'a:0:{}', NULL, NULL, NULL, '0.0000', NULL, NULL, NULL, NULL, NULL, '0.0000', '0.0000', NULL, NULL, NULL, NULL, NULL, NULL, '0.00', '0.00'),
+(2, 1, '2013-10-15 03:09:19', '2013-10-15 03:09:19', 1, 0, NULL, 'shipping', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 0, NULL, NULL, '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', NULL, 'a:0:{}', NULL, NULL, NULL, '0.0000', NULL, NULL, NULL, NULL, NULL, '0.0000', '0.0000', NULL, NULL, NULL, NULL, NULL, NULL, '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -9811,157 +10095,6 @@ CREATE TABLE IF NOT EXISTS `sales_shipping_aggregated_order` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `salesrule`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Id',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
-  `description` text COMMENT 'Description',
-  `from_date` date DEFAULT NULL,
-  `to_date` date DEFAULT NULL,
-  `uses_per_customer` int(11) NOT NULL DEFAULT '0' COMMENT 'Uses Per Customer',
-  `is_active` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Active',
-  `conditions_serialized` mediumtext COMMENT 'Conditions Serialized',
-  `actions_serialized` mediumtext COMMENT 'Actions Serialized',
-  `stop_rules_processing` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Stop Rules Processing',
-  `is_advanced` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Advanced',
-  `product_ids` text COMMENT 'Product Ids',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `discount_qty` decimal(12,4) DEFAULT NULL COMMENT 'Discount Qty',
-  `discount_step` int(10) unsigned NOT NULL COMMENT 'Discount Step',
-  `simple_free_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Simple Free Shipping',
-  `apply_to_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Apply To Shipping',
-  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  `is_rss` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Rss',
-  `coupon_type` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Coupon Type',
-  `use_auto_generation` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Use Auto Generation',
-  `uses_per_coupon` int(11) NOT NULL DEFAULT '0' COMMENT 'Uses Per Coupon',
-  PRIMARY KEY (`rule_id`),
-  KEY `IDX_SALESRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salesrule_coupon`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule_coupon` (
-  `coupon_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Coupon Id',
-  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `code` varchar(255) DEFAULT NULL COMMENT 'Code',
-  `usage_limit` int(10) unsigned DEFAULT NULL COMMENT 'Usage Limit',
-  `usage_per_customer` int(10) unsigned DEFAULT NULL COMMENT 'Usage Per Customer',
-  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  `expiration_date` timestamp NULL DEFAULT NULL COMMENT 'Expiration Date',
-  `is_primary` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Primary',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Coupon Code Creation Date',
-  `type` smallint(6) DEFAULT '0' COMMENT 'Coupon Code Type',
-  PRIMARY KEY (`coupon_id`),
-  UNIQUE KEY `UNQ_SALESRULE_COUPON_CODE` (`code`),
-  UNIQUE KEY `UNQ_SALESRULE_COUPON_RULE_ID_IS_PRIMARY` (`rule_id`,`is_primary`),
-  KEY `IDX_SALESRULE_COUPON_RULE_ID` (`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salesrule_coupon_usage`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule_coupon_usage` (
-  `coupon_id` int(10) unsigned NOT NULL COMMENT 'Coupon Id',
-  `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
-  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  PRIMARY KEY (`coupon_id`,`customer_id`),
-  KEY `IDX_SALESRULE_COUPON_USAGE_COUPON_ID` (`coupon_id`),
-  KEY `IDX_SALESRULE_COUPON_USAGE_CUSTOMER_ID` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon Usage';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salesrule_customer`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule_customer` (
-  `rule_customer_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Customer Id',
-  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
-  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Id',
-  `times_used` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  PRIMARY KEY (`rule_customer_id`),
-  KEY `IDX_SALESRULE_CUSTOMER_RULE_ID_CUSTOMER_ID` (`rule_id`,`customer_id`),
-  KEY `IDX_SALESRULE_CUSTOMER_CUSTOMER_ID_RULE_ID` (`customer_id`,`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Customer' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salesrule_customer_group`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule_customer_group` (
-  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
-  PRIMARY KEY (`rule_id`,`customer_group_id`),
-  KEY `IDX_SALESRULE_CUSTOMER_GROUP_RULE_ID` (`rule_id`),
-  KEY `IDX_SALESRULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID` (`customer_group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Customer Groups Relations';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salesrule_label`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule_label` (
-  `label_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Label Id',
-  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  `label` varchar(255) DEFAULT NULL COMMENT 'Label',
-  PRIMARY KEY (`label_id`),
-  UNIQUE KEY `UNQ_SALESRULE_LABEL_RULE_ID_STORE_ID` (`rule_id`,`store_id`),
-  KEY `IDX_SALESRULE_LABEL_STORE_ID` (`store_id`),
-  KEY `IDX_SALESRULE_LABEL_RULE_ID` (`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Label' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salesrule_product_attribute`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule_product_attribute` (
-  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
-  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
-  PRIMARY KEY (`rule_id`,`website_id`,`customer_group_id`,`attribute_id`),
-  KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_WEBSITE_ID` (`website_id`),
-  KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_CUSTOMER_GROUP_ID` (`customer_group_id`),
-  KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Product Attribute';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salesrule_website`
---
-
-CREATE TABLE IF NOT EXISTS `salesrule_website` (
-  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  PRIMARY KEY (`rule_id`,`website_id`),
-  KEY `IDX_SALESRULE_WEBSITE_RULE_ID` (`rule_id`),
-  KEY `IDX_SALESRULE_WEBSITE_WEBSITE_ID` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Websites Relations';
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `sendfriend_log`
 --
 
@@ -10011,6 +10144,23 @@ CREATE TABLE IF NOT EXISTS `sitemap` (
   PRIMARY KEY (`sitemap_id`),
   KEY `IDX_SITEMAP_STORE_ID` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Sitemap' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `smtppro_email_log`
+--
+
+CREATE TABLE IF NOT EXISTS `smtppro_email_log` (
+  `email_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `log_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `to` varchar(255) NOT NULL DEFAULT '',
+  `template` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `email_body` text,
+  PRIMARY KEY (`email_id`),
+  KEY `log_at` (`log_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -10549,51 +10699,118 @@ ALTER TABLE `api_session`
   ADD CONSTRAINT `FK_API_SESSION_USER_ID_API_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `api_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `cataloginventory_stock_item`
+--
+ALTER TABLE `cataloginventory_stock_item`
+  ADD CONSTRAINT `FK_CATINV_STOCK_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATINV_STOCK_ITEM_STOCK_ID_CATINV_STOCK_STOCK_ID` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `cataloginventory_stock_status`
+--
+ALTER TABLE `cataloginventory_stock_status`
+  ADD CONSTRAINT `FK_CATINV_STOCK_STS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATINV_STOCK_STS_STOCK_ID_CATINV_STOCK_STOCK_ID` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATINV_STOCK_STS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `catalogrule_customer_group`
+--
+ALTER TABLE `catalogrule_customer_group`
+  ADD CONSTRAINT `FK_CATALOGRULE_CUSTOMER_GROUP_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `catalogrule_group_website`
+--
+ALTER TABLE `catalogrule_group_website`
+  ADD CONSTRAINT `FK_CATALOGRULE_GROUP_WEBSITE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATALOGRULE_GROUP_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATRULE_GROUP_WS_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `catalogrule_product`
+--
+ALTER TABLE `catalogrule_product`
+  ADD CONSTRAINT `FK_CATALOGRULE_PRODUCT_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATALOGRULE_PRODUCT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATRULE_PRD_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATRULE_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `catalogrule_product_price`
+--
+ALTER TABLE `catalogrule_product_price`
+  ADD CONSTRAINT `FK_CATALOGRULE_PRODUCT_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATRULE_PRD_PRICE_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATRULE_PRD_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `catalogrule_website`
+--
+ALTER TABLE `catalogrule_website`
+  ADD CONSTRAINT `FK_CATALOGRULE_WEBSITE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATALOGRULE_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `catalogsearch_query`
+--
+ALTER TABLE `catalogsearch_query`
+  ADD CONSTRAINT `FK_CATALOGSEARCH_QUERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `catalogsearch_result`
+--
+ALTER TABLE `catalogsearch_result`
+  ADD CONSTRAINT `FK_CATALOGSEARCH_RESULT_QUERY_ID_CATALOGSEARCH_QUERY_QUERY_ID` FOREIGN KEY (`query_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CATSRCH_RESULT_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `catalog_category_entity_datetime`
 --
 ALTER TABLE `catalog_category_entity_datetime`
+  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_CTGR_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_DTIME_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_DTIME_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_category_entity_decimal`
 --
 ALTER TABLE `catalog_category_entity_decimal`
+  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_CTGR_ENTT_DEC_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_DEC_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_DEC_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_category_entity_int`
 --
 ALTER TABLE `catalog_category_entity_int`
+  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_CTGR_ENTT_INT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_INT_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_INT_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_category_entity_text`
 --
 ALTER TABLE `catalog_category_entity_text`
+  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_category_entity_varchar`
 --
 ALTER TABLE `catalog_category_entity_varchar`
+  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_category_flat_store_1`
 --
 ALTER TABLE `catalog_category_flat_store_1`
-  ADD CONSTRAINT `FK_CAT_CTGR_FLAT_STORE_1_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_CATEGORY_FLAT_STORE_1_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CATALOG_CATEGORY_FLAT_STORE_1_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_CTGR_FLAT_STORE_1_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_category_product`
@@ -10615,8 +10832,8 @@ ALTER TABLE `catalog_category_product_index`
 --
 ALTER TABLE `catalog_compare_item`
   ADD CONSTRAINT `FK_CATALOG_COMPARE_ITEM_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_CMP_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_COMPARE_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CATALOG_COMPARE_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_CMP_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_eav_attribute`
@@ -10662,8 +10879,8 @@ ALTER TABLE `catalog_product_bundle_selection_price`
 -- Constraints for table `catalog_product_enabled_index`
 --
 ALTER TABLE `catalog_product_enabled_index`
-  ADD CONSTRAINT `FK_CAT_PRD_ENABLED_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENABLED_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENABLED_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_PRD_ENABLED_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity`
@@ -10676,41 +10893,41 @@ ALTER TABLE `catalog_product_entity`
 -- Constraints for table `catalog_product_entity_datetime`
 --
 ALTER TABLE `catalog_product_entity_datetime`
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_DTIME_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_DTIME_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity_decimal`
 --
 ALTER TABLE `catalog_product_entity_decimal`
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_ENTT_DEC_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_DEC_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_DEC_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity_gallery`
 --
 ALTER TABLE `catalog_product_entity_gallery`
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_GALLERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_ENTT_GLR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_GLR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_GALLERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_GLR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity_group_price`
 --
 ALTER TABLE `catalog_product_entity_group_price`
-  ADD CONSTRAINT `FK_DF909D22C11B60B1E5E3EE64AB220ECE` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_ENTT_GROUP_PRICE_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_GROUP_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_GROUP_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_DF909D22C11B60B1E5E3EE64AB220ECE` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity_int`
 --
 ALTER TABLE `catalog_product_entity_int`
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_ENTT_INT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_INT_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_INT_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity_media_gallery`
@@ -10723,16 +10940,16 @@ ALTER TABLE `catalog_product_entity_media_gallery`
 -- Constraints for table `catalog_product_entity_media_gallery_value`
 --
 ALTER TABLE `catalog_product_entity_media_gallery_value`
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_VAL_ID_CAT_PRD_ENTT_MDA_GLR_VAL_ID` FOREIGN KEY (`value_id`) REFERENCES `catalog_product_entity_media_gallery` (`value_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_VAL_ID_CAT_PRD_ENTT_MDA_GLR_VAL_ID` FOREIGN KEY (`value_id`) REFERENCES `catalog_product_entity_media_gallery` (`value_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity_text`
 --
 ALTER TABLE `catalog_product_entity_text`
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_TEXT_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_TEXT_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_entity_tier_price`
@@ -10746,9 +10963,9 @@ ALTER TABLE `catalog_product_entity_tier_price`
 -- Constraints for table `catalog_product_entity_varchar`
 --
 ALTER TABLE `catalog_product_entity_varchar`
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_ENTT_VCHR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_ENTT_VCHR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_flat_1`
@@ -10760,9 +10977,9 @@ ALTER TABLE `catalog_product_flat_1`
 -- Constraints for table `catalog_product_index_eav`
 --
 ALTER TABLE `catalog_product_index_eav`
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_INDEX_EAV_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CAT_PRD_IDX_EAV_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_IDX_EAV_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_INDEX_EAV_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_IDX_EAV_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_index_eav_decimal`
@@ -10807,8 +11024,8 @@ ALTER TABLE `catalog_product_index_website`
 --
 ALTER TABLE `catalog_product_link`
   ADD CONSTRAINT `FK_CAT_PRD_LNK_LNKED_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`linked_product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_LNK_LNK_TYPE_ID_CAT_PRD_LNK_TYPE_LNK_TYPE_ID` FOREIGN KEY (`link_type_id`) REFERENCES `catalog_product_link_type` (`link_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_LNK_LNK_TYPE_ID_CAT_PRD_LNK_TYPE_LNK_TYPE_ID` FOREIGN KEY (`link_type_id`) REFERENCES `catalog_product_link_type` (`link_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_PRD_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_link_attribute`
@@ -10820,15 +11037,15 @@ ALTER TABLE `catalog_product_link_attribute`
 -- Constraints for table `catalog_product_link_attribute_decimal`
 --
 ALTER TABLE `catalog_product_link_attribute_decimal`
-  ADD CONSTRAINT `FK_CAT_PRD_LNK_ATTR_DEC_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_AB2EFA9A14F7BCF1D5400056203D14B6` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_AB2EFA9A14F7BCF1D5400056203D14B6` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_PRD_LNK_ATTR_DEC_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_link_attribute_int`
 --
 ALTER TABLE `catalog_product_link_attribute_int`
-  ADD CONSTRAINT `FK_D6D878F8BA2A4282F8DDED7E6E3DE35C` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_LNK_ATTR_INT_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_LNK_ATTR_INT_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_D6D878F8BA2A4282F8DDED7E6E3DE35C` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_link_attribute_varchar`
@@ -10847,15 +11064,15 @@ ALTER TABLE `catalog_product_option`
 -- Constraints for table `catalog_product_option_price`
 --
 ALTER TABLE `catalog_product_option_price`
-  ADD CONSTRAINT `FK_CAT_PRD_OPT_PRICE_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_PRICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_PRICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_PRD_OPT_PRICE_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_option_title`
 --
 ALTER TABLE `catalog_product_option_title`
-  ADD CONSTRAINT `FK_CAT_PRD_OPT_TTL_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_PRD_OPT_TTL_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_option_type_price`
@@ -10908,8 +11125,8 @@ ALTER TABLE `catalog_product_super_attribute_pricing`
 -- Constraints for table `catalog_product_super_link`
 --
 ALTER TABLE `catalog_product_super_link`
-  ADD CONSTRAINT `FK_CAT_PRD_SPR_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CAT_PRD_SPR_LNK_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CAT_PRD_SPR_LNK_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CAT_PRD_SPR_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `catalog_product_website`
@@ -10919,78 +11136,11 @@ ALTER TABLE `catalog_product_website`
   ADD CONSTRAINT `FK_CAT_PRD_WS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `cataloginventory_stock_item`
---
-ALTER TABLE `cataloginventory_stock_item`
-  ADD CONSTRAINT `FK_CATINV_STOCK_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATINV_STOCK_ITEM_STOCK_ID_CATINV_STOCK_STOCK_ID` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `cataloginventory_stock_status`
---
-ALTER TABLE `cataloginventory_stock_status`
-  ADD CONSTRAINT `FK_CATINV_STOCK_STS_STOCK_ID_CATINV_STOCK_STOCK_ID` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATINV_STOCK_STS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATINV_STOCK_STS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `catalogrule_customer_group`
---
-ALTER TABLE `catalogrule_customer_group`
-  ADD CONSTRAINT `FK_CATALOGRULE_CUSTOMER_GROUP_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `catalogrule_group_website`
---
-ALTER TABLE `catalogrule_group_website`
-  ADD CONSTRAINT `FK_CATRULE_GROUP_WS_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOGRULE_GROUP_WEBSITE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOGRULE_GROUP_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `catalogrule_product`
---
-ALTER TABLE `catalogrule_product`
-  ADD CONSTRAINT `FK_CATALOGRULE_PRODUCT_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOGRULE_PRODUCT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATRULE_PRD_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATRULE_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `catalogrule_product_price`
---
-ALTER TABLE `catalogrule_product_price`
-  ADD CONSTRAINT `FK_CATRULE_PRD_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATRULE_PRD_PRICE_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOGRULE_PRODUCT_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `catalogrule_website`
---
-ALTER TABLE `catalogrule_website`
-  ADD CONSTRAINT `FK_CATALOGRULE_WEBSITE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATALOGRULE_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `catalogsearch_query`
---
-ALTER TABLE `catalogsearch_query`
-  ADD CONSTRAINT `FK_CATALOGSEARCH_QUERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `catalogsearch_result`
---
-ALTER TABLE `catalogsearch_result`
-  ADD CONSTRAINT `FK_CATALOGSEARCH_RESULT_QUERY_ID_CATALOGSEARCH_QUERY_QUERY_ID` FOREIGN KEY (`query_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CATSRCH_RESULT_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `checkout_agreement_store`
 --
 ALTER TABLE `checkout_agreement_store`
-  ADD CONSTRAINT `FK_CHKT_AGRT_STORE_AGRT_ID_CHKT_AGRT_AGRT_ID` FOREIGN KEY (`agreement_id`) REFERENCES `checkout_agreement` (`agreement_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CHECKOUT_AGREEMENT_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CHECKOUT_AGREEMENT_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CHKT_AGRT_STORE_AGRT_ID_CHKT_AGRT_AGRT_ID` FOREIGN KEY (`agreement_id`) REFERENCES `checkout_agreement` (`agreement_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cms_block_store`
@@ -11036,8 +11186,8 @@ ALTER TABLE `core_translate`
 -- Constraints for table `core_url_rewrite`
 --
 ALTER TABLE `core_url_rewrite`
-  ADD CONSTRAINT `FK_CORE_URL_REWRITE_PRODUCT_ID_CATALOG_CATEGORY_ENTITY_ENTITY_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CORE_URL_REWRITE_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`category_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CORE_URL_REWRITE_PRODUCT_ID_CATALOG_CATEGORY_ENTITY_ENTITY_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CORE_URL_REWRITE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -11136,40 +11286,40 @@ ALTER TABLE `customer_entity`
 --
 ALTER TABLE `customer_entity_datetime`
   ADD CONSTRAINT `FK_CSTR_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_DATETIME_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CSTR_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CSTR_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_DATETIME_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `customer_entity_decimal`
 --
 ALTER TABLE `customer_entity_decimal`
   ADD CONSTRAINT `FK_CSTR_ENTT_DEC_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_DECIMAL_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CSTR_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CSTR_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_DECIMAL_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `customer_entity_int`
 --
 ALTER TABLE `customer_entity_int`
+  ADD CONSTRAINT `FK_CSTR_ENTT_INT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CUSTOMER_ENTITY_INT_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_INT_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CSTR_ENTT_INT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_INT_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `customer_entity_text`
 --
 ALTER TABLE `customer_entity_text`
+  ADD CONSTRAINT `FK_CSTR_ENTT_TEXT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_CUSTOMER_ENTITY_TEXT_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_TEXT_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CSTR_ENTT_TEXT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_TEXT_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `customer_entity_varchar`
 --
 ALTER TABLE `customer_entity_varchar`
   ADD CONSTRAINT `FK_CSTR_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_VARCHAR_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_CSTR_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_CSTR_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CUSTOMER_ENTITY_VARCHAR_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `customer_form_attribute`
@@ -11296,8 +11446,8 @@ ALTER TABLE `eav_attribute_option`
 -- Constraints for table `eav_attribute_option_value`
 --
 ALTER TABLE `eav_attribute_option_value`
-  ADD CONSTRAINT `FK_EAV_ATTR_OPT_VAL_OPT_ID_EAV_ATTR_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `eav_attribute_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_EAV_ATTR_OPT_VAL_OPT_ID_EAV_ATTR_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `eav_attribute_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `eav_attribute_set`
@@ -11324,16 +11474,16 @@ ALTER TABLE `eav_entity_attribute`
 --
 ALTER TABLE `eav_entity_datetime`
   ADD CONSTRAINT `FK_EAV_ENTITY_DATETIME_ENTITY_ID_EAV_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `eav_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_EAV_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_EAV_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `eav_entity_decimal`
 --
 ALTER TABLE `eav_entity_decimal`
   ADD CONSTRAINT `FK_EAV_ENTITY_DECIMAL_ENTITY_ID_EAV_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `eav_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_EAV_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_EAV_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `eav_entity_int`
@@ -11347,8 +11497,8 @@ ALTER TABLE `eav_entity_int`
 -- Constraints for table `eav_entity_store`
 --
 ALTER TABLE `eav_entity_store`
-  ADD CONSTRAINT `FK_EAV_ENTT_STORE_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ENTITY_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_EAV_ENTITY_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_EAV_ENTT_STORE_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `eav_entity_text`
@@ -11363,8 +11513,8 @@ ALTER TABLE `eav_entity_text`
 --
 ALTER TABLE `eav_entity_varchar`
   ADD CONSTRAINT `FK_EAV_ENTITY_VARCHAR_ENTITY_ID_EAV_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `eav_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_EAV_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_EAV_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `eav_form_element`
@@ -11384,8 +11534,8 @@ ALTER TABLE `eav_form_fieldset`
 -- Constraints for table `eav_form_fieldset_label`
 --
 ALTER TABLE `eav_form_fieldset_label`
-  ADD CONSTRAINT `FK_EAV_FORM_FSET_LBL_FSET_ID_EAV_FORM_FSET_FSET_ID` FOREIGN KEY (`fieldset_id`) REFERENCES `eav_form_fieldset` (`fieldset_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_FORM_FIELDSET_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_EAV_FORM_FIELDSET_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_EAV_FORM_FSET_LBL_FSET_ID_EAV_FORM_FSET_FSET_ID` FOREIGN KEY (`fieldset_id`) REFERENCES `eav_form_fieldset` (`fieldset_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `eav_form_type`
@@ -11397,8 +11547,8 @@ ALTER TABLE `eav_form_type`
 -- Constraints for table `eav_form_type_entity`
 --
 ALTER TABLE `eav_form_type_entity`
-  ADD CONSTRAINT `FK_EAV_FORM_TYPE_ENTT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_EAV_FORM_TYPE_ENTITY_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_EAV_FORM_TYPE_ENTITY_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_EAV_FORM_TYPE_ENTT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `index_process_event`
@@ -11431,8 +11581,8 @@ ALTER TABLE `newsletter_queue_link`
 -- Constraints for table `newsletter_queue_store_link`
 --
 ALTER TABLE `newsletter_queue_store_link`
-  ADD CONSTRAINT `FK_NLTTR_QUEUE_STORE_LNK_QUEUE_ID_NLTTR_QUEUE_QUEUE_ID` FOREIGN KEY (`queue_id`) REFERENCES `newsletter_queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_NEWSLETTER_QUEUE_STORE_LINK_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_NEWSLETTER_QUEUE_STORE_LINK_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_NLTTR_QUEUE_STORE_LNK_QUEUE_ID_NLTTR_QUEUE_QUEUE_ID` FOREIGN KEY (`queue_id`) REFERENCES `newsletter_queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `newsletter_subscriber`
@@ -11496,17 +11646,17 @@ ALTER TABLE `poll_vote`
 -- Constraints for table `product_alert_price`
 --
 ALTER TABLE `product_alert_price`
-  ADD CONSTRAINT `FK_PRODUCT_ALERT_PRICE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_PRD_ALERT_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_PRODUCT_ALERT_PRICE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_PRODUCT_ALERT_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product_alert_stock`
 --
 ALTER TABLE `product_alert_stock`
-  ADD CONSTRAINT `FK_PRODUCT_ALERT_STOCK_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_PRD_ALERT_STOCK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_PRODUCT_ALERT_STOCK_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_PRD_ALERT_STOCK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_PRODUCT_ALERT_STOCK_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rating`
@@ -11524,8 +11674,8 @@ ALTER TABLE `rating_option`
 -- Constraints for table `rating_option_vote`
 --
 ALTER TABLE `rating_option_vote`
-  ADD CONSTRAINT `FK_RATING_OPTION_VOTE_REVIEW_ID_REVIEW_REVIEW_ID` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_RATING_OPTION_VOTE_OPTION_ID_RATING_OPTION_OPTION_ID` FOREIGN KEY (`option_id`) REFERENCES `rating_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_RATING_OPTION_VOTE_OPTION_ID_RATING_OPTION_OPTION_ID` FOREIGN KEY (`option_id`) REFERENCES `rating_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_RATING_OPTION_VOTE_REVIEW_ID_REVIEW_REVIEW_ID` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rating_option_vote_aggregated`
@@ -11538,8 +11688,8 @@ ALTER TABLE `rating_option_vote_aggregated`
 -- Constraints for table `rating_store`
 --
 ALTER TABLE `rating_store`
-  ADD CONSTRAINT `FK_RATING_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_RATING_STORE_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_RATING_STORE_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_RATING_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rating_title`
@@ -11560,29 +11710,29 @@ ALTER TABLE `report_compared_product_index`
 -- Constraints for table `report_event`
 --
 ALTER TABLE `report_event`
-  ADD CONSTRAINT `FK_REPORT_EVENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_REPORT_EVENT_EVENT_TYPE_ID_REPORT_EVENT_TYPES_EVENT_TYPE_ID` FOREIGN KEY (`event_type_id`) REFERENCES `report_event_types` (`event_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_REPORT_EVENT_EVENT_TYPE_ID_REPORT_EVENT_TYPES_EVENT_TYPE_ID` FOREIGN KEY (`event_type_id`) REFERENCES `report_event_types` (`event_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_REPORT_EVENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `report_viewed_product_aggregated_daily`
 --
 ALTER TABLE `report_viewed_product_aggregated_daily`
-  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_DAILY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_DAILY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `report_viewed_product_aggregated_monthly`
 --
 ALTER TABLE `report_viewed_product_aggregated_monthly`
-  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_MONTHLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_MONTHLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `report_viewed_product_aggregated_yearly`
 --
 ALTER TABLE `report_viewed_product_aggregated_yearly`
-  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_YEARLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_YEARLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `report_viewed_product_index`
@@ -11621,25 +11771,75 @@ ALTER TABLE `review_store`
   ADD CONSTRAINT `FK_REVIEW_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `salesrule_coupon`
+--
+ALTER TABLE `salesrule_coupon`
+  ADD CONSTRAINT `FK_SALESRULE_COUPON_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `salesrule_coupon_usage`
+--
+ALTER TABLE `salesrule_coupon_usage`
+  ADD CONSTRAINT `FK_SALESRULE_COUPON_USAGE_COUPON_ID_SALESRULE_COUPON_COUPON_ID` FOREIGN KEY (`coupon_id`) REFERENCES `salesrule_coupon` (`coupon_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALESRULE_COUPON_USAGE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `salesrule_customer`
+--
+ALTER TABLE `salesrule_customer`
+  ADD CONSTRAINT `FK_SALESRULE_CUSTOMER_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALESRULE_CUSTOMER_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `salesrule_customer_group`
+--
+ALTER TABLE `salesrule_customer_group`
+  ADD CONSTRAINT `FK_SALESRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALESRULE_CUSTOMER_GROUP_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `salesrule_label`
+--
+ALTER TABLE `salesrule_label`
+  ADD CONSTRAINT `FK_SALESRULE_LABEL_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALESRULE_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `salesrule_product_attribute`
+--
+ALTER TABLE `salesrule_product_attribute`
+  ADD CONSTRAINT `FK_SALESRULE_PRD_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_SALESRULE_PRD_ATTR_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_SALESRULE_PRD_ATTR_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_SALESRULE_PRODUCT_ATTRIBUTE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `salesrule_website`
+--
+ALTER TABLE `salesrule_website`
+  ADD CONSTRAINT `FK_SALESRULE_WEBSITE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALESRULE_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `sales_bestsellers_aggregated_daily`
 --
 ALTER TABLE `sales_bestsellers_aggregated_daily`
-  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_DAILY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_DAILY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sales_bestsellers_aggregated_monthly`
 --
 ALTER TABLE `sales_bestsellers_aggregated_monthly`
-  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_MONTHLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_MONTHLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sales_bestsellers_aggregated_yearly`
 --
 ALTER TABLE `sales_bestsellers_aggregated_yearly`
-  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_YEARLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_YEARLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sales_billing_agreement`
@@ -11874,9 +12074,9 @@ ALTER TABLE `sales_order_tax_item`
 -- Constraints for table `sales_payment_transaction`
 --
 ALTER TABLE `sales_payment_transaction`
-  ADD CONSTRAINT `FK_SALES_PAYMENT_TRANSACTION_ORDER_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_B99FF1A06402D725EBDB0F3A7ECD47A2` FOREIGN KEY (`parent_id`) REFERENCES `sales_payment_transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_DA51A10B2405B64A4DAEF77A64F0DAAD` FOREIGN KEY (`payment_id`) REFERENCES `sales_flat_order_payment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_DA51A10B2405B64A4DAEF77A64F0DAAD` FOREIGN KEY (`payment_id`) REFERENCES `sales_flat_order_payment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SALES_PAYMENT_TRANSACTION_ORDER_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sales_recurring_profile`
@@ -11915,56 +12115,6 @@ ALTER TABLE `sales_shipping_aggregated`
 --
 ALTER TABLE `sales_shipping_aggregated_order`
   ADD CONSTRAINT `FK_SALES_SHIPPING_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `salesrule_coupon`
---
-ALTER TABLE `salesrule_coupon`
-  ADD CONSTRAINT `FK_SALESRULE_COUPON_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `salesrule_coupon_usage`
---
-ALTER TABLE `salesrule_coupon_usage`
-  ADD CONSTRAINT `FK_SALESRULE_COUPON_USAGE_COUPON_ID_SALESRULE_COUPON_COUPON_ID` FOREIGN KEY (`coupon_id`) REFERENCES `salesrule_coupon` (`coupon_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALESRULE_COUPON_USAGE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `salesrule_customer`
---
-ALTER TABLE `salesrule_customer`
-  ADD CONSTRAINT `FK_SALESRULE_CUSTOMER_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALESRULE_CUSTOMER_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `salesrule_customer_group`
---
-ALTER TABLE `salesrule_customer_group`
-  ADD CONSTRAINT `FK_SALESRULE_CUSTOMER_GROUP_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALESRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `salesrule_label`
---
-ALTER TABLE `salesrule_label`
-  ADD CONSTRAINT `FK_SALESRULE_LABEL_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALESRULE_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `salesrule_product_attribute`
---
-ALTER TABLE `salesrule_product_attribute`
-  ADD CONSTRAINT `FK_SALESRULE_PRD_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_SALESRULE_PRD_ATTR_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_SALESRULE_PRODUCT_ATTRIBUTE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_SALESRULE_PRD_ATTR_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
---
--- Constraints for table `salesrule_website`
---
-ALTER TABLE `salesrule_website`
-  ADD CONSTRAINT `FK_SALESRULE_WEBSITE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_SALESRULE_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sitemap`
@@ -12006,8 +12156,8 @@ ALTER TABLE `tag_summary`
 -- Constraints for table `tax_calculation`
 --
 ALTER TABLE `tax_calculation`
-  ADD CONSTRAINT `FK_TAX_CALCULATION_PRODUCT_TAX_CLASS_ID_TAX_CLASS_CLASS_ID` FOREIGN KEY (`product_tax_class_id`) REFERENCES `tax_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_TAX_CALCULATION_CUSTOMER_TAX_CLASS_ID_TAX_CLASS_CLASS_ID` FOREIGN KEY (`customer_tax_class_id`) REFERENCES `tax_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_TAX_CALCULATION_PRODUCT_TAX_CLASS_ID_TAX_CLASS_CLASS_ID` FOREIGN KEY (`product_tax_class_id`) REFERENCES `tax_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_TAX_CALC_TAX_CALC_RATE_ID_TAX_CALC_RATE_TAX_CALC_RATE_ID` FOREIGN KEY (`tax_calculation_rate_id`) REFERENCES `tax_calculation_rate` (`tax_calculation_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_TAX_CALC_TAX_CALC_RULE_ID_TAX_CALC_RULE_TAX_CALC_RULE_ID` FOREIGN KEY (`tax_calculation_rule_id`) REFERENCES `tax_calculation_rule` (`tax_calculation_rule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -12015,8 +12165,8 @@ ALTER TABLE `tax_calculation`
 -- Constraints for table `tax_calculation_rate_title`
 --
 ALTER TABLE `tax_calculation_rate_title`
-  ADD CONSTRAINT `FK_TAX_CALCULATION_RATE_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_37FB965F786AD5897BB3AE90470C42AB` FOREIGN KEY (`tax_calculation_rate_id`) REFERENCES `tax_calculation_rate` (`tax_calculation_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_37FB965F786AD5897BB3AE90470C42AB` FOREIGN KEY (`tax_calculation_rate_id`) REFERENCES `tax_calculation_rate` (`tax_calculation_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_TAX_CALCULATION_RATE_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tax_order_aggregated_created`
@@ -12042,10 +12192,10 @@ ALTER TABLE `weee_discount`
 -- Constraints for table `weee_tax`
 --
 ALTER TABLE `weee_tax`
+  ADD CONSTRAINT `FK_WEEE_TAX_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_WEEE_TAX_COUNTRY_DIRECTORY_COUNTRY_COUNTRY_ID` FOREIGN KEY (`country`) REFERENCES `directory_country` (`country_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_WEEE_TAX_ENTITY_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_WEEE_TAX_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_WEEE_TAX_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_WEEE_TAX_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `widget_instance_page`
@@ -12057,8 +12207,8 @@ ALTER TABLE `widget_instance_page`
 -- Constraints for table `widget_instance_page_layout`
 --
 ALTER TABLE `widget_instance_page_layout`
-  ADD CONSTRAINT `FK_WIDGET_INSTANCE_PAGE_LYT_PAGE_ID_WIDGET_INSTANCE_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `widget_instance_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_0A5D06DCEC6A6845F50E5FAAC5A1C96D` FOREIGN KEY (`layout_update_id`) REFERENCES `core_layout_update` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_0A5D06DCEC6A6845F50E5FAAC5A1C96D` FOREIGN KEY (`layout_update_id`) REFERENCES `core_layout_update` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_WIDGET_INSTANCE_PAGE_LYT_PAGE_ID_WIDGET_INSTANCE_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `widget_instance_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `wishlist`
@@ -12070,9 +12220,9 @@ ALTER TABLE `wishlist`
 -- Constraints for table `wishlist_item`
 --
 ALTER TABLE `wishlist_item`
-  ADD CONSTRAINT `FK_WISHLIST_ITEM_WISHLIST_ID_WISHLIST_WISHLIST_ID` FOREIGN KEY (`wishlist_id`) REFERENCES `wishlist` (`wishlist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_WISHLIST_ITEM_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_WISHLIST_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_WISHLIST_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_WISHLIST_ITEM_WISHLIST_ID_WISHLIST_WISHLIST_ID` FOREIGN KEY (`wishlist_id`) REFERENCES `wishlist` (`wishlist_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `wishlist_item_option`
@@ -12115,9 +12265,6 @@ ALTER TABLE `xmlconnect_notification_template`
 --
 ALTER TABLE `xmlconnect_queue`
   ADD CONSTRAINT `FK_2019AEC5FC55A516965583447CA26B14` FOREIGN KEY (`template_id`) REFERENCES `xmlconnect_notification_template` (`template_id`) ON DELETE CASCADE ON UPDATE CASCADE;
---
--- Database: `test`
---
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

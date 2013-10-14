@@ -71,6 +71,7 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
                     ->setMetaDescription($post['meta_description'])//Meta description
                     ->setPropertytype(array($post['proptype']))//property type
                     ->setPrivacy(array($post['privacy']))//privacy
+		    ->setSecretKey($post['secret_key'])//secret key
                     ->setCategoryIds(Mage::app()->getStore()->getRootCategoryId())//Default Category
                     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)//Visibility in both catalog and search
                     ->setStatus(0) //enable the Status
@@ -234,7 +235,7 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         $post = $this->getRequest()->getPost();
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
-        $this->getLayout()->getBlock('head')->setTitle($this->__('Airhotels'));
+        #$this->getLayout()->getBlock('head')->setTitle($this->__('Airhotels'));
         $this->renderLayout();
         $result = Mage::getModel('airhotels/airhotels')->updateproperty($post);
         if ($result == 1) {

@@ -47,7 +47,8 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
                     ->setMetaKeyword($post['meta_keyword'])//Meta keywords
                     ->setMetaDescription($post['meta_description'])//Meta description
                     ->setCancelpolicy($post['cancelpolicy'])
-                    ->setBanner($post['banner']); //banner
+                    ->setBanner($post['banner']) //banner
+		    ->setSecretKey($post['secret_key']);
             $product->save();
             return true;
         } else {
@@ -300,9 +301,10 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
 
         $range = $read->fetchAll($date_range);
         $count = count($range);
+	$dates_range = array();
         for ($i = 0; $i <= $count; $i++) {
-            $fromdate = $range[$i][fromdate];
-            $todate = $range[$i][todate];
+            $fromdate = $range[$i]['fromdate'];
+            $todate = $range[$i]['todate'];
             if ($fromdate < $todate) {
                 $dates_range[] = date('Y-n-j', strtotime($fromdate));
                 $date1 = strtotime($fromdate);
@@ -912,6 +914,9 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
                 ->where('ct.product_id =?', $productid);
         $range = $read->fetchAll($date_range);
         $count = count($range);
+        $dates_available = array();
+	$dates_booked = array();
+	$dates_notavailable = array();
         for ($i = 0; $i <= $count; $i++) {
             $bookavail = $range[$i]['book_avail'];
             $fromdate = $range[$i]['blockfrom'];
@@ -955,6 +960,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
      * @return array $availDays
      */
     public function getDays($count, $value) {
+	$availDay = array();
         for ($j = 0; $j < $count; $j++) {
             $availDay[] = $value[$j][1];
         }

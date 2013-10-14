@@ -33,6 +33,7 @@ $installer->run("
               `order_item_id` int(100) NOT NULL ,
               `order_status` smallint(6) NOT NULL default '0',
               `status` smallint(6) NOT NULL default '0',
+	      `access_code` varchar(16) NOT NULL default '',
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -142,6 +143,28 @@ $installer->run("
         'required' => true,
         'user_defined' => false,
         'searchable' => true,
+        'filterable' => false,
+        'comparable' => false,
+        'visible_on_front' => true,
+        'visible_in_advanced_search' => false,
+        'unique' => false,
+        'apply_to' => 'property',
+    ));
+    $installer->addAttribute('catalog_product', 'secret_key', array(
+        'group' => 'Property Information',
+        'label' => 'Secret Key',
+        'type' => 'varchar',
+        'input' => 'text',
+        'default' => '',
+        'class' => 'validate-digits',
+        'backend' => '',
+        'frontend' => '',
+        'source' => '',
+        'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+        'visible' => true,
+        'required' => true,
+        'user_defined' => false,
+        'searchable' => false,
         'filterable' => false,
         'comparable' => false,
         'visible_on_front' => true,
