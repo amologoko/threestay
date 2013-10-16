@@ -8,8 +8,11 @@
  */
 class Apptha_Airhotels_Model_Observer
 {
-    public function booking()
+    public function booking($observer)
     {
+#	$event = $observer->getEvent();
+#	Mage::log($event);
+
          //check sytlish theme
                 $current_theme = Mage::getStoreConfig('design/theme/default');
                 if($current_theme == 'stylish')
@@ -28,7 +31,7 @@ class Apptha_Airhotels_Model_Observer
      	 $session = Mage::getSingleton('checkout/session');
 
      	 $productId = "";
-	 $secret_key = "2010201120122013";
+	 $secret_key = "";
      	 $orders = Mage::getModel('sales/order')->getCollection()
      	 ->setOrder('created_at','DESC')
      	 ->setPageSize(1)
@@ -68,7 +71,6 @@ class Apptha_Airhotels_Model_Observer
          $hostFee = ($subtotal/100) * ($config["airhotels_hostfee"] ) ;
          $hostFee = number_format($hostFee,2,'.','' ) ;
 
-	 $access_code = '';
 	 #$soap = new Zend_Soap_Client("https://www.kaba-ecode.com/KWWS_WS/KWWSService.asmx?WSDL", array('compression' => SOAP_COMPRESSION_ACCEPT));
 	 #$result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
 	 #$status = $result['ReturnStatus'];
