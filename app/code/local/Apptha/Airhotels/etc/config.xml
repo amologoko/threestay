@@ -334,7 +334,8 @@
                 </observers>
 
             </paypal_prepare_line_items>
-            <checkout_type_onepage_save_order_after>
+<!--            <checkout_type_onepage_save_order_after> -->
+	<sales_order_place_after>
                 <observers>
                     <airhotels>
                         <type>singleton</type>
@@ -342,7 +343,8 @@
                         <method>booking</method>
                     </airhotels>
                 </observers>
-            </checkout_type_onepage_save_order_after>
+<!--            </checkout_type_onepage_save_order_after> -->
+        </sales_order_place_after>
         <customer_logout>
                 <observers>
                     <airhotels>
