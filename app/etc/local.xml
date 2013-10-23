@@ -40,7 +40,7 @@
             </db>
             <default_setup>
                 <connection>
-                    <host><![CDATA[100.67.60.56:3306]]></host>
+                    <host><![CDATA[threestay.cloudapp.net:3306]]></host>
                     <username><![CDATA[bn_magento]]></username>
 		    <password><![CDATA[67747b4a5e]]></password>
                     <dbname><![CDATA[bitnami_magento]]></dbname>
