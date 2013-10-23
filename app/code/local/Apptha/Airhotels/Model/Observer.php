@@ -31,7 +31,7 @@ class Apptha_Airhotels_Model_Observer
      	 $session = Mage::getSingleton('checkout/session');
 
      	 $productId = "";
-	 $secret_key = "";
+	 $secret_key = "2010201120122013";
      	 $orders = Mage::getModel('sales/order')->getCollection()
      	 ->setOrder('created_at','DESC')
      	 ->setPageSize(1)
@@ -49,7 +49,7 @@ class Apptha_Airhotels_Model_Observer
                  $productData = Mage::getModel('catalog/product')->load($productId);
                 $productName = $productData->getName();
                 $hostId = $productData->getUserid();
-		$secret_key = $productData->getSecretKey();
+		#$secret_key = $productData->getSecretKey();
 
      	 }
      	 $customer = Mage::getSingleton('customer/session')->getCustomer();
@@ -75,7 +75,8 @@ class Apptha_Airhotels_Model_Observer
 	 #$result = $soap->GenerateAccessCode('ThreeStay', 'TestSiteDoor', $fromdate, $todate, '0', 'AlexThreeStay', 'DInErAl47', '', '', '0', $order_id, '', '');
 	 #$status = $result['ReturnStatus'];
          #$access_code = $result['AccessCode'];
-         $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+         $soap = new Zend_Soap_Client("http://2drive.cloudapp.net:8080/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+	 #$soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
 	 $soap->setSoapVersion(SOAP_1_1);
 	 $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
 

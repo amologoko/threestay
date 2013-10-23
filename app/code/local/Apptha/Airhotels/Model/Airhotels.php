@@ -42,13 +42,13 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
                     ->setCity($post['city'])
                     ->setState($post['state'])
                     ->setCountry($post['propcountry'])
-                    ->setMaplocation($post['map'])
+                    //->setMaplocation($post['map'])
                     ->setMetaTitle($post['meta_title'])//Meta title
                     ->setMetaKeyword($post['meta_keyword'])//Meta keywords
                     ->setMetaDescription($post['meta_description'])//Meta description
                     ->setCancelpolicy($post['cancelpolicy'])
-                    ->setBanner($post['banner']) //banner
-		    ->setSecretKey($post['secret_key']);
+                    ->setBanner($post['banner']); //banner
+		    //->setSecretKey($post['secret_key']);
             $product->save();
             return true;
         } else {
