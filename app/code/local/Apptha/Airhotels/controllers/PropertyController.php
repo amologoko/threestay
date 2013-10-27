@@ -35,7 +35,7 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
         $CusEmail = $customer->getEmail();
         $post = $this->getRequest()->getPost();
         $amenity = array();
-        $amenity = implode(",", $post['amenity']);
+        $amenity = implode(",", $post['amenity[]']);
         $amenity = str_replace(" ", "", $amenity);
         $random = rand(1, 100000000000);
         $sku = rand(1, $random);
@@ -65,7 +65,7 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
                     ->setCancelpolicy($post['cancelpolicy'])//regarding to cancelation policy
                     ->setPets($post['pets'])//regaring to pets allowed or not allowed
                     ->setBedtype($post['bedtype'])//bedtype
-                    ->setMaplocation($post['map'])//property map location
+                    //->setMaplocation($post['map'])//property map location
                     ->setMetaTitle($post['meta_title'])//Meta title
                     ->setMetaKeyword($post['meta_keyword'])//Meta keywords
                     ->setMetaDescription($post['meta_description'])//Meta description

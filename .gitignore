@@ -216,3 +216,6 @@ pip-log.txt
 
 #patch
 *.orig
+
+#Magento
+media/catalog/product/
