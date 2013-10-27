@@ -83,7 +83,9 @@ Default layout, loads most of the pages
                     <action method="setElementClass"><value>top-container</value></action>
                 </block>
             </block>
+
             <block type="airhotels/property_airhotelsmenu" name="airhotels_menu" as="airhotels_menu" template="airhotels/property/airhotelsmenu.phtml"/>
+
             <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
             <block type="core/text_list" name="left" as="left" translate="label">

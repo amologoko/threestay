@@ -86,97 +86,9 @@ $doc(function () {
 
     });
   </script>        
-<div id="proslider"> 
-        <?php
-        $_productCollection = $this->Airhotelshomepage();
-        $currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
-        if (count($_productCollection)) {
-            ?>
-            <ul class="rslides rslides1">
-                <?php
-                foreach ($_productCollection as $_product) {
-                    ?>
-
-                <li> <a class="ss_name" href="<?php echo Mage::getBaseUrl() . $_product->getUrlPath(); ?>">
-                        <?php if ($_product->getImage() != 'no_selection') { ?>
-                        <img src="<?php echo Mage::getBaseUrl('media') . 'catalog/product/' . $_product->getImage(); ?>" alt="" title="" class="sliderimg">
-                        <?php } else { ?>
-                            <img src="<?php echo $_product->getImageUrl(); ?>"  alt="" title="" >
-                        <?php }
-                        ?> </a>
-
-                    <div class="SliderName_2Description">
-                        <div class="slider_showface">
-                            <?php $customerData = Mage::getModel('airhotels/airhotels')->getCustomerPictureById($_product->getUserid()); ?>
-                            <?php if ($customerData[0]["imagename"]): ?>
-                                <?php                                
-                                $imageResized = Mage::getBaseDir("media") . "/catalog/customer/resz_" . $customerData[0]["imagename"];
-                                $imageDirUrl  = Mage::getBaseDir("media") . "/catalog/customer/" . $customerData[0]["imagename"];
-                                if (!file_exists($imageResized) && file_exists($imageDirUrl)) :
-                                    $imageObj = new Varien_Image($imageDirUrl);
-                                    $imageObj->constrainOnly(TRUE);
-                                    $imageObj->keepAspectRatio(TRUE);
-                                    $imageObj->keepFrame(FALSE);
-                                    $imageObj->resize(72, 72);
-                                    $imageObj->save($imageResized);
-                                endif;                                
-                                $imageUrl = Mage::getBaseUrl('media') . "catalog/customer/" . $customerData[0]["imagename"];
-                                if (file_exists($imageResized)) {
-                                    $imageUrl = Mage::getBaseUrl('media') . "catalog/customer/resz_" . $customerData[0]["imagename"];
-                                }
-                                ?>
-                            <a style="text-decoration: none;" href="<?php echo Mage::helper('airhotels')->getprofilepage().'id/'.$_product->getUserid();?>">
-                            <img src="<?php echo $imageUrl; ?>" class="face_img" height="86" alt=""></a>
-                            <?php else: ?>
-                                           <a style="text-decoration: none;" href="<?php echo Mage::helper('airhotels')->getprofilepage().'id/'.$_product->getUserid();?>">  
-                                               <img src="<?php echo $this->getSkinUrl('images/home_no_user.jpg'); ?>" class="face_img" alt="" > </a>
-                            <?php endif; ?>
-                            <div class="right_desc">
-                                <h3><a class="ss_name"
-                                       href="<?php echo Mage::getBaseUrl() . $_product->getUrlPath(); ?>"><?php echo $this->htmlEscape($_product->getName()); ?></a></h3>
-                                <span><?php
-                echo $this->htmlEscape($_product->getCity()) . ', ';
-                echo $this->htmlEscape($_product->getCountry());
-                            ?> </span>
-                                
-                                <span class="bottom_descs">
-                                    <?php
-                                    $reviews = Mage::getModel('review/review')->getResourceCollection();
-                                    $reviews->addStoreFilter(Mage::app()->getStore()->getId())
-                                            ->addStatusFilter(Mage_Review_Model_Review::STATUS_APPROVED)
-                                            ->addEntityFilter('product', $_product->getId())
-                                            ->setDateOrder()
-                                            ->addRateVotes();
-                                    $reviews = $reviews->getData();
-                                    ?>
-                                   <span><?php echo $currencySymbol . ' ' . round(Mage::helper('directory')->currencyConvert($_product['Price'], Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode()), 0) . '/ '.$this->__('Night') ?></span>
-                                   
-                               
-                                </span>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div> 
-                
-                </li>
-                    <?php
-                }?>
-                  </ul>
-              <?php  
-            }
-            ?>
-      
-    
-    
+<div id="svgbanner"> 
     <div class="search-area">
             <div class="container">
-                <div class="banner_outer">
-                    <div class="banner_transparent">
-                        <h3><?php echo $this->__('Explore great places to stay!') ?></h3>
-                        <h4><?php echo $this->__('Wherever you are in the world, make it yours!') ?></h4>
-                    </div>
-                </div>
-
                 <form action="<?php echo Mage::getBaseUrl() . 'booking/property/advsearch/' ?>" id="search" method="post" enctype="multipart/form-data" class="custom">
 
                     <input id="searchTextField" name="searchTextField" type="text" class="searchmainpage"  placeholder="<?php echo $this->__('Where are you going') . "?"; ?>" autocomplete="off" />
@@ -214,12 +126,14 @@ $doc(function () {
                          <button type="submit" class="large pink btn icon-only" id="submit_location" onclick="return validateSearch();">
                     <?php echo $this->__('SEARCH'); ?> </button>
                     </div>
-
                     <div id="map_canvas" style="width:427px;"></div>
                 </form>
-
             </div>
+	    <div id="video" class="container" align="right">
+		<iframe src="http://player.vimeo.com/video/66514891" width="480" height="270" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+	    </div>
         </div>
+
 </div>
   
   
