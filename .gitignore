@@ -219,3 +219,5 @@ pip-log.txt
 
 #Magento
 media/catalog/product/
+app/etc/local.xml
+*.sql
