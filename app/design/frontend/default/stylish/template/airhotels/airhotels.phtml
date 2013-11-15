@@ -86,56 +86,8 @@ $doc(function () {
 
     });
   </script>
-<div id="proslider"> 
-    <div class="search-area">
-            <div class="container">
-                <form action="<?php echo Mage::getBaseUrl() . 'booking/property/advsearch/' ?>" id="search" method="post" enctype="multipart/form-data" class="custom">
-
-                    <input id="searchTextField" name="searchTextField" type="text" class="searchmainpage"  placeholder="<?php echo $this->__('Where are you going') . "?"; ?>" autocomplete="off" />
-                     <div id="search_options" class=" left" style="">
-                            <div class="search_date">
-                              <input type="text"  id="checkinDate"  name="from"  placeholder="mm/dd/yyyy" autocomplete="off" />
-                            </div>
-                            <div class="search_date">
-                                <div><input type="text"   id="checkinTo"  name="to"  placeholder="mm/dd/yyyy" autocomplete="off" /></div>
-                            </div>
-
-                            <div class="search_guests">
-                                  <select id="number_of_guests" name="number_of_guests">
-                                       <option value="1">1  <?php echo $this->__('Guest'); ?></option>
-                                        <option value="2" >2 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="3">3 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="4">4 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="5">5 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="6">6 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="7">7 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="8">8 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="9">9 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="10">10 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="11">11 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="12">12 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="13">13 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="14">14 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="15">15 <?php echo $this->__('Guests'); ?></option>
-                                        <option value="16">16+ <?php echo $this->__('Guests'); ?></option>
-                                  </select>
-                            </div>
-                        </div>
-                    <div class="left mleft">
-                        
-                         <button type="submit" class="large pink btn icon-only" id="submit_location" onclick="return validateSearch();">
-                    <?php echo $this->__('SEARCH'); ?> </button>
-                    </div>
-                    <div id="map_canvas" style="width:427px;"></div>
-                </form>
-            </div>
-        </div>
-
-  <div id="svgbanner">
-	<div id="video" align="left">
-		<iframe src="http://player.vimeo.com/video/66514891" width="320" height="180" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-	</div>        
-  </div>
+<div class="responsive-container"> 
+    <iframe src="http://player.vimeo.com/video/66514891" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 </div>
   
   
