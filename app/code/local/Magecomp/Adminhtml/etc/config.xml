@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Magecomp
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magecomp EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magecomp.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magecomp.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.magecomp.com/ for more information
+ * or send an email to sales@magecomp.com
+ *
+ * @category   Magecomp
+ * @package    Magecomp_Adminhtml
+ * @copyright  Copyright (c) 2009 Magecomp (http://www.magecomp.com/)
+ * @license    http://www.magecomp.com/LICENSE-1.0.html
+ */
+
+/**
+ * Magecomp Adminhtml extension
+ *
+ * @category   Magecomp
+ * @package    Magecomp_Adminhtml
+ * @author     Magecomp Dev Team <dev@magecomp.com>
+ */
+-->
+<config>
+  <modules>
+    <Magecomp_Adminhtml>
+      <version>1.0.0</version>
+    </Magecomp_Adminhtml>
+  </modules>
+    <admin>
+        <routers>
+            <magecomp>
+                <use>admin</use>
+                <args>
+                    <module>Magecomp_Adminhtml</module>
+                    <frontName>magecomp</frontName>
+                </args>
+            </magecomp>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <system>
+                <children>
+                    <magecomp translate="title" module="magecomp">
+                        <title>Get Support</title>
+                        <sort_order>11</sort_order>
+                        <action>adminhtml/system_config/edit/section/magecomp</action>
+                    </magecomp>
+                </children>
+            </system>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <magecomp translate="title" module="magecomp">
+                                            <title>Magecomp &gt; Extensions &amp; Support</title>
+                                            <children>
+                                                <extensions translate="title">
+                                                    <title>Extensions Information</title>
+                                                    <sort_order>1</sort_order>
+                                                </extensions>
+                                                <support translate="title">
+                                                    <title>Get Support</title>
+                                                    <sort_order>2</sort_order>
+                                                </support>
+                                            </children>
+                                        </magecomp>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Magecomp_Adminhtml>
+                    <files>
+                        <default>Magecomp_Adminhtml.csv</default>
+                    </files>
+                </Magecomp_Adminhtml>
+            </modules>
+        </translate>
+    </adminhtml>
+    <global>
+        <blocks>
+            <magecomp>
+                <class>Magecomp_Adminhtml_Block</class>
+            </magecomp>
+            <adminhtml>
+                <rewrite>
+                    <system_config_edit>Magecomp_Adminhtml_Block_System_Config_Edit</system_config_edit>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <models>
+            <magecomp>
+                <class>Magecomp_Adminhtml_Model</class>
+            </magecomp>
+        </models>
+        <resources>
+            <magecomp_setup>
+                <setup>
+                    <module>Magecomp_Adminhtml</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </magecomp_setup>
+            <magecomp_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </magecomp_write>
+            <magecomp_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </magecomp_read>
+        </resources>
+        <helpers>
+            <magecomp>
+                <class>Magecomp_Adminhtml_Helper</class>
+            </magecomp>
+        </helpers>
+        <template>
+            <email>
+                <magecomp_support_email_template>
+                    <label>Magecomp Support</label>
+                    <file>magecomp_support.html</file>
+                    <type>text</type>
+                </magecomp_support_email_template>
+            </email>
+        </template>
+    </global>
+	
+    <default>
+        <magecomp>
+            <support>
+                <email>support@magecomp.com</email>
+                <name>Magecomp Support</name>
+                <template>magecomp_support_email_template</template>
+            </support>
+        </magecomp>
+    </default>
+</config>

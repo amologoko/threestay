@@ -1,50 +1,118 @@
 <?xml version="1.0"?>
 <package>
-    <name>ASchroder_SMTPPro</name>
-    <version>1.4.3</version>
+    <name>Braintree</name>
+    <version>0.7.11</version>
     <stability>stable</stability>
-    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <license>MIT</license>
     <channel>community</channel>
     <extends/>
-    <summary>Full SMTP, Gmail and Google apps email support for Magento. Free and open source.</summary>
-    <description>This extension is now the combination of my SMTP Pro extension and the Gmail + Google Apps extension.&#xD;
+    <summary>Braintree Payments extension</summary>
+    <description>Use Braintree to process your payments.</description>
+    <notes>0.7.11&#xD;
+* Exposes the last 4 digits of credit card number when reviewing orders during checkout.&#xD;
 &#xD;
-For SMTP it handles everything from SMTP server authentication with MD5-CRAM to TLS and SSL connections.&#xD;
+0.7.10&#xD;
+* Fixes a regression that prevented the Braintree credit card form from rendering when Braintree is the sole enabled payment method.&#xD;
 &#xD;
-For Google Apps and Gmail it offers the same stupidly simple setup as always.&#xD;
+0.7.9&#xD;
+* Fixes a bug with multiple shipping addresses.&#xD;
 &#xD;
-The extension itself now supports several new features, such as suppressing emails and sending development mode emails to a single inbox, sending from multiple different gmail/google accounts and now email logging.</description>
-    <notes>1.4.3 - Added Amazon SES support, experimental only&#xD;
+0.7.8&#xD;
+* Fix bug with missing admin page&#xD;
 &#xD;
-1.4.2 - Updated Email_Template to work with Magento 1.5.&#xD;
+0.7.7&#xD;
+* Fix bug in customer deletes&#xD;
 &#xD;
-1.4.1 - Missed one place where a non-standard basedir will trip up the self test and add extra exception logging.&#xD;
+0.7.6&#xD;
+* Saves the last 4 of credit card after authorization and displays then in the UI and receipts&#xD;
 &#xD;
-1.4.0 - several bug fixes and update to support Magento 1.4.2&#xD;
+0.7.5&#xD;
+* Adds the ability to turn off CVV verification&#xD;
 &#xD;
-1.3.3 - For the love of god Magento Connect - please let me upload this!&#xD;
+0.7.4&#xD;
+* Prevent attempting to fetch the customer during a transaction if the vault is turned off&#xD;
 &#xD;
-1.3.2 - For the love of god Magento Connect - please let me upload this!&#xD;
+0.7.3&#xD;
+* Fixes a bug where the Braintree payment form sometimes conflicts with the Paypal payment form&#xD;
 &#xD;
-1.3.1 - bug fix for the Observer.php include.&#xD;
+0.7.1&#xD;
+* Fixes a bug where the Braintree_Model_Paymentmethod couldn't be loaded in some cases.&#xD;
 &#xD;
-1.3 - add test of _actual email sending and add From: header on test email (fixes an issue for some SMTP servers)&#xD;
+0.7.0&#xD;
+* Fixes a bug where the extension wasn't working properly when other payment methods were enabled&#xD;
+* Fixes a bug where the extension was unable to access the Braintree client library when compilation is enabled&#xD;
+* Upgraded to current version of Braintree.js&#xD;
 &#xD;
-1.1.1 - Bug fix release&#xD;
+0.6.10&#xD;
+* Minor UI bugfix&#xD;
 &#xD;
-1.1.0 - Added email logging and event firing&#xD;
+0.6.8&#xD;
+* Correct version number&#xD;
+* Fixes bug in display of valuted card info&#xD;
+* Fixes bug in payment form with Magneto Enterprise version&#xD;
 &#xD;
-1.0.4 - No changes, just adding a new point release in the hope that magento connect will work...&#xD;
+0.6.7&#xD;
+* Compatibility with Magento CE 1.7&#xD;
 &#xD;
-1.0.3 - No changes, just adding a new point release in the hope that magento connect will work...&#xD;
+0.6.6&#xD;
+* Stable release&#xD;
 &#xD;
-1.0.2 - Add support for multiple gmail or Google Apps accounts to address the 500 email limit Google imposes.&#xD;
+0.6.5&#xD;
+* Only attempts to load Vault Customers if it's enabled&#xD;
+* Fixes Braintree Customer admin controller&#xD;
 &#xD;
-1.0.1 - Re release of the SMTP Pro extension as a combined SMTP + Google apps/Gmail extension.</notes>
-    <authors><author><name>Ashley Schroder</name><user>auto-converted</user><email>ashley.schroder@gmail.com</email></author></authors>
-    <date>2011-03-20</date>
-    <time>04:24:33</time>
-    <contents><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="template"><dir name="smtppro"><file name="view.phtml" hash="fd22a77c5754913bac050923bff57d95"/></dir></dir></dir></dir></dir></target><target name="magecommunity"><dir name="Aschroder"><dir name="SMTPPro"><dir name="Block"><dir name="Adminhtml"><file name="Test.php" hash="0d0ff50fe926cd5704426d5a7b255176"/></dir><dir name="Log"><file name="Grid.php" hash="2f04731eeeb9d821857fccda014a6d84"/><file name="View.php" hash="396702d55673f05961cf646525212534"/></dir><file name="Log.php" hash="d2a7233ec0fd3f20d048f3dd412f61a3"/></dir><dir name="Helper"><file name="Data.php" hash="e4ebefdc54df5e440caafa6365534624"/></dir><dir name="Model"><dir name="Email"><file name="Log.php" hash="c05dcbe851684410e0cbcfed6cc914cd"/><file name="Template.php" hash="a234cf2f9fa7d4b9a0e83c52e46e3d0f"/></dir><dir name="Mysql4"><dir name="Email"><dir name="Log"><file name="Collection.php" hash="8ca40c787081eb19f665e8033bfd5025"/></dir><file name="Log.php" hash="c8331530a6744b42c52beaf0e714fddd"/></dir><file name="Setup.php" hash="a1f73ffd26ddd42a9789b071a40b2450"/></dir><dir name="Newsletter"><file name="Template.php" hash="b38356df77253bd116ee5b6f6c59b223"/></dir><dir name="System"><dir name="Config"><dir name="Source"><dir name="Smtp"><file name="Authentication.php" hash="2e871d8a7a4beaff99c818a51fb38344"/><file name="Development.php" hash="2f9b6177e6063c2d42483c9af65995d3"/><file name="Option.php" hash="a4335eb0c2bc92c6a3356dd62fc568ff"/><file name="Ssl.php" hash="ae9af390a40b8bcebbc8451a9152821f"/></dir></dir></dir></dir><file name="Email.php" hash="043689ad6ac3bfa6c96739596126fd20"/><file name="Observer.php" hash="a9df4366354e355bfdb1476720610331"/></dir><dir name="controllers"><file name="IndexController.php" hash="63dcb8c38abd84e4996abb49e6b5d543"/><file name="LogController.php" hash="b6819bb30738db7416ca241303e5b1fd"/></dir><dir name="etc"><file name="config.xml" hash="512a199b1e4092c9051582afa648cce2"/><file name="system.xml" hash="9f4b9a8f2e59de0b3fd6b28c9a49b1d7"/></dir><dir name="lib"><file name="AmazonSES.php" hash="64e65ec97f0f2e3e72d132ed612fb858"/></dir><dir name="locale"><dir name="de_DE"><file name="Aschroder_SMTPPro.csv" hash="5b2e576a73cc62cfaf3ffc61d5149bb8"/></dir></dir><dir name="modules"><file name="Aschroder_SMTPPro.xml" hash="8a4e6872dd721b6bd17bce8b1cb11769"/></dir><dir name="sql"><dir name="smtppro_setup"><file name="mysql4-install-1.1.0.php" hash="5c13c266d15ce411658ae616c3e41e63"/></dir></dir><dir name="templates"><dir name="adminhtml"><dir name="base"><dir name="default"><dir name="template"><dir name="smtppro"><file name="view.phtml" hash="fd22a77c5754913bac050923bff57d95"/></dir></dir></dir></dir></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Aschroder_SMTPPro.xml" hash="8a4e6872dd721b6bd17bce8b1cb11769"/></dir></target><target name="magelocale"><dir name="de_DE"><file name="Aschroder_SMTPPro.csv" hash="5b2e576a73cc62cfaf3ffc61d5149bb8"/></dir></target></contents>
+0.6.4&#xD;
+* Adds client-side validation of credit card numbers during checkout&#xD;
+* Default credit card types selected for configuration&#xD;
+&#xD;
+0.6.3&#xD;
+* Removes listing of vaulted cards if vault is disabled&#xD;
+&#xD;
+0.6.2&#xD;
+* Adds the ability to turn off certain card types&#xD;
+* Adds the ability to mass delete customers from Magento and Braintree&#xD;
+&#xD;
+0.6.1&#xD;
+* Fixes bug where admin javascript wasn't loading&#xD;
+&#xD;
+0.6.0&#xD;
+* Adds vault management to Mage Customer Account screen&#xD;
+&#xD;
+0.5.0:&#xD;
+* Delete customer from Braintree when deleted from Magento&#xD;
+&#xD;
+0.4.3:&#xD;
+* catch general Braintree errors&#xD;
+* fixes javascript bugs&#xD;
+* use magento translation helper&#xD;
+* give user option to store card in vault if not logged in&#xD;
+&#xD;
+0.4.2:&#xD;
+* fix bug where cards weren't storing in vault when user was logged in&#xD;
+&#xD;
+0.4.1:&#xD;
+* fix bug where guests would encounter a disabled form in OnePage checkout&#xD;
+&#xD;
+0.4.0:&#xD;
+* move payment form into the "payment method" section of onepage checkout&#xD;
+* add OneStepCheckout support&#xD;
+&#xD;
+0.3.0:&#xD;
+* Add ability to save cards to the vault&#xD;
+&#xD;
+0.2.1:&#xD;
+* Move javascript from form partials to separate files&#xD;
+&#xD;
+0.2.0:&#xD;
+* Better error reporting on failed transactions&#xD;
+&#xD;
+0.1.0:&#xD;
+&#xD;
+   </notes>
+    <authors><author><name>Braintree Developers</name><user>braintree</user><email>devs+magento@braintreepayments.com</email></author></authors>
+    <date>2014-01-03</date>
+    <time>19:31:30</time>
+    <contents><target name="magelocal"><dir name="Braintree"><dir name="Block"><dir name="Creditcard"><file name="Management.php" hash="aa58e00efce7cbafead242be5b665bc8"/></dir><file name="Form.php" hash="86619f439619984f36683d3e16360874"/><file name="Info.php" hash="7e6053b0399cd9bc29892d0263b3b527"/></dir><dir name="Helper"><file name="Form.php" hash="dbff712cc060442c3e85ebe0c7f5d0fc"/><file name="Messages.php" hash="f1a9bda4d39ead43a0a710dd0fa9b135"/></dir><dir name="Model"><file name="Paymentmethod.php" hash="af722b28a7001d96274cdd93f9e8c2b0"/><dir name="Source"><file name="Cctype.php" hash="bd5a3911aee0cbc475e9bfcb48e3e0a1"/><file name="Environment.php" hash="2a8ec21aa11283c1efdb50aae7d053c8"/><file name="PaymentAction.php" hash="640f4fdd9552bba9fbd65cdff9e3e8ff"/></dir></dir><dir name="controllers"><file name="CreditcardController.php" hash="94b0e22bd0716b04523ea2b557926219"/><file name="CustomerController.php" hash="44a3bf5c8c9978a5ee88c3a76aea77b4"/></dir><dir name="etc"><file name="config.xml" hash="83403acea8e66cc2dfbce54856b8b614"/><file name="system.xml" hash="8fcedb9273957a42d22f24e73446719d"/></dir><dir name="lib"><dir name="Braintree"><file name="AddOn.php" hash="ca28de29847ab632fa00fa290d1532ea"/><file name="Address.php" hash="11b11f9f4a21b49318d6c4ca2d391ebc"/><file name="Collection.php" hash="87a7a4ed77e465cec6e4dd6f6c5da43e"/><file name="Configuration.php" hash="0ee27c5aa8e4b4d03f505dbeabc500f2"/><file name="CreditCard.php" hash="33b7984cf4b8e4625b3a4d816242ad8d"/><file name="Customer.php" hash="43e6dd37c49f4d2fa602ba19fcf2c0d4"/><file name="CustomerSearch.php" hash="afd3b9fc664151998f516f0753fbc45d"/><file name="Descriptor.php" hash="3f5db5e817280ce7f2fa18a205281ad9"/><file name="Digest.php" hash="556dd79931744687d91add6d2e85d484"/><file name="Discount.php" hash="a52e02f0e17c85ef6b4647054d8d9576"/><file name="EqualityNode.php" hash="818a4ef71b31dbc3e3792e48851291db"/><dir name="Error"><file name="Codes.php" hash="b6288e29b92b31b89baabccf7bcd9536"/><file name="ErrorCollection.php" hash="6f3edf2f593abf9b21a2e93038843f0c"/><file name="Validation.php" hash="62ec7f0c24ee305dcde3109fee3fbc18"/><file name="ValidationErrorCollection.php" hash="43612e27f53ad6bda1632502bea7574a"/></dir><dir name="Exception"><file name="Authentication.php" hash="f9bb7055ff6051735c7fd56843c45fe8"/><file name="Authorization.php" hash="56badf1ef211b14610bc5e3e9946847a"/><file name="Configuration.php" hash="be198c70d22a00adf7eb6e2ca3d72764"/><file name="DownForMaintenance.php" hash="dce4cbdb59a0d8b0e25ed333b4f2dfdb"/><file name="ForgedQueryString.php" hash="366d6669f0e292a6f99a0bef702dd251"/><file name="NotFound.php" hash="088c5480b0873471744ab8ccf86db926"/><file name="SSLCaFileNotFound.php" hash="9a9cadb5da21d2e6de627874aa235970"/><file name="SSLCertificate.php" hash="fb23ed6e6a728af36066b7670fd4bc69"/><file name="ServerError.php" hash="f99993c784249f0a7af43118a4f38a5c"/><file name="Unexpected.php" hash="e4fe3248922ed06a9903bd6d7fdb1af4"/><file name="UpgradeRequired.php" hash="e94fbb8c9be88e816a89f3aeb4b5a816"/><file name="ValidationsFailed.php" hash="ca2ed4deda7141876d63baf4e523c807"/></dir><file name="Exception.php" hash="3456b5f8c63f8c12b32968e5c17c0635"/><file name="Http.php" hash="6fd369ca512938783ab442b24f4ee5b7"/><file name="Instance.php" hash="ffff9ae35acb667b4dfcee707800971e"/><file name="KeyValueNode.php" hash="255595ec01a16906dd0c49faf67d9efb"/><file name="Modification.php" hash="fcce6784af2e658affe4a67ca75d8230"/><file name="MultipleValueNode.php" hash="92700fa03011eaa9561010b3a160449c"/><file name="MultipleValueOrTextNode.php" hash="51cc6216a23c58162690527e1dd49666"/><file name="PartialMatchNode.php" hash="370c7e0ab8a445cfeef6b19ef1755f4d"/><file name="Plan.php" hash="8e41737a8b4cb0abac30c84e9768e01f"/><file name="RangeNode.php" hash="4ad9a92547423b3d54d69097114c3daf"/><file name="ResourceCollection.php" hash="3dcc2e07ed3c78ed9242a299a0421173"/><dir name="Result"><file name="CreditCardVerification.php" hash="b1ddce78d45b45e1c9c9b9a127cf7717"/><file name="Error.php" hash="4bc3b10eb012cab778d444a6b9f766bf"/><file name="Successful.php" hash="3ab6a984d1bed6e0c57b52ed7e70f10e"/></dir><file name="SettlementBatchSummary.php" hash="a7c0f0e3b4af66657b4b5fea968caa2b"/><file name="Subscription.php" hash="fa9b37b06459ffba4602f1ecbae71452"/><file name="SubscriptionSearch.php" hash="1874ebe5cb42d7d2836617810cced1af"/><file name="SubscriptionStatus.php" hash="d41d8cd98f00b204e9800998ecf8427e"/><dir name="Test"><file name="CreditCardNumbers.php" hash="2d8e448205b75491ac3b48681f666619"/><file name="TransactionAmounts.php" hash="063760508e7e844e5e723bebbed36af1"/></dir><file name="TextNode.php" hash="94c95ec9645de57acace2179fef7fb43"/><dir name="Transaction"><file name="AddressDetails.php" hash="6a18034fd69aee27229dc18cd1d2801d"/><file name="CreditCardDetails.php" hash="213848774205d765f23734c00ae851f2"/><file name="CustomerDetails.php" hash="c068e9b25fdbde1e1e3b30eef867d674"/><file name="StatusDetails.php" hash="13abe6f7d479030683266d8362218a6c"/><file name="SubscriptionDetails.php" hash="b84ed72bb5c42b56ab9bb473555642da"/></dir><file name="Transaction.php" hash="ff39f50d128cce3250051415e82c2e38"/><file name="TransactionSearch.php" hash="1c990aa0a6a922939a4a6662c05b4c50"/><file name="TransparentRedirect.php" hash="2ce4ae5e69a690b431d8e549ed51ce77"/><file name="Util.php" hash="542a313b179f9fdefd282cc8b314060f"/><file name="Version.php" hash="b617ed4824f1b2eecd66ea499aa1bb65"/><dir name="Xml"><file name="Generator.php" hash="f6cfa9c547f796d3b170ff69b64af7c6"/><file name="Parser.php" hash="1050dd3c5c4b3026266c2f5467666992"/></dir><file name="Xml.php" hash="8f6061430767cbd076298ef72125e18f"/></dir><file name="Braintree.php" hash="b7f830599a656259f383ddced6213056"/><dir name="ssl"><file name="sandbox_braintreegateway_com.ca.crt" hash="f1b529883c7c2cbb4251658f5da7b4c9"/><file name="www_braintreegateway_com.ca.crt" hash="fe25ac3c83f33b652be1237351fc8d2d"/></dir></dir><dir name="sql"><dir name="braintree_setup"><file name="install-1.6.0.0.php" hash="5220b1bd9db8e28a4eeb4f1b8dd89756"/></dir></dir></dir></target><target name="mage"><dir name="app"><dir name="etc"><dir name="modules"><file name="Braintree.xml" hash="0bc4e25774bf173269da42cc4c33cf83"/></dir></dir></dir><dir name="js"><dir name="braintree"><file name="braintree-1.3.4.js" hash="26b88217a6efbdfbc7431df00859b7d2"/></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="braintree.xml" hash="a01355d4dffe78283d7a76781a48d601"/></dir><dir name="template"><dir name="braintree"><file name="form.phtml" hash="a4fdf429b26b56f306047b4e1b8fc17d"/></dir></dir></dir></dir></dir><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="braintree.xml" hash="1180a62b3d77cd78033c9beff7fb33fa"/></dir><dir name="template"><dir name="braintree"><dir name="creditcard"><file name="delete.phtml" hash="085ea5beb214a3189508fa58f725295c"/><file name="edit.phtml" hash="00f165f853374cc55b50372a1a4e8ef8"/><file name="index.phtml" hash="3ef6a125a18021863ccb971f43bb8185"/><file name="new_creditcard.phtml" hash="1793f319a84914a461aad7b9fba08910"/><file name="new_customer.phtml" hash="1dbaf41f56c98e0ae72982064ee4f4d4"/></dir><file name="form.phtml" hash="5b7d5251b38caede740295d828a965f4"/><file name="review_js.phtml" hash="75263c602cf0ab944433cecaa4481efb"/></dir></dir></dir></dir></dir></target></contents>
     <compatible/>
-    <dependencies/>
+    <dependencies><required><php><min>5.2.1</min><max>6.0.0</max></php></required></dependencies>
 </package>

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Magecomp
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magecomp EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magecomp.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magecomp.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.magecomp.com/ for more information
+ * or send an email to sales@magecomp.com
+ *
+ * @category   Magecomp
+ * @package    Magecomp_Adminhtml
+ * @copyright  Copyright (c) 2009 Magecomp (http://www.magecomp.com/)
+ * @license    http://www.magecomp.com/LICENSE-1.0.html
+ */
+
+/**
+ * Magecomp Adminhtml extension
+ *
+ * @category   Magecomp
+ * @package    Magecomp_Adminhtml
+ * @author     Magecomp Dev Team <dev@magecomp.com>
+ */
+-->
+<config>
+    <tabs>
+        <magecomp module="magecomp">
+            <label>Magecomp</label>
+            <sort_order>101</sort_order>
+        </magecomp>
+    </tabs>
+	<sections>
+		<magecomp translate="label" module="magecomp">
+			<label>Extensions &amp; Support</label>
+			<tab>magecomp</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>999999</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+                <extensions translate="label">
+                    <label>Extensions Information</label>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>magecomp/system_config_form_fieldset_magecomp_extensions</frontend_model>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </extensions>
+                <support translate="label">
+                    <label>Get Support</label>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>magecomp/system_config_form_fieldset_magecomp_support</frontend_model>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </support>
+			</groups>
+		</magecomp>
+	</sections>
+</config>
