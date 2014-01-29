@@ -31,7 +31,7 @@ class Apptha_Airhotels_Model_Observer
      	 $session = Mage::getSingleton('checkout/session');
 
      	 $productId = "";
-	 $secret_key = "2010201120122013";
+	 $secret_key = "626379";
      	 $orders = Mage::getModel('sales/order')->getCollection()
      	 ->setOrder('created_at','DESC')
      	 ->setPageSize(1)
