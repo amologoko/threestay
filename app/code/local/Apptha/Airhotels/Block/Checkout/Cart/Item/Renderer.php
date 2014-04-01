@@ -21,9 +21,9 @@ class Apptha_Airhotels_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_B
                 $current_theme = Mage::getStoreConfig('design/theme/default');
                 if($current_theme == 'stylish')
                 {  
-		$fromdate =  Mage::getSingleton('core/session')->getFromdate($fromdate);
-		$todate = Mage::getSingleton('core/session')->getTodate($todate);
-		$accomodate = Mage::getSingleton('core/session')->getAccomodate($accomodate);
+		$fromdate =  Mage::getSingleton('core/session')->getFromdate();
+		$todate = Mage::getSingleton('core/session')->getTodate();
+		$accomodate = Mage::getSingleton('core/session')->getAccomodate();
 		return array(
 		array('label' => $this->__(''), 'value' => $accomodate),
 		array('label' => $this->__(''), 'value' => date("d-m-Y",strtotime($todate)) ),

@@ -29,6 +29,8 @@ $from = $to= "";
 $from = base64_decode($this->getRequest()->getParam('from'));
 $to = base64_decode($this->getRequest()->getParam('to'));
 $productIds = Mage::getSingleton('core/session')->getProductIds();
+$_helper = new Apptha_Airhotels_Block_Airhotels();
+
 // Check the products is available or not
 if (empty($productIds)) {
     ?>
@@ -129,23 +131,29 @@ if (empty($productIds)) {
                             $rating = Mage::getModel('airhotels/airhotels')->getCustomerRatings($_product->getId());
                             $totalRating = count($rating);
                             echo "<a href='#reviews_link_text' style='color: #3d3f40; margin-left: 5px; font:normal 15px arial;'>" . count($reviews) . " " . $this->__('Review(s)') . "</a>";
-                            $sumRating = 0;
-                            foreach ($rating as $rate) {
-                                $sumRating += $rate["percent"];
-                            }
-                            $avgRating = $sumRating / $totalRating;
-                            if ($avgRating > 1 && $avgRating <= 20) {
-                                Apptha_Airhotels_Block_Airhotels::showratingCode(1);
-                            } else if ($avgRating > 21 && $avgRating <= 40) {
-                                Apptha_Airhotels_Block_Airhotels::showratingCode(2);
-                            } else if ($avgRating > 41 && $avgRating <= 60) {
-                                Apptha_Airhotels_Block_Airhotels::showratingCode(3);
-                            } else if ($avgRating > 61 && $avgRating <= 80) {
-                                Apptha_Airhotels_Block_Airhotels::showratingCode(4);
-                            } else if ($avgRating > 81 && $avgRating <= 100) {
-                                Apptha_Airhotels_Block_Airhotels::showratingCode(5);
+                            
+                            if ($totalRating) {
+                                $sumRating = 0;
+                                foreach ($rating as $rate) {
+                                    $sumRating += $rate["percent"];
+                                }
+                                $avgRating = $sumRating / $totalRating;
                             } else {
-                                Apptha_Airhotels_Block_Airhotels::showratingCode(0);
+                                $avgRating = 0;
+                            }
+                            
+                            if ($avgRating > 1 && $avgRating <= 20) {
+                                $_helper->showratingCode(1);
+                            } else if ($avgRating > 21 && $avgRating <= 40) {
+                                $_helper->showratingCode(2);
+                            } else if ($avgRating > 41 && $avgRating <= 60) {
+                                $_helper->showratingCode(3);
+                            } else if ($avgRating > 61 && $avgRating <= 80) {
+                                $_helper->showratingCode(4);
+                            } else if ($avgRating > 81 && $avgRating <= 100) {
+                                $_helper->showratingCode(5);
+                            } else {
+                                $_helper->showratingCode(0);
                             }
                             ?>
                         </div> </div>
@@ -229,8 +237,8 @@ if (empty($productIds)) {
                                                             foreach ($_gallery as $_image) {
                                                                 ?>
 
-                                                                <?php
-                                                                $baseImage = $this->helper('catalog/image')->init($this->getProduct(), 'baseimage', $_image->getFile())
+                                                                <?php 
+                                                                $baseImage = $this->helper('catalog/image')->init($_product, 'baseimage', $_image->getFile())
                                                                         ->constrainOnly(TRUE)
                                                                         ->keepAspectRatio(TRUE)
                                                                         ->keepFrame(FALSE)
@@ -238,7 +246,7 @@ if (empty($productIds)) {
                                                                 ?>              
                                                                 <li><a href="<?php echo $baseImage; ?>">
                                                                         <img src="<?php
-                                                                echo $thumbgallery = $this->helper('catalog/image')->init($this->getProduct(), 'baseimage', $_image->getFile())
+                                                                echo $thumbgallery = $this->helper('catalog/image')->init($_product, 'baseimage', $_image->getFile())
                                                                 ->constrainOnly(TRUE)
                                                                 ->keepAspectRatio(TRUE)
                                                                 ->keepFrame(FALSE)
@@ -436,7 +444,7 @@ if (empty($productIds)) {
                                                 foreach ($amenityCollection as $amenity) {
 
                                                     $value = $amenity['value'];
-                                                    $checkAmenity = $getamenity[$i];
+                                                    $checkAmenity = $getamenity[0];
                                                     if ($value != '') {
 
                                                         if ($x == 1)
@@ -524,15 +532,15 @@ if (empty($productIds)) {
                                                                 <div class="satisfaction_title_review">
                                                                     <?php
                                                                     if ($avgRating > 1 && $avgRating <= 20) {
-                                                                        Apptha_Airhotels_Block_Airhotels::showratingCode(1);
+                                                                        $_helper->showratingCode(1);
                                                                     } else if ($avgRating > 21 && $avgRating <= 40) {
-                                                                        Apptha_Airhotels_Block_Airhotels::showratingCode(2);
+                                                                        $_helper->showratingCode(2);
                                                                     } else if ($avgRating > 41 && $avgRating <= 60) {
-                                                                        Apptha_Airhotels_Block_Airhotels::showratingCode(3);
+                                                                        $_helper->showratingCode(3);
                                                                     } else if ($avgRating > 61 && $avgRating <= 80) {
-                                                                        Apptha_Airhotels_Block_Airhotels::showratingCode(4);
+                                                                        $_helper->showratingCode(4);
                                                                     } else if ($avgRating > 81 && $avgRating <= 100) {
-                                                                        Apptha_Airhotels_Block_Airhotels::showratingCode(5);
+                                                                        $_helper->showratingCode(5);
                                                                     }
                                                                     ?>
                                                                 </div>
@@ -548,15 +556,15 @@ if (empty($productIds)) {
 
                                                             echo "<li><span>" . strtoupper($rate["rating_code"]) . "</span><div class='floatleft'>";
                                                             if ($rate["percent"] > 1 && $rate["percent"] <= 20) {
-                                                                Apptha_Airhotels_Block_Airhotels::showratingCode(1);
+                                                                $_helper->showratingCode(1);
                                                             } else if ($rate["percent"] > 21 && $rate["percent"] <= 40) {
-                                                                Apptha_Airhotels_Block_Airhotels::showratingCode(2);
+                                                                $_helper->showratingCode(2);
                                                             } else if ($rate["percent"] > 41 && $rate["percent"] <= 60) {
-                                                                Apptha_Airhotels_Block_Airhotels::showratingCode(3);
+                                                                $_helper->showratingCode(3);
                                                             } else if ($rate["percent"] > 61 && $rate["percent"] <= 80) {
-                                                                Apptha_Airhotels_Block_Airhotels::showratingCode(4);
+                                                                $_helper->showratingCode(4);
                                                             } else if ($rate["percent"] > 81 && $rate["percent"] <= 100) {
-                                                                Apptha_Airhotels_Block_Airhotels::showratingCode(5);
+                                                                $_helper->showratingCode(5);
                                                             }
                                                             echo "</div></li>";
 
@@ -735,7 +743,7 @@ if (empty($productIds)) {
                                                 <div class="_pm_inner clearfix">
                                                         <?php
                                                         $profilePhoto = Mage::getModel('airhotels/airhotels')->getCustomerPictureById($customer_id);
-                                                        if ($profilePhoto[0]["imagename"] != "") {
+                                                        if (count($profilePhoto) && $profilePhoto[0]["imagename"] != "") {
                                                             ?>
                                                         <a href="<?php echo Mage::helper('airhotels')->getprofilepage() . 'id/' . $customer_id; ?>" >
                                                             <?php echo "<img class='profilephoto' src='" . Mage::getBaseUrl('media') . "catalog/customer/" . $profilePhoto[0]["imagename"] . "' /> "; ?>
@@ -768,7 +776,7 @@ $customer_data = Mage::getModel('customer/customer')->load($customer_id);
                                             <?php } else { ?>       <a rel="facebox" href="<?php echo Mage::getBaseUrl() . "airhotels/property/contact"; ?>" class="button-glossy blue" id="contact_link"><?php echo $this->__('Contact Me'); ?></a>
                                             <?php } ?>
                                         </div> <?php } ?>
-<?php if ($profilePhoto[0]["more_host"]): ?>
+<?php if (count($profilePhoto) && $profilePhoto[0]["more_host"]): ?>
                                         <div style="color:#1E7EC8;text-align: center;width:100%;margin-top: 5px;float:left;cursor:pointer" onclick="slideHost()">
     <?php echo $this->__('More about the host') ?>
                                             <img id="moreExpand" alt="expand/hide" title="expand/hide"  src="<?php echo $this->getSkinUrl('images/blue_right.png') ?>" />
@@ -780,7 +788,7 @@ $customer_data = Mage::getModel('customer/customer')->load($customer_id);
                                         </div>
 
 <?php endif; ?>
-<?php if ($profilePhoto[0]["response_time"]): ?>
+<?php if (count($profilePhoto) && $profilePhoto[0]["response_time"]): ?>
 
                                         <ul class="host_responsiveness_list clearfix">
                                             <li class="response_time">
@@ -871,7 +879,7 @@ if (count($_productCollection)):
 <?php endif; ?>
                         <!--  My listing ends -->
 <?php
-$_productCollection = Mage::getModel('airhotels/property')->getSimilarLocation($city, $productId);
+$_productCollection = Mage::getModel('airhotels/property')->getSimilarLocation(isset($city) ? $city : '', $productId);
 if (count($_productCollection)):
     ?>
                             <!--  similar listing -->

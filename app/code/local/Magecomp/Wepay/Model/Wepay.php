@@ -8,6 +8,7 @@ class Magecomp_Wepay_Model_Wepay extends Mage_Payment_Model_Method_Abstract {
 	const INIT_REGISTRY_KEY = 'wepay_class_init';
 
 	const STATE_AUTHORIZED = 'authorized';
+    const STATE_RESERVED = 'reserved';
 	const STATE_CAPTURED = 'captured';
 	const STATE_REFUNDED = 'refunded';
 	const STATE_CANCELLED = 'cancelled';

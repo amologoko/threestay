@@ -163,6 +163,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         $notavail = $this->getDays(count($calendarDate[2]), $calendarDate[2]);
         $booked = array_unique($booked);
         $notavail = array_unique($notavail);
+        $avPrice = array();
         foreach ($calendarDate as $avail) {
             $available = $avail;
             foreach ($available as $availPrice) {
@@ -179,7 +180,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
 
         $currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
         $diff = abs(strtotime($to) - strtotime($from));
-        $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+        $days = floor($diff / (60 * 60 * 24));
         $subtotal = $days * $price;
        $no_days=$days;
         /* checking date */
@@ -240,7 +241,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
             $month = date('n', ($pFrom + ($pr * $day)));
             $av[$month][$pIn] = $price;
         }
-
+        
         if ($Incr != 0) {
             $availability_to = "no";
         }
@@ -249,13 +250,13 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         $dateDiff = $date2 - $date1;
         $no_of_night = $dateDiff / (24 * 60 * 60);
 
-        if ($availability_to == "no") {
+        if (isset($availability_to) && $availability_to == "no") {
             echo Mage::helper('airhotels')->__('Dates are not available refer to calendar');
         } else {
 
             foreach ($av as $key => $av1) {
                 foreach ($av1 as $avkey => $av2) {
-                    if ($avPrice[$key][$avkey] != '') {
+                    if (!empty($avPrice[$key][$avkey])) {
                         $total = $total + $avPrice[$key][$avkey];
                     } else {
 
@@ -303,8 +304,8 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         $count = count($range);
 	$dates_range = array();
         for ($i = 0; $i <= $count; $i++) {
-            $fromdate = $range[$i]['fromdate'];
-            $todate = $range[$i]['todate'];
+            $fromdate = isset($range[$i]) ? $range[$i]['fromdate'] : '';
+            $todate = isset($range[$i]) ? $range[$i]['todate'] : '';
             if ($fromdate < $todate) {
                 $dates_range[] = date('Y-n-j', strtotime($fromdate));
                 $date1 = strtotime($fromdate);
@@ -918,10 +919,10 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
 	$dates_booked = array();
 	$dates_notavailable = array();
         for ($i = 0; $i <= $count; $i++) {
-            $bookavail = $range[$i]['book_avail'];
-            $fromdate = $range[$i]['blockfrom'];
-            $month = $range[$i]['month'];
-            $price = $range[$i]['price'];
+            $bookavail = !isset($range[$i]) ? '' : $range[$i]['book_avail'];
+            $fromdate = !isset($range[$i]) ? '' : $range[$i]['blockfrom'];
+            $month = !isset($range[$i]) ? '' : $range[$i]['month'];
+            $price = !isset($range[$i]) ? '' : $range[$i]['price'];
             if ($bookavail == 1) {
                 $dates_available[] = array($bookavail, $fromdate, $month, $price);
             } elseif ($bookavail == 2) {
