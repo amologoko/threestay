@@ -48,6 +48,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
     const XML_PATH_EMAIL_COPY_METHOD            = 'sales_email/order/copy_method';
     const XML_PATH_EMAIL_ENABLED                = 'sales_email/order/enabled';
 
+    const XML_PATH_EMAIL_OWNER_TEMPLATE         = 'sales_email/owner/template';
+    const XML_PATH_EMAIL_OWNER_GUEST_TEMPLATE   = 'sales_email/owner/guest_template';
+
     const XML_PATH_UPDATE_EMAIL_TEMPLATE        = 'sales_email/order_comment/template';
     const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE  = 'sales_email/order_comment/guest_template';
     const XML_PATH_UPDATE_EMAIL_IDENTITY        = 'sales_email/order_comment/identity';
@@ -1009,16 +1012,16 @@ public function _bookingUpdate($order_id) {
                 $emailInfo->addBcc($email);
             }
         }
-            /*host start*/
-         $productId =  Mage::getSingleton('core/session')->getProductID();
-         $model = Mage::getModel('catalog/product');
-         $_product = $model->load($productId);
-         $SpaceName = $_product->getName();
-         $hostId = $_product->getUserid();//property owner Id
-         $customer = Mage::getModel('customer/customer')->load($hostId);
-         $emailInfo->addTo($customer->getEmail(), $customer->getName());
-         
-        /*host end*/
+//            /*host start*/
+//         $productId =  Mage::getSingleton('core/session')->getProductID();
+//         $model = Mage::getModel('catalog/product');
+//         $_product = $model->load($productId);
+//         $SpaceName = $_product->getName();
+//         $hostId = $_product->getUserid();//property owner Id
+//         $customer = Mage::getModel('customer/customer')->load($hostId);
+//         $emailInfo->addTo($customer->getEmail(), $customer->getName());
+//
+//        /*host end*/
         $mailer->addEmailInfo($emailInfo);
 
         // Email copies are sent as separated emails if their copy method is 'copy'
@@ -1041,6 +1044,35 @@ public function _bookingUpdate($order_id) {
             )
         );
         $mailer->send();
+        // send confiramtion mail to owner if it enabeled in config
+        if (Mage::getStoreConfig('sales_email/owner/enabled') == 1) {
+            if ($this->getCustomerIsGuest()) {
+                $ownerTemplateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_OWNER_GUEST_TEMPLATE, $storeId);
+                $ownerCustomerName = $this->getBillingAddress()->getName();
+            } else {
+                $ownerTemplateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_OWNER_TEMPLATE, $storeId);
+                $ownerCustomerName = $this->getCustomerName();
+            }
+            $mailer_2 = Mage::getModel('core/email_template_mailer');
+            $emailInfo_2 = Mage::getModel('core/email_info');
+            $productId = Mage::getSingleton('core/session')->getProductID();
+            $model = Mage::getModel('catalog/product');
+            $_product = $model->load($productId);
+            $SpaceName = $_product->getName();
+            $hostId = $_product->getUserid(); //property owner Id
+            $customer = Mage::getModel('customer/customer')->load($hostId);
+            $emailInfo_2->addTo($customer->getEmail(), $customer->getName());
+            $mailer_2->addEmailInfo($emailInfo_2);
+            $mailer_2->setSender(Mage::getStoreConfig('sales_email/order/identity'));
+            $mailer_2->setTemplateId($ownerTemplateId);
+            $mailer_2->setTemplateParams(array(
+                    'order' => $this,
+                    'billing' => $this->getBillingAddress(),
+                    'payment_html' => $paymentBlockHtml
+                )
+            );
+            $mailer_2->send();
+        }
         //$this->hostEmail($paymentBlockHtml);
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
