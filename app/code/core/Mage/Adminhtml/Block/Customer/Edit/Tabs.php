@@ -64,6 +64,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->initForm()->toHtml(),
         ));
 
+        $this->addTab('WePay',array(
+            'label' =>Mage::helper('customer')->__('WePay'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_wepay')->showWepayInfo(),
+        ));
+
 
         // load: Orders, Shopping Cart, Wishlist, Product Reviews, Product Tags - with ajax
 

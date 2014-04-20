@@ -5,6 +5,7 @@ require_once Mage::getBaseDir('lib') . DS . 'wepay' . DS . 'wepay.php';
 class Magecomp_Wepay_Model_Wepay extends Mage_Payment_Model_Method_Abstract {
 	
 	const ADD_INFO_CHECKOUT_ID_KEY = 'wepay_checkout_id';
+	const ADD_INFO_PREAPPROVAL_ID_KEY = 'wepay_preapproval_id';
 	const INIT_REGISTRY_KEY = 'wepay_class_init';
 
 	const STATE_AUTHORIZED = 'authorized';
@@ -43,23 +44,22 @@ class Magecomp_Wepay_Model_Wepay extends Mage_Payment_Model_Method_Abstract {
 
 		if ($amount > 0) {
 
-			$checkout_id = $payment->getAdditionalInformation(self::ADD_INFO_CHECKOUT_ID_KEY);
+			$preapproval_id = $payment->getAdditionalInformation(self::ADD_INFO_PREAPPROVAL_ID_KEY );
 
 			try {
 
 				$this->initWepay();
-				$wepay = new Wepay($this->getConfigData('access_token'));
-				$info = $wepay->request('checkout', array('checkout_id' => $checkout_id));
-
-				if (floatval($info->gross) != floatval($amount)) {
+				$wepay = new Wepay($this->getOwner()->getWepayAccessToken());
+				$info = $wepay->request('preapproval', array('preapproval_id' => $preapproval_id));
+				if (floatval($info->amount) != floatval($amount)) {
 					$error = 'An error occurred while processing wepay payment (m1)';
-				} elseif ($info->state != self::STATE_AUTHORIZED && $info->state != self::STATE_RESERVED){
+				} elseif ($info->state == self::STATE_RESERVED){
 					$error = 'An error occurred while processing wepay payment (m2)';
 				} else {
 
-					$payment->setTransactionId($info->checkout_id)
+					$payment->setTransactionId($info->preapproval_id)
 						   ->setIsTransactionClosed(false)
-						   ->setLastTransId($info->checkout_id);
+						   ->setLastTransId($info->preapproval_id);
 				}
 			} catch (Excaption $e) {
 				$error = 'An error occurred while processing wepay payment (m3)';
@@ -184,5 +184,17 @@ class Magecomp_Wepay_Model_Wepay extends Mage_Payment_Model_Method_Abstract {
 			Mage::register(self::INIT_REGISTRY_KEY, true);
 		}
 	}
+
+    private function getOwner(){
+        $cart = Mage::getModel('checkout/cart')->getQuote();
+        $productId = 0;
+        foreach ($cart->getAllItems() as $item) {
+            $productId = $item->getProduct()->getId();
+        }
+        $model = Mage::getModel('catalog/product');
+        $_product = $model->load($productId);
+        $hostId = $_product->getUserid(); //property owner Id
+        return Mage::getModel('customer/customer')->load($hostId);
+    }
 
 }

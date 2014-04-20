@@ -113,7 +113,9 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
             Mage::getSingleton('core/session')->addNotice($this->__('Login and create your space'));
             $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-        } else {
+        } elseif(Mage::getSingleton('customer/session')->getCustomer()->getWepayAccountId() == null){
+            $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('wepay/api/auth'));
+        }else {
             $this->getLayout()->getBlock('head')->setTitle($this->__('List your Space'));
             $this->renderLayout();
         }

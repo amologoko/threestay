@@ -11,8 +11,8 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 		$this->initWepay();
 
 		try {
-			$wepay = new Wepay($this->getConfig('access_token'));
-
+            $customer_owner = $this->getOwner();
+			$wepay = new Wepay($customer_owner->getWepayAccessToken());
 			$quote = $this->getSession()->getQuote();
 			$payment = $quote->getPayment();
 			$shipping = $quote->getShippingAddress();
@@ -34,6 +34,12 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 
 
 			$amount = floatval(number_format($quote->getBaseGrandTotal(), 2, '.', ''));
+            $app_fee_percent = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
+            $price = 0;
+            foreach ($quote->getAllItems() as $item) {
+                $price = $item->getProduct()->getPrice();
+            }
+            $app_fee = ($price/100)*$app_fee_percent;
 			$payer='';
 			if($this->getConfig('fee_payer')==0)
 			{
@@ -43,24 +49,23 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 			{
 				$payer = 'payer';
 			}
-			$checkout = $wepay->request('/checkout/create', array(
-			    'account_id' => $this->getConfig('account_id'),
-			    'amount' => $amount,
-			    'short_description' => "Order Number: " . $quote->getReservedOrderId(),
-			    'type' => "GOODS",
-			    'mode' => "regular",
-			    'reference_id' => $quote->getId(),
-			    'fee_payer' => $payer,
-			    'redirect_uri' => Mage::getUrl('wepay/api/return'),
-			    'auto_capture' => 0,
-			    'shipping_fee' => number_format($shipping->getBaseShippingAmount(), 2, '.', ''),
-			    'prefill_info' => $addr_obj,
-				   )
-			);
 
-			$payment->setAdditionalInformation(Magecomp_Wepay_Model_Wepay::ADD_INFO_CHECKOUT_ID_KEY, $checkout->checkout_id)->save();
+            $preapproval = $wepay->request('/preapproval/create', array(
+                    'account_id' => $customer_owner->getWepayAccountId(),
+                    'amount' => $amount,
+                    'short_description' => "Order Number: " . $quote->getReservedOrderId(),
+                    'mode' => "regular",
+                    'reference_id' => $quote->getId(),
+                    'fee_payer' => $payer,
+                    'app_fee' => $app_fee,
+                    'redirect_uri' => Mage::getUrl('wepay/api/return'),
+                    'prefill_info' => $addr_obj,
+                    'period' => 'once',
+                )
+            );
 
-			$this->getResponse()->setRedirect($checkout->checkout_uri);
+            $payment->setAdditionalInformation(Magecomp_Wepay_Model_Wepay::ADD_INFO_PREAPPROVAL_ID_KEY, $preapproval->preapproval_id)->save();
+            $this->getResponse()->setRedirect($preapproval->preapproval_uri);
 			return;
 		} catch (Exception $e) {
 			Mage::getSingleton('checkout/session')->addError($e->getMessage());
@@ -72,8 +77,9 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 	public function returnAction() {
 
 		$this->initWepay();
+        $customer_owner = $this->getOwner();
 
-		$checkout_id = $this->getRequest()->getParam('checkout_id');
+		$preapproval_id = $this->getRequest()->getParam('preapproval_id');
 
 		$quote = $this->getSession()->getQuote();
 
@@ -81,17 +87,17 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 		$payment = $quote->getPayment();
 
 		// check returned checkout id with session's saved checkout id
-		if ($checkout_id != $payment->getAdditionalInformation(Magecomp_Wepay_Model_Wepay::ADD_INFO_CHECKOUT_ID_KEY)) {
+		if ($preapproval_id != $payment->getAdditionalInformation(Magecomp_Wepay_Model_Wepay::ADD_INFO_PREAPPROVAL_ID_KEY)) {
 			Mage::getSingleton('checkout/session')->addError('An error occurred while connecting to your wepay payment. (1)');
-			Mage::log('Incorrect wepay callback. Checkout ID mismatch: quote_id: ' . $quote->getId() . ' payment_id:  ' . $payment->getId() . 'param: ' . $checkout_id . ' quote: ' . $payment->getAdditionalInformation(Magecomp_Wepay_Model_Wepay::ADD_INFO_CHECKOUT_ID_KEY));
+			Mage::log('Incorrect wepay callback. Checkout ID mismatch: quote_id: ' . $quote->getId() . ' payment_id:  ' . $payment->getId() . 'param: ' . $preapproval_id . ' quote: ' . $payment->getAdditionalInformation(Magecomp_Wepay_Model_Wepay::ADD_INFO_CHECKOUT_ID_KEY));
 			$this->_redirect('checkout/cart');
 			return;
 		}
 
 		try {
 			// get wepay info to confirm
-			$wepay = new Wepay($this->getConfig('access_token'));
-			$info = $wepay->request('checkout', array('checkout_id' => $checkout_id));
+			$wepay = new Wepay($customer_owner->getWepayAccessToken());
+			$info = $wepay->request('preapproval', array('preapproval_id' => $preapproval_id));
 
 			if ($info->reference_id != $quote->getId()) {
 				Mage::getSingleton('checkout/session')->addError('An error occurred while connecting to your wepay payment. (2)');
@@ -109,6 +115,9 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 				Mage::throwException('An error occurred while connecting to your wepay payment. (3)');
 			}
 
+            $payment = $order->getPayment();
+            $payment->setAdditionalData(serialize(array('preapproval_id' => $info->preapproval_id)))
+            ->save();
 			$this->getSession()->setLastQuoteId($quote->getId())
 				   ->setLastSuccessQuoteId($quote->getId())
 				   ->setLastOrderId($order->getId());
@@ -198,4 +207,129 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 		//$this->_redirectUrl(Mage_Adminhtml_Helper_Data::getUrl('adminhtml/system_config/edit', array('section' => 'payment')));
 	}
 
+    public function captureAction()
+    {
+        $order_id = $this->getRequest()->getParam('order_id');
+        if($order_id == null){
+            return;
+        }
+        $this->initWepay();
+        $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+        $billing = $order->getBillingAddress();
+        $additional_information = $order->getPayment()->additional_information;
+        $wepay_preapproval_id = $additional_information['wepay_preapproval_id'];
+        $region = Mage::getSingleton('directory/region');
+        $state = $region->loadByName($billing->getRegion(), $billing->getCountryId())->getCode();
+        $addr_obj = new stdClass();
+        $addr_obj->name = $billing->getName();
+        $addr_obj->email = $order->getCustomerEmail();
+        $addr_obj->phone_number = $billing->getTelephone();
+        $addr_obj->address = $billing->getSteetFull();
+        $addr_obj->city = $billing->getCity();
+        $addr_obj->state = $state;
+        $addr_obj->zip = $billing->getPostcode();
+
+        $price = 0;
+        foreach ($order->getAllItems() as $item) {
+            $price = $item->getProduct()->getPrice();
+        }
+
+        $amount = floatval(number_format($order->getBaseGrandTotal(), 2, '.', ''));
+        $app_fee_percent = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
+        $app_fee = ($price / 100) * $app_fee_percent;
+
+        $payer = '';
+        if ($this->getConfig('fee_payer') == 0) {
+            $payer = 'payee';
+        } else {
+            $payer = 'payer';
+        }
+        $owner = $this->getOwner($order);
+        $access_token = $owner->getWepayAccessToken();
+        $owner->getWepayAccountId();
+
+        $wepay = new Wepay($access_token);
+        $checkout = $wepay->request('/checkout/create', array(
+                'account_id' => $owner->getWepayAccountId(),
+                'amount' => $amount,
+                'short_description' => "Order Number: " . $order->getId(),
+                'type' => "GOODS",
+                'preapproval_id' => $wepay_preapproval_id,
+                'fee_payer' => $payer,
+                'app_fee' => $app_fee,
+                'auto_capture' => 1,
+                'prefill_info' => $addr_obj,
+            )
+        );
+
+    }
+
+    public function authAction()
+    {
+        $loggedin_customer = Mage::getSingleton('customer/session')->getCustomer();
+        $user_email = $loggedin_customer->getEmail();
+        $client_id = $this->getConfig('client_id');
+        $client_secret = $this->getConfig('password');
+
+        if (Mage::app()->getRequest()->getParam('code') != null) {
+            $this->initWepay();
+            $wepay = new Wepay($this->getConfig('access_token'));
+            $getTokenResult = $wepay->getToken(Mage::app()->getRequest()->getParam('code'), Mage::helper('adminhtml')->getUrl('wepay/api/auth'));
+            $user_id = $getTokenResult->user_id;
+            $access_token = $getTokenResult->access_token;
+            $createAccountResult = $this->createAccount($access_token);
+            $account_id = $createAccountResult->account_id;
+            $loggedin_customer->setWepayAccountId($account_id);
+            $loggedin_customer->setWepayAccessToken($access_token);
+            $loggedin_customer->save();
+            $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('booking/property/form'));
+        } else {
+            $url = 'https://www.wepay.com/v2/oauth2/authorize?';
+            if ($this->getConfig('testmode') == 1) {
+                $url = 'https://stage.wepay.com/v2/oauth2/authorize?';
+            }
+            $urlParameters = array(
+                'client_id' => $client_id,
+                'scope' => 'manage_accounts,view_balance,collect_payments,view_user,send_money,preapprove_payments',
+                'redirect_uri' => Mage::helper('adminhtml')->getUrl('wepay/api/auth'),
+                'user_email' => $user_email
+            );
+            $url .= http_build_query($urlParameters);
+            $this->_redirectUrl($url);
+        }
+
+    }
+
+    private function createAccount($access_token)
+    {
+        $this->initWepay();
+        $wepay = new Wepay($access_token);
+        try {
+            $result = $wepay->request('/account/create', array(
+                    'name' => 'threestay_account_name',
+                    'description' => 'threestay_account_deskciption',
+                )
+            );
+        } catch (Exception $e) {
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+        }
+        return $result;
+    }
+
+    private function getOwner($order = false)
+    {
+        if ($order) {
+            $resource = $order;
+        } else {
+            $resource = Mage::getModel('checkout/cart')->getQuote();
+        }
+        $productId = 0;
+        foreach ($resource->getAllItems() as $item) {
+            $productId = $item->getProduct()->getId();
+        }
+        $model = Mage::getModel('catalog/product');
+        $_product = $model->load($productId);
+        $hostId = $_product->getUserid(); //property owner Id
+        return Mage::getModel('customer/customer')->load($hostId);
+    }
 }
