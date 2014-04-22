@@ -1068,7 +1068,9 @@ public function _bookingUpdate($order_id) {
             $mailer_2->setTemplateParams(array(
                     'order' => $this,
                     'billing' => $this->getBillingAddress(),
-                    'payment_html' => $paymentBlockHtml
+                    'payment_html' => $paymentBlockHtml,
+                    'confirm_link' => Mage::helper('adminhtml')->getUrl('wepay/api/confirm',array('order_id'=>$this->getIncrementId())),
+                    'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel',array('order_id'=>$this->getIncrementId()))
                 )
             );
             $mailer_2->send();

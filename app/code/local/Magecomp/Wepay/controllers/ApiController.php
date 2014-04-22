@@ -207,60 +207,144 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 		//$this->_redirectUrl(Mage_Adminhtml_Helper_Data::getUrl('adminhtml/system_config/edit', array('section' => 'payment')));
 	}
 
-    public function captureAction()
+    public function confirmAction()
     {
+        $session = Mage::getSingleton('customer/session');
         $order_id = $this->getRequest()->getParam('order_id');
-        if($order_id == null){
+        if ($session->isLoggedIn() && $order_id != null) {
+            $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+            $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
+            if ($currentCustomer->getEmail() == $this->getOwner($order)->getEmail()) {
+                if ($order->getStatusLabel() != 'Processing') {
+                    $this->_redirectUrl(Mage::getUrl('no-route'));
+                    return;
+                }
+
+                if (!$order->canInvoice()) {
+                    Mage::throwException(Mage::helper('core')->__('Cannot create an invoice.'));
+                }
+                $this->initWepay();
+                $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+                $billing = $order->getBillingAddress();
+                $additional_information = $order->getPayment()->additional_information;
+                $wepay_preapproval_id = $additional_information['wepay_preapproval_id'];
+                $region = Mage::getSingleton('directory/region');
+                $state = $region->loadByName($billing->getRegion(), $billing->getCountryId())->getCode();
+                $addr_obj = new stdClass();
+                $addr_obj->name = $billing->getName();
+                $addr_obj->email = $order->getCustomerEmail();
+                $addr_obj->phone_number = $billing->getTelephone();
+                $addr_obj->address = $billing->getSteetFull();
+                $addr_obj->city = $billing->getCity();
+                $addr_obj->state = $state;
+                $addr_obj->zip = $billing->getPostcode();
+
+                $price = 0;
+                foreach ($order->getAllItems() as $item) {
+                    $price = $item->getProduct()->getPrice();
+                }
+
+                $amount = floatval(number_format($order->getBaseGrandTotal(), 2, '.', ''));
+                $app_fee_percent = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
+                $app_fee = ($price / 100) * $app_fee_percent;
+                $payer = '';
+                if ($this->getConfig('fee_payer') == 0) {
+                    $payer = 'payee';
+                } else {
+                    $payer = 'payer';
+                }
+                $owner = $this->getOwner($order);
+                $access_token = $owner->getWepayAccessToken();
+                $owner->getWepayAccountId();
+                $wepay = new Wepay($access_token);
+                try {
+                    $checkout = $wepay->request('/checkout/create', array(
+                            'account_id' => $owner->getWepayAccountId(),
+                            'amount' => $amount,
+                            'short_description' => "Order Number: " . $order->getId(),
+                            'type' => "GOODS",
+                            'preapproval_id' => $wepay_preapproval_id,
+                            'fee_payer' => $payer,
+                            'app_fee' => $app_fee,
+                            'auto_capture' => 1,
+                            'prefill_info' => $addr_obj,
+                        )
+                    );
+                } catch (Exception $e) {
+                    Mage::getSingleton('checkout/session')->addError($e->getMessage());
+                }
+
+                if ($checkout->checkout_id) {
+                    try {
+                        $invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
+                        if (!$invoice->getTotalQty()) {
+                            Mage::throwException(Mage::helper('core')->__('Cannot create an invoice without products.'));
+                        }
+                        $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
+                        $invoice->register();
+                        $transactionSave = Mage::getModel('core/resource_transaction')
+                            ->addObject($invoice)
+                            ->addObject($invoice->getOrder());
+                        $transactionSave->save();
+                    } catch (Exception $e) {
+                        Mage::getSingleton('checkout/session')->addError($e->getMessage());
+                    }
+                }
+
+                if ($order->getStatusLabel() == 'Complete' && $checkout->checkout_id) {
+                    echo 'You have successfuly confirmed order: #' . $order_id;
+                } else {
+                    echo 'Error, order can\'t be confirmed';
+                }
+            } else {
+                $this->_redirectUrl(Mage::getUrl('no-route'));
+            }
+        } else {
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
             return;
         }
-        $this->initWepay();
-        $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
-        $billing = $order->getBillingAddress();
-        $additional_information = $order->getPayment()->additional_information;
-        $wepay_preapproval_id = $additional_information['wepay_preapproval_id'];
-        $region = Mage::getSingleton('directory/region');
-        $state = $region->loadByName($billing->getRegion(), $billing->getCountryId())->getCode();
-        $addr_obj = new stdClass();
-        $addr_obj->name = $billing->getName();
-        $addr_obj->email = $order->getCustomerEmail();
-        $addr_obj->phone_number = $billing->getTelephone();
-        $addr_obj->address = $billing->getSteetFull();
-        $addr_obj->city = $billing->getCity();
-        $addr_obj->state = $state;
-        $addr_obj->zip = $billing->getPostcode();
+    }
 
-        $price = 0;
-        foreach ($order->getAllItems() as $item) {
-            $price = $item->getProduct()->getPrice();
-        }
+    public function cancelAction()
+    {
+        $session = Mage::getSingleton('customer/session');
+        $order_id = $this->getRequest()->getParam('order_id');
+        if ($session->isLoggedIn() && $order_id != null) {
+            $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+            $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
+            if ($currentCustomer->getEmail() == $this->getOwner($order)->getEmail()) {
+                if ($order->getStatusLabel() != 'Processing') {
+                    $this->_redirectUrl(Mage::getUrl('no-route'));
+                    return;
+                }
+                $this->initWepay();
+                $additional_information = $order->getPayment()->additional_information;
+                $access_token = $this->getOwner($order)->getWepayAccessToken();
+                $wepay_preapproval_id = $additional_information['wepay_preapproval_id'];
 
-        $amount = floatval(number_format($order->getBaseGrandTotal(), 2, '.', ''));
-        $app_fee_percent = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
-        $app_fee = ($price / 100) * $app_fee_percent;
+                $wepay = new Wepay($access_token);
 
-        $payer = '';
-        if ($this->getConfig('fee_payer') == 0) {
-            $payer = 'payee';
+                $preapproval = $wepay->request('/preapproval/cancel', array(
+                        'preapproval_id' => $wepay_preapproval_id
+                    )
+                );
+
+                $order->cancel();
+                $order->setStatus('canceled');
+                $order->save();
+
+                if ($preapproval->state == 'cancelled' && $order->getStatusLabel() == 'Canceled') {
+                    echo 'You successfuly canceled order: ' . $order_id;
+                } else {
+                    echo 'Error, can\'t cancel this order';
+                }
+            } else {
+                $this->_redirectUrl(Mage::getUrl('no-route'));
+            }
         } else {
-            $payer = 'payer';
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+            return;
         }
-        $owner = $this->getOwner($order);
-        $access_token = $owner->getWepayAccessToken();
-        $owner->getWepayAccountId();
-
-        $wepay = new Wepay($access_token);
-        $checkout = $wepay->request('/checkout/create', array(
-                'account_id' => $owner->getWepayAccountId(),
-                'amount' => $amount,
-                'short_description' => "Order Number: " . $order->getId(),
-                'type' => "GOODS",
-                'preapproval_id' => $wepay_preapproval_id,
-                'fee_payer' => $payer,
-                'app_fee' => $app_fee,
-                'auto_capture' => 1,
-                'prefill_info' => $addr_obj,
-            )
-        );
 
     }
 
