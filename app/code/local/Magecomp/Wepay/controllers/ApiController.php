@@ -292,9 +292,11 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
                 }
 
                 if ($order->getStatusLabel() == 'Complete' && $checkout->checkout_id) {
-                    echo 'You have successfuly confirmed order: #' . $order_id;
+                    Mage::getSingleton('core/session')->addSuccess("You have successfuly confirmed order: #". $order_id);
+                    $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('booking/property/show'));
                 } else {
-                    echo 'Error, order can\'t be confirmed';
+                    Mage::getSingleton('core/session')->addError("Error, order can't be confirmed");
+                    $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('booking/property/show'));
                 }
             } else {
                 $this->_redirectUrl(Mage::getUrl('no-route'));
@@ -334,9 +336,11 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
                 $order->save();
 
                 if ($preapproval->state == 'cancelled' && $order->getStatusLabel() == 'Canceled') {
-                    echo 'You successfuly canceled order: ' . $order_id;
+                     Mage::getSingleton('core/session')->addSuccess("You have successfuly canceled order: ". $order_id);
+                     $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('booking/property/show'));
                 } else {
-                    echo 'Error, can\'t cancel this order';
+                    Mage::getSingleton('core/session')->addError("Error, can't cancel this order!");
+                    $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('booking/property/show'));
                 }
             } else {
                 $this->_redirectUrl(Mage::getUrl('no-route'));
