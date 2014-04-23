@@ -416,4 +416,14 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
         $hostId = $_product->getUserid(); //property owner Id
         return Mage::getModel('customer/customer')->load($hostId);
     }
+
+    public function isHaveAccountAction(){
+        $session = Mage::getSingleton('customer/session');
+        if($session-> isLoggedIn() && $session->getCustomer()->getWepayAccountId() == null){
+            echo 0;
+        }else{
+            echo 1;
+        }
+
+    }
 }

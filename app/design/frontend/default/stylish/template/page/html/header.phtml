@@ -47,7 +47,7 @@ $myData = Mage::getSingleton('core/session')->getAirbnbLanguage();
 	src="<?php echo $this->getLogoSrc() ?>"
 	alt="<?php echo $this->getLogoAlt() ?>" /></a> </div><?php endif?>
  
-    <a class="mylist_btn broswer_header" href="<?php echo Mage::getBaseUrl().'booking/property/form';?>" >
+    <a class="mylist_btn broswer_header" id="add_space" onclick="isHaveWepayAccount()">
 	<?php echo Mage::helper('airhotels')->__('Add Your Space') ?></a>
     
 <ul class="headermenu broswer_header">
@@ -218,4 +218,53 @@ ddaccordion.init({
         $configSwitch->saveConfig('airhotels/sampledata/enable_data', "1", 'default', 0);        
         ?>
 <!-- sample data popup -->
+<style>
+    #wepay_redirect_popup{
+      width: 100%;
+      position: absolute;
+        height: 50px;
+        background-color: rgba(179, 125, 12, 0.75);
+        z-index: 99;
+        display: none;
+        text-align: center;
+    }
 
+    #wepay_redirect_popup p{
+        margin-top: 15px;
+        font-size: 20px;
+    }
+</style>
+<div id="wepay_redirect_popup">
+<p>In order to link your payment account you are being redirected to WePay.com external website... <span id="seconds"></span></p>
+</div>
+    <script>
+        var btnDisble = false;
+        function isHaveWepayAccount() {
+            if (!btnDisble) {
+                btnDisble = true;
+
+                jQuery.ajax({
+                    url: '<?php echo Mage::helper('adminhtml')->getUrl('wepay/api/isHaveAccount') ?>',
+                    success: function (data) {
+                        if (data == 0) {
+                            var sec = 5;
+                            jQuery('#wepay_redirect_popup').slideDown('slow')
+                            var interval = setInterval(function () {
+                                if (sec == 0) {
+                                    location.href = '<?php echo Mage::helper('adminhtml')->getUrl('wepay/api/auth')?>';
+                                    clearInterval(interval);
+                                }
+                                jQuery('#seconds').text(sec);
+                                sec--;
+                            }, 1000)
+                        } else {
+                            location.href = '<?php echo Mage::getBaseUrl().'booking/property/form';?>';
+                        }
+                    }
+                })
+            } else {
+                return false;
+            }
+
+        }
+</script>
