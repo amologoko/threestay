@@ -292,6 +292,7 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
                 }
 
                 if ($order->getStatusLabel() == 'Complete' && $checkout->checkout_id) {
+                    $this->updateBookingStatus($order_id);
                     Mage::getSingleton('core/session')->addSuccess("You have successfuly confirmed order: #". $order_id);
                     $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('booking/property/show'));
                 } else {
@@ -429,5 +430,10 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
             echo 1;
         }
 
+    }
+
+    private function updateBookingStatus($order_id){
+        $airhotels = Mage::getModel('airhotels/airhotels');
+        $airhotels->updateStatus($order_id,1);
     }
 }

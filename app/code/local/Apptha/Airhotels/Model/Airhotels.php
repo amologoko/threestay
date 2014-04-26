@@ -1016,6 +1016,15 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         return $aDays;
     }
 
-    
+    public function updateStatus($order_id,$status) {
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $sql = 'UPDATE `bitnami_magento`.`airhotels_booking` SET `status` = "'.$status.'" WHERE `order_id` = "'.$order_id.'"';
+        try{
+            $result = $write->query($sql);
+        }catch (Exception $e){
+            $result  = false;
+        }
+        return $result;
+    }
     
 }

@@ -254,6 +254,7 @@ if ($this->getRequest()->getParam('from') || $this->getRequest()->getParam('clea
                                             echo '<td>' . date("d, M Y", strtotime($todate)) . '</td>';
                                             echo '</tr>';
                                             $i++;
+                                            break;
                                         }
 
                                         unset($product_collection);

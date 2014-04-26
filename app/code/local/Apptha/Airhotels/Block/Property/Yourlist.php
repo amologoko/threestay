@@ -23,7 +23,7 @@ class Apptha_Airhotels_Block_Property_Yourlist extends Mage_Catalog_Block_Produc
         $customerId = $session->getId();
         $read = Mage::helper('airhotels')->getRDAdapter();
         $tPrefix = (string) Mage::getConfig()->getTablePrefix();
-        
+        $today = date("Y-m-d", strtotime(date("Y") . "-" . date("m"). "-" . date("d")));
         if ($fromDate && $toDate) {
             if ($fromDate == "yyyy-mm-dd" && $toDate == "yyyy-mm-dd") {
                 $booking_table = $tPrefix . 'airhotels_booking where fromdate >="' . date("Y-m-d", strtotime(date("Y") . "-" . date("m") . "-1")) . '" and todate <= "' . date("Y-m-d", strtotime(date("Y") . "-" . date("m") . "-" . date("t"))) . '" and order_status = "1"';
@@ -31,7 +31,7 @@ class Apptha_Airhotels_Block_Property_Yourlist extends Mage_Catalog_Block_Produc
                 $booking_table = $tPrefix . 'airhotels_booking where fromdate >="' . $fromDate . '" and todate <= "' . $toDate . '" and order_status = "1"';
             }
         } else {
-            $booking_table = $tPrefix . 'airhotels_booking where fromdate >="' . date("Y-m-d", strtotime(date("Y") . "-" . date("m") . "-1")) . '" and todate <= "' . date("Y-m-d", strtotime(date("Y") . "-" . date("m") . "-" . date("t"))) . '" and order_status = "1"';
+            $booking_table = $tPrefix . 'airhotels_booking where ((fromdate < "' . $today . '" and todate >= "' . $today . '") OR fromdate >="' . $today . '") and order_status = "1"';
         }
         $avail = "SELECT *  from  $booking_table";
         $result = $read->fetchAll($avail);
