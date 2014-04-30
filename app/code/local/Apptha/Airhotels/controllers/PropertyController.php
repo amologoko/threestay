@@ -453,7 +453,9 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         $blockedArr = $this->getDaysAction(count($blockedArray[1]),$blockedArray[1]);
         // start new concept for booked date
         $blockedArrayCust = Mage::getModel('airhotels/airhotels')->getBlockdateBook($productId,$_GET["date"]);
-        $blocked=array_merge($blockedArr, $blockedArrayCust);
+        $bookingReserved = $blockedArrayCust['processing'];
+        $bookingComplete = $blockedArrayCust['complete'];
+        $blocked=array_merge($blockedArr, $bookingComplete);
         // end new concept for booked date
 
         $not_avail = $this->getDaysAction(count($blockedArray[2]),$blockedArray[2]);
@@ -557,6 +559,8 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center' style='background-color:#E07272;'><font size = '2' face = 'tahoma'>$d</font></td>";
                         } else if (in_array("$d", $not_avail)) {
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center'style='background-color:#F18200;color: black !important;' ><font size = '2' face = 'tahoma'>$d</font></td>";
+                        } else if (in_array("$d", $bookingReserved)) {
+                            echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center'style='background-color:#FF86F5;color: black !important;' ><font size = '2' face = 'tahoma'>$d</font></td>";
                         } else if(array_key_exists($d,$_sp)){
                                 echo "<td style='padding: 11px 23px;' id=" . $tdDate . " class='normal days " . $d . " ' align='center' ><font size = '2' face = 'tahoma'>$d</font><br><div style='width: 25px;font-size: 1.0em;text-align: right;'>".
                                    Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol().Mage::helper('directory')->currencyConvert($_sp[$d],Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode())."</div></td>";

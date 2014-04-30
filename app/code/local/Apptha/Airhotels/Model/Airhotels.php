@@ -320,6 +320,23 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         return $dates_range;
     }
 
+    public function getPropertyReservedDays($productId){
+        $resource = Mage::getSingleton('core/resource');
+        $read = $resource->getConnection('read');
+        $tPrefix = (string) Mage::getConfig()->getTablePrefix();
+        $orderItemTable = $tPrefix . 'sales_flat_order';
+        $booking_table = $tPrefix . 'airhotels_booking';
+        $dealstatus[0] = "processing";
+        $dealstatus[1] = "complete";
+        $date_range = $read->select()
+                ->from(array('ct' => $booking_table), array('ct.entity_id', 'ct.fromdate', 'ct.todate', 'ct.order_id', 'ct.order_item_id','pei.status'))
+                ->join(array('pei' => $orderItemTable), 'pei.entity_id = ct.order_item_id', array())
+                ->where('ct.entity_id =?', $productId)
+                ->where('pei.status in (?)', $dealstatus);
+        $range = $read->fetchAll($date_range);
+        return $range;
+    }
+
     public function status($status, $pId) {
         $product = Mage::getModel('catalog/product')->load($pId);
         $storeId = Mage::app()->getStore()->getId();
@@ -970,7 +987,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
     }
 
     public function getBlockdateBook($productid, $date, $to = NULL) {
-        $dates_range = array();
+        $dates_range = array('processing'=>array(),'complete' => array());
         $read = Mage::helper('airhotels')->getRDAdapter();
         $tPrefix = (string) Mage::getConfig()->getTablePrefix();
         $blockCalendartable = $tPrefix . 'airhotels_booking';
@@ -986,7 +1003,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
             $year = $to;
         }
         $yearVal = $year[0];
-        $query = "SELECT b.fromdate, b.todate from $blockCalendartable as b LEFT JOIN $orderItemTable as t ON t.entity_id = b.order_item_id
+        $query = "SELECT b.fromdate, b.todate,t.status from $blockCalendartable as b LEFT JOIN $orderItemTable as t ON t.entity_id = b.order_item_id
                 WHERE b.entity_id = '$productid' AND ( YEAR(b.fromdate)='$yearVal' OR YEAR(b.todate)='$yearVal' ) AND (t.status='$dealstatus[1]' OR t.status='$dealstatus[0]')";
         $range = $read->fetchAll($query);
         if (count($range) > 0) {
@@ -995,7 +1012,11 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
                 foreach ($dateArr as $dateArrVal) {
                     $getDateArr = explode('-', $dateArrVal);
                     if ($getDateArr[0] == $year[0] && $getDateArr[1] == $x[0]) {
-                        $dates_range[] = $getDateArr[2];
+                        if($rangeVal['status'] ==  $dealstatus[1]){
+                            $dates_range[$dealstatus[1]][] = $getDateArr[2];
+                        }else if(($rangeVal['status'] ==  $dealstatus[0])){
+                            $dates_range[$dealstatus[0]][] = $getDateArr[2];
+                        }
                     }
                 }
             }

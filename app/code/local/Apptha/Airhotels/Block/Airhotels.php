@@ -41,7 +41,7 @@ class Apptha_Airhotels_Block_Airhotels extends Mage_Core_Block_Template {
                         ->addAttributeToSelect('*')
                         ->addAttributeToFilter('status', array('eq' => 1))
                         ->addAttributeToFilter('propertyapproved',array('eq' => 1))
-                        ->setOrder('created_at', 'desc')        
+                        ->setOrder('created_at', 'desc')
                         ->setPageSize($banner_count);
          break;
        case 2:
@@ -49,8 +49,8 @@ class Apptha_Airhotels_Block_Airhotels extends Mage_Core_Block_Template {
                         ->addAttributeToSelect('*')
                         ->addAttributeToFilter('status', array('eq' => 1))
                         ->addAttributeToFilter('banner', array('eq' => 1))
-                         ->addAttributeToFilter('propertyapproved',array('eq' => 1)) 
-                        ->setOrder('created_at', 'desc')        
+                         ->addAttributeToFilter('propertyapproved',array('eq' => 1))
+                        ->setOrder('created_at', 'desc')
                         ->setPageSize($banner_count);
          break;
         case 3:
@@ -70,12 +70,37 @@ class Apptha_Airhotels_Block_Airhotels extends Mage_Core_Block_Template {
                         ->addAttributeToSelect('*')
                         ->addAttributeToFilter('status', array('eq' => 1))
                         ->addAttributeToFilter('propertyapproved',array('eq' => 1))
-                        ->setOrder('created_at', 'desc')        
+                        ->setOrder('created_at', 'desc')
                         ->setPageSize($banner_count);
-            
-        }
-      return $_productCollection;                  
 
-    }    
+        }
+      return $_productCollection;
+
+    }
+
+    public function getPropertyReservedDays($productId){
+        $result = Mage::getModel('airhotels/airhotels')->getPropertyReservedDays($productId);
+        $dates = array();
+
+        foreach ($result as $booking) {
+            $from_date = $booking['fromdate'];
+            $to_date = $booking['todate'];
+
+            if ($from_date == $to_date) {
+                $dates[] = $from_date;
+                continue;
+            } elseif ($to_date == date('Y-m-d', strtotime($from_date . '+ 1 day'))) {
+                $dates[] = $from_date;
+                $dates[] = $to_date;
+                continue;
+            } else {
+                do {
+                    $dates[] = $from_date;
+                    $from_date = date('Y-m-d', strtotime($from_date . '+ 1 day'));
+                } while ($from_date <= $to_date);
+            }
+        }
+        return json_encode($dates);
+    }
 
 }

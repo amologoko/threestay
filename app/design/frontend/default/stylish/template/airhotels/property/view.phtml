@@ -30,7 +30,7 @@ $from = base64_decode($this->getRequest()->getParam('from'));
 $to = base64_decode($this->getRequest()->getParam('to'));
 $productIds = Mage::getSingleton('core/session')->getProductIds();
 $_helper = new Apptha_Airhotels_Block_Airhotels();
-
+$reserbedDates = $_helper->getPropertyReservedDays($productIds[0]);
 // Check the products is available or not
 if (empty($productIds)) {
     ?>
@@ -961,41 +961,90 @@ if (count($_productCollection)):
         window.location.href = url+"fromdate/"+fromdate+"/todate/"+todate+"/accomodate/"+accomodate+"/qty/"+days+"/subtotal_amt/"+subtotal_amt+"/serviceFee/"+document.getElementById('serviceFee').value;
     }
 
+    Date.prototype.yyyymmdd = function() {
+       var yyyy = this.getFullYear().toString();
+       var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+       var dd  = this.getDate().toString();
+       return yyyy +'-'+ (mm[1]?mm:"0"+mm[0])+'-'+ (dd[1]?dd:"0"+dd[0]); // padding
+      };
+
     var $jq = jQuery.noConflict();                            
 
+    var array = <?php echo $reserbedDates; ?>;
+    var newDates = [];
 
 
     $jq(function() {
 <?php if ($from != "" && $to != ""): ?>
             checkavail($jq("#from").val(),$jq("#to").val());
 <?php endif; ?>
-        var dates = $jq( "#from, #to" ).datepicker({
+//        var dates = $jq( "#from, #to" ).datepicker({
+//            changeMonth: true,
+//            minDate: '0',
+//            numberOfMonths: 1,
+//            onSelect: function( selectedDate ) {
+//                var option = this.id == "from" ? "minDate" : "maxDate",
+//                instance = $jq( this ).data( "datepicker" ),
+//                date = $jq.datepicker.parseDate(
+//                instance.settings.dateFormat ||
+//                    $jq.datepicker._defaults.dateFormat,
+//                selectedDate, instance.settings );
+//                dates.not( this ).datepicker( "option", option, date );
+//                $jq("#from" ).datepicker("option","maxDate","");
+//
+//                if(this.id == "from"){
+//                    instance = $jq( this ).data( "datepicker" )
+//                    var depart = $jq.datepicker.parseDate($jq.datepicker._defaults.dateFormat, selectedDate);
+//                    depart.setDate(depart.getDate() + 1);
+//                    $jq("#to" ).datepicker(  "option", "minDate", depart );
+//
+//                }
+//        if($jq("#from").val()!='' && $jq("#to").val()!='')
+//        { checkavail($jq("#from").val(),$jq("#to").val()); }
+//            }
+//
+//        });
+        $jq( "#from").datepicker({
             changeMonth: true,
             minDate: '0',
             numberOfMonths: 1,
-            onSelect: function( selectedDate ) {
-                var option = this.id == "from" ? "minDate" : "maxDate",
-                instance = $jq( this ).data( "datepicker" ),
-                date = $jq.datepicker.parseDate(
-                instance.settings.dateFormat ||
-                    $jq.datepicker._defaults.dateFormat,
-                selectedDate, instance.settings );
-                dates.not( this ).datepicker( "option", option, date );
-                $jq("#from" ).datepicker("option","maxDate","");
-
-                if(this.id == "from"){
-                    instance = $jq( this ).data( "datepicker" )
-                    var depart = $jq.datepicker.parseDate($jq.datepicker._defaults.dateFormat, selectedDate);
-                    depart.setDate(depart.getDate() + 1);
-                    $jq("#to" ).datepicker(  "option", "minDate", depart );
-
+            beforeShowDay: function(date){
+                var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                return [ array.indexOf(string) == -1 ]
+            },
+            onSelect: function(date) {
+                var selectedDate = $jq(this).datepicker('getDate');
+                var cur = 0;
+                var i = 1;
+                newDates= [];
+                while(array.indexOf(cur) == -1 && i<365){
+                    cur = new Date(selectedDate.getTime() + (i * 24 * 60 * 60 * 1000)).yyyymmdd();
+                    newDates.push(cur);
+                    i++;
                 }
-        if($jq("#from").val()!='' && $jq("#to").val()!='')        
-        { checkavail($jq("#from").val(),$jq("#to").val()); }
+                $jq( "#to").datepicker("setDate", new Date(selectedDate.getTime() + (24 * 60 * 60 * 1000)));
+            }
+        });
+
+        $jq( "#to").datepicker({
+            changeMonth: true,
+            minDate: '0',
+            numberOfMonths: 1,
+            beforeShowDay: function (date) {
+                if (newDates.indexOf(date.yyyymmdd()) != -1) {
+                    return [true, ''];
+                }
+                return [false, ''];
+            },
+            beforeShow: function () {
+                if ($jq("#from").val() == '') {
+                    return false;
+                }
             }
 
-        });
+        })
     });
+
     //-->
 </script>
 <script type="text/javascript">
