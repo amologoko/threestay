@@ -265,12 +265,22 @@ if (empty($productIds)) {
                                         </div>
                                         <!-- ends -->
                                     </div>
-                                    <div id="maps_div" class="main_content"  style="display: none;"  >
+                                    <div id="maps_div" class="main_content"  style="position: absolute; left:-10000px"  >
                                         <?php
                            $q = urlencode($_product->getPropertyadd().','.$_product->getCity().",".$_product->getCountry());
                                         ?>
                                         <iframe  style="width:600px;"width="600" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="//maps.google.com/maps?q=<?php echo $q; ?>&output=embed"></iframe>
 
+                                        <script>
+                                            $jQno(function () {
+                                                $jQno('.main_link').click(function () {
+                                                    if ($jQno(this).find('a[href="#maps"]').length > 0) {
+                                                        $jQno('#maps_div').css({"position": "static"});
+                                                    }
+                                                })
+
+                                            })
+                                        </script>
                                     </div>
 
                                     <!-- Booking Calendar Start-->
