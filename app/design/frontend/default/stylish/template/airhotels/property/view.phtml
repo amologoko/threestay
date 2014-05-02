@@ -710,7 +710,7 @@ if (empty($productIds)) {
                                                 </div>
                                                 <div class="select_grid">
                                                     <label for="to"><?php echo $this->__('Check out') ?></label>
-                                                    <input type="text" id="to" name="to" autocomplete="off" placeholder="<?php echo $this->__('mm/dd/yyyy');?>"  value="<?php echo $to; ?>"/>
+                                                    <input type="text" readonly="true" id="to" name="to" autocomplete="off" placeholder="<?php echo $this->__('mm/dd/yyyy');?>"  value="<?php echo $to; ?>"/>
                                                 </div>
                                                 <div class="select_grid1">
                                                     <label for="number_of_guests"><?php echo $this->__('Guests') ?> </label>
@@ -729,6 +729,7 @@ if (empty($productIds)) {
                                             </div>
                                             <div id="cart" style="display: none">
                                                 <a onclick="bookItNow('<?php echo $this->helper('checkout/cart')->getAddUrl($_product); ?>')" href='javascript:void(0);' id="scriptbuynow-<?php echo $count; ?>" class="button-glossy  booknow_btn"><?php echo $this->__('Book Now') ?></a>
+                                                <a onclick="resetBooking()" href='javascript:void(0);' id="cancel_book" class="button-glossy  booknow_btn"><?php echo $this->__('Cancel') ?></a>
                                             </div>
                                         </form>
                                     </div>
@@ -1033,7 +1034,12 @@ if (count($_productCollection)):
                     newDates.push(cur);
                     i++;
                 }
-                $jq( "#to").datepicker("setDate", new Date(selectedDate.getTime() + (24 * 60 * 60 * 1000)));
+                if(array.indexOf(new Date(selectedDate.getTime() + (24 * 60 * 60 * 1000)).yyyymmdd() )!= -1){
+                    $jq( "#to").datepicker("setDate", new Date(selectedDate.getTime() + (24 * 60 * 60 * 1000)));
+                }
+                if ($jq("#from").val() != '' && $jq("#to").val() != '') {
+                    checkavail($jq("#from").val(), $jq("#to").val());
+                }
             }
         });
 
@@ -1049,7 +1055,13 @@ if (count($_productCollection)):
             },
             beforeShow: function () {
                 if ($jq("#from").val() == '') {
+                    $jq("#from").focus();
                     return false;
+                }
+            },
+            onSelect:function(){
+                if ($jq("#from").val() != '' && $jq("#to").val() != '') {
+                    checkavail($jq("#from").val(), $jq("#to").val());
                 }
             }
 
@@ -1070,7 +1082,7 @@ if (count($_productCollection)):
             return false;
         }
         else if($jq.trim(to) !="" && $jq.trim(to)!="mm/dd/yyyy") {
-
+            $jq('#from,#to').datepicker('disable');
             document.getElementById("txtHint").innerHTML="<img src='<?php echo $this->getSkinUrl('images/loader.gif') ?>' />";
             var xmlhttp = getHttp();
             xmlhttp.onreadystatechange=function()
@@ -1103,6 +1115,12 @@ if (count($_productCollection)):
         }
     }
 
+    function resetBooking(){
+        $jq('#from,#to').datepicker('enable').val('');
+        $jq('#txtHint').html('');
+        $jq('#avail').show();
+        $jq('#cart').hide();
+    }
 
     function ajaxLoadCalendar(pUrl)
     {
