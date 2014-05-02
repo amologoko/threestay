@@ -187,6 +187,7 @@ text-shadow: 0 1px 1px white;
     #cal_legend h2.available_grid{background-color: #ACDBA8; margin-right: 10px;}
     #cal_legend h2.booked_grid{background-color: #E07272; margin-right: 10px;}
     #cal_legend h2.unavailable_grid{background-color: #F18200; }
+    #cal_legend h2.reserved_grid{background-color: #FF86F5; margin-right: 10px;}
    #signUp_grid .buttons-set .back-link{display: none;}
    
    .search_guest select{float: left;-moz-border-radius: 3px;-webkit-border-radius: 3px; width: auto;}
