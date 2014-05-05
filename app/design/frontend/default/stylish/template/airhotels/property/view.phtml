@@ -115,7 +115,7 @@ if (empty($productIds)) {
                             <h1>
                                 <?php echo $this->htmlEscape($_product->getName()) ?> 
                             </h1>
-                            <h3><?php echo $_product->getPropertyadd() . ' - '; ?> <span id="display_address"><?php echo $_product->getCity() . ", " . $_product->getCountry(); ?></span></h3>
+                            <h3><span id="display_address"><?php echo $_product->getCity() . ", " . $_product->getCountry(); ?></span></h3>
 
                         </div>
                         <div id="action_buttons">
@@ -265,21 +265,118 @@ if (empty($productIds)) {
                                         </div>
                                         <!-- ends -->
                                     </div>
-                                    <div id="maps_div" class="main_content"  style="position: absolute; left:-10000px"  >
+                                    <div id="maps_div" class="main_content"  style=""  >
                                         <?php
-                           $q = urlencode($_product->getPropertyadd().','.$_product->getCity().",".$_product->getCountry());
+                                    $destination = $_product->getPropertyadd().','.$_product->getCity().",".$_product->getCountry();
                                         ?>
-                                        <iframe  style="width:600px;"width="600" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="//maps.google.com/maps?q=<?php echo $q; ?>&output=embed"></iframe>
+                                        <div id="map"></div>
+                                        <script type="text/javascript" src="http://hpneo.github.io/gmaps/gmaps.js"></script>
 
                                         <script>
-                                            $jQno(function () {
-                                                $jQno('.main_link').click(function () {
-                                                    if ($jQno(this).find('a[href="#maps"]').length > 0) {
-                                                        $jQno('#maps_div').css({"position": "static"});
-                                                    }
-                                                })
+                                            var map = {};
+                                            var latlng = {};
+                                            var circle = false;
+                                            var radius = 0;
 
-                                            })
+                                            window.onload = function () {
+                                                map = new GMaps({
+                                                    div: '#map',
+                                                    lat: 0,
+                                                    lng: 0,
+                                                    enableNewStyle: true,
+                                                    zoom_changed: function (results, status) {
+                                                        if (circle) {
+                                                            switch (results.zoom) {
+                                                                case 16 :
+                                                                    radius = 200
+                                                                    break
+                                                                case 15 :
+                                                                    radius = 300
+                                                                    break
+                                                                case 14 :
+                                                                    radius = 400
+                                                                    break
+                                                                case 13 :
+                                                                    radius = 900
+                                                                    break
+                                                                case 12 :
+                                                                    radius = 1500
+                                                                    break
+                                                                case 11 :
+                                                                    radius = 2500
+                                                                    break
+                                                                case 10 :
+                                                                    radius = 4500
+                                                                    break
+                                                                case 9 :
+                                                                    radius = 10000
+                                                                    break
+                                                                case 8 :
+                                                                    radius = 20000
+                                                                    break
+                                                                case 7 :
+                                                                    radius = 40000
+                                                                    break
+                                                                case 6 :
+                                                                    radius = 80000
+                                                                    break
+                                                                case 5 :
+                                                                    radius = 160000
+                                                                    break
+                                                                case 4 :
+                                                                    radius = 320000
+                                                                    break
+                                                                case 3 :
+                                                                    radius = 640000
+                                                                    break
+                                                                case 2 :
+                                                                    radius = 1280000
+                                                                    break
+                                                                case 1 :
+                                                                    radius = 1500000
+                                                                    break
+                                                            }
+
+                                                            circle.setRadius(radius);
+                                                        }
+                                                    }
+                                                });
+
+                                                GMaps.geocode({
+                                                    address: '<?php echo $destination?>',
+                                                    callback: function (results, status) {
+                                                        if (status == 'OK') {
+                                                            latlng = results[0].geometry.location;
+                                                            map.setCenter(latlng.lat(), latlng.lng());
+                                                            circle = map.drawCircle({
+                                                                lat: latlng.lat(),
+                                                                lng: latlng.lng(),
+                                                                radius: 300,
+                                                                strokeColor: 'transparent',
+                                                                strokeOpacity: 1,
+                                                                strokeWeight: 3,
+                                                                fillColor: '#F16522'
+                                                            })
+
+                                                        }
+                                                    }
+
+//                                                  mousemove: function(e) {
+//                                                      circle = map.drawCircle({
+//                                                        lat: latlng.lat(),
+//                                                        lng: latlng.lng(),
+//                                                      radius: 300,
+//                                                      strokeColor: 'transparent',
+//                                                      strokeOpacity: 1,
+//                                                      strokeWeight: 3,
+//                                                      fillColor: 'blue'
+//                                                      })
+//                                                   }
+                                                });
+                                            }
+
+
+
                                         </script>
                                     </div>
 
