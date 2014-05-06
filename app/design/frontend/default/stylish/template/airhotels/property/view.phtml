@@ -31,6 +31,19 @@ $to = base64_decode($this->getRequest()->getParam('to'));
 $productIds = Mage::getSingleton('core/session')->getProductIds();
 $_helper = new Apptha_Airhotels_Block_Airhotels();
 $reserbedDates = $_helper->getPropertyReservedDays($productIds[0]);
+
+$show_exact_location = false;
+$customer_data = Mage::getSingleton('customer/session')->getCustomer();
+$orders = array();
+$collection = Mage::getResourceModel('sales/order_item_collection')
+    ->addAttributeToFilter('product_id', array('eq' => $productIds[0]))
+    ->load();
+foreach($collection as $orderItem) {
+    if($orderItem->getOrder()->getCustomerEmail() == $customer_data->getEmail() && $orderItem->getOrder()->getStatus() =='complete'){
+        $show_exact_location = true;
+        break;
+    }
+}
 // Check the products is available or not
 if (empty($productIds)) {
     ?>
@@ -115,7 +128,7 @@ if (empty($productIds)) {
                             <h1>
                                 <?php echo $this->htmlEscape($_product->getName()) ?> 
                             </h1>
-                            <h3><span id="display_address"><?php echo $_product->getCity() . ", " . $_product->getCountry(); ?></span></h3>
+                            <h3><?php echo ($show_exact_location ? $_product->getPropertyadd() . ' - ':'' );?> <span id="display_address"><?php echo $_product->getCity() . ", " . $_product->getCountry(); ?></span></h3>
 
                         </div>
                         <div id="action_buttons">
@@ -265,7 +278,7 @@ if (empty($productIds)) {
                                         </div>
                                         <!-- ends -->
                                     </div>
-                                    <div id="maps_div" class="main_content"  style=""  >
+                                    <div id="maps_div" class="main_content"  style="position: absolute;left:10000px"  >
                                         <?php
                                     $destination = $_product->getPropertyadd().','.$_product->getCity().",".$_product->getCountry();
                                         ?>
@@ -273,6 +286,14 @@ if (empty($productIds)) {
                                         <script type="text/javascript" src="http://hpneo.github.io/gmaps/gmaps.js"></script>
 
                                         <script>
+                                            $jQno(function(){
+                                                $jQno('.main_link').click(function(){
+                                                    if($jQno(this).find('a[href="#maps"]').length > 0){
+                                                        $jQno('#maps_div').css('position','static');
+                                                    }
+                                                })
+                                            })
+
                                             var map = {};
                                             var latlng = {};
                                             var circle = false;
@@ -341,7 +362,7 @@ if (empty($productIds)) {
                                                         }
                                                     }
                                                 });
-
+                                                <?php if(!$show_exact_location){ ?>
                                                 GMaps.geocode({
                                                     address: '<?php echo $destination?>',
                                                     callback: function (results, status) {
@@ -360,23 +381,27 @@ if (empty($productIds)) {
 
                                                         }
                                                     }
-
-//                                                  mousemove: function(e) {
-//                                                      circle = map.drawCircle({
-//                                                        lat: latlng.lat(),
-//                                                        lng: latlng.lng(),
-//                                                      radius: 300,
-//                                                      strokeColor: 'transparent',
-//                                                      strokeOpacity: 1,
-//                                                      strokeWeight: 3,
-//                                                      fillColor: 'blue'
-//                                                      })
-//                                                   }
                                                 });
-                                            }
 
+                                                <?php }else{ ?>
+                                                GMaps.geocode({
+                                                 address: '<?php echo $destination?>',
+                                                 callback: function (results, status) {
+                                                     if (status == 'OK') {
+                                                         latlng = results[0].geometry.location;
+                                                         map.setCenter(latlng.lat(), latlng.lng());
+                                                         marker = map.addMarker({
+                                                             lat: latlng.lat(),
+                                                             lng: latlng.lng(),
+                                                             title:'<?php echo $destination?>'
+                                                         }),
+                                                             map.setZoom(18)
 
-
+                                                     }
+                                                 }
+                                            })
+                                                <?php } ?>
+                                        }
                                         </script>
                                     </div>
 
