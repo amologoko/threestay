@@ -846,12 +846,9 @@ if (empty($productIds)) {
                                             </div>
                                             <div id="txtHint"></div>
                                             <div id="avail">
-                                                <input type="button" class=" pink_grid"
-                                                       value="<?php echo $this->__('Book it') ?>!" onClick="checkavail(from.value,to.value)"/>
                                             </div>
                                             <div id="cart" style="display: none">
                                                 <a onclick="bookItNow('<?php echo $this->helper('checkout/cart')->getAddUrl($_product); ?>')" href='javascript:void(0);' id="scriptbuynow-<?php echo $count; ?>" class="button-glossy  booknow_btn"><?php echo $this->__('Book Now') ?></a>
-                                                <a onclick="resetBooking()" href='javascript:void(0);' id="cancel_book" class="button-glossy  booknow_btn"><?php echo $this->__('Cancel') ?></a>
                                             </div>
                                         </form>
                                     </div>
@@ -1148,6 +1145,7 @@ if (count($_productCollection)):
             },
             onSelect: function(date) {
                 var selectedDate = $jq(this).datepicker('getDate');
+                var selectedToDate = ($jq( "#to").val() !=''? $jq( "#to").datepicker("getDate"):false);
                 var cur = 0;
                 var i = 1;
                 newDates= [];
@@ -1156,7 +1154,7 @@ if (count($_productCollection)):
                     newDates.push(cur);
                     i++;
                 }
-                if(array.indexOf(new Date(selectedDate.getTime() + (24 * 60 * 60 * 1000)).yyyymmdd() )!= -1){
+                if(array.indexOf(new Date(selectedDate.getTime() + (24 * 60 * 60 * 1000)).yyyymmdd() )!= -1 || (selectedToDate && selectedDate > selectedToDate)){
                     $jq( "#to").datepicker("setDate", new Date(selectedDate.getTime() + (24 * 60 * 60 * 1000)));
                 }
                 if ($jq("#from").val() != '' && $jq("#to").val() != '') {
@@ -1204,7 +1202,6 @@ if (count($_productCollection)):
             return false;
         }
         else if($jq.trim(to) !="" && $jq.trim(to)!="mm/dd/yyyy") {
-            $jq('#from,#to').datepicker('disable');
             document.getElementById("txtHint").innerHTML="<img src='<?php echo $this->getSkinUrl('images/loader.gif') ?>' />";
             var xmlhttp = getHttp();
             xmlhttp.onreadystatechange=function()
@@ -1237,12 +1234,6 @@ if (count($_productCollection)):
         }
     }
 
-    function resetBooking(){
-        $jq('#from,#to').datepicker('enable').val('');
-        $jq('#txtHint').html('');
-        $jq('#avail').show();
-        $jq('#cart').hide();
-    }
 
     function ajaxLoadCalendar(pUrl)
     {
