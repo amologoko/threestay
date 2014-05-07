@@ -227,6 +227,7 @@ if ($this->getRequest()->getParam('from') || $this->getRequest()->getParam('clea
                                         <th width="15%"><?php echo $this->__('Host Fee'); ?></th>
                                         <th width="15%"><?php echo $this->__('From Date'); ?></th>
                                         <th width="15%"><?php echo $this->__('To Date'); ?></th>
+                                        <th width="15%"><?php echo $this->__('Status'); ?></th>
                                     </tr>
                                     <?php
                                     $i = 1;
@@ -252,6 +253,7 @@ if ($this->getRequest()->getParam('from') || $this->getRequest()->getParam('clea
                                             echo '<td>' . $currencySymbol . $arr_row["service_fee"] . '</td>';
                                             echo '<td>' . date("d, M Y", strtotime($arr_row["fromdate"])) . '</td>';
                                             echo '<td>' . date("d, M Y", strtotime($todate)) . '</td>';
+                                            echo '<td>' . ($arr_row["status"] =='1'?__('Processing'):__('Complete')) . '</td>';
                                             echo '</tr>';
                                             $i++;
                                             break;
