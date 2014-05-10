@@ -75,11 +75,17 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 	}
 
 	public function returnAction() {
-
+        $preapproval_id = $this->getRequest()->getParam('preapproval_id');
+        if ($this->_getRefererUrl() == Mage::getUrl('checkout/onepage/success') ||
+            $this->_getRefererUrl() == Mage::getUrl('checkout/onepage') ||
+            $preapproval_id == null
+        ) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
 		$this->initWepay();
         $customer_owner = $this->getOwner();
 
-		$preapproval_id = $this->getRequest()->getParam('preapproval_id');
 
 		$quote = $this->getSession()->getQuote();
 
