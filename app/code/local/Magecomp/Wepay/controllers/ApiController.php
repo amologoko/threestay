@@ -211,6 +211,7 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
     {
         $session = Mage::getSingleton('customer/session');
         $order_id = $this->getRequest()->getParam('order_id');
+        Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::helper('adminhtml')->getUrl('wepay/api/confirm',array('order_id'=>$order_id)));
         if ($session->isLoggedIn() && $order_id != null) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
             $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
