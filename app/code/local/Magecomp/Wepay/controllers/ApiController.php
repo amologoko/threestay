@@ -217,9 +217,37 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
     {
         $session = Mage::getSingleton('customer/session');
         $order_id = $this->getRequest()->getParam('order_id');
+        $secret_key = "";
+
         Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::helper('adminhtml')->getUrl('wepay/api/confirm',array('order_id'=>$order_id)));
         if ($session->isLoggedIn() && $order_id != null) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+            $fromdateVal = '';
+            $todateVal = '';
+            foreach ($order->getAllItems() as $item){
+                $options = $item->getProductOptions();
+                $productId = $item->getProductId();
+                $productData = Mage::getModel('catalog/product')->load($productId);
+                $productName = $productData->getName();
+                $hostId = $productData->getUserid();
+                $secret_key = $productData->getSecretKey();
+                $fromdateVal = $options['info_buyRequest']['fromdate'];
+                $todateVal = $options['info_buyRequest']['todate'];
+            }
+            $fromDateArr=explode("@",$fromdateVal);
+            $fromdate=date('Y-m-d', mktime(0, 0, 0, $fromDateArr[0], $fromDateArr[1], $fromDateArr[2]));
+            $toDateArr=explode("@",$todateVal);
+            $todate=date('Y-m-d', mktime(0, 0, 0, $toDateArr[0], $toDateArr[1]-1, $toDateArr[2]));
+
+            $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+            $soap->setSoapVersion(SOAP_1_1);
+            $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
+
+            $tPrefix = (string) Mage::getConfig()->getTablePrefix();
+            $booking_table = $tPrefix . 'airhotels_booking';
+            $resource = Mage::getSingleton('core/resource');
+            $read = $resource->getConnection('core_write');
+            $read->query("UPDATE $booking_table SET `access_code` = '".$access_code."' WHERE `order_item_id` = '".$order->getId()."'");
             $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
             if ($currentCustomer->getEmail() == $this->getOwner($order)->getEmail()) {
                 if ($order->getStatusLabel() != 'Processing') {

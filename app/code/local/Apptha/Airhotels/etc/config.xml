@@ -101,7 +101,7 @@
                 </airhotels>
             </updates>
         </layout>
-    </adminhtml>   
+    </adminhtml>
     <global>
         <fieldsets>
             <sales_convert_quote_address>
@@ -365,6 +365,19 @@
         </catalog_product_save_before>    
         </events>
     </global>
+    <adminhtml>
+         <events>
+             <adminhtml_block_html_before>
+                 <observers>
+                     <airhotels>
+                         <type>model</type>
+                         <class>Apptha_Airhotels_Model_Observer</class>
+                         <method>addSecretKeyValidation</method>
+                     </airhotels>
+                 </observers>
+             </adminhtml_block_html_before>
+         </events>
+     </adminhtml>
     <default>
      	 <airhotels>
      	 	<custom_group>

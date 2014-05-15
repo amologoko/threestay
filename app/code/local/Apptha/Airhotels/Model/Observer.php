@@ -31,7 +31,7 @@ class Apptha_Airhotels_Model_Observer
      	 $session = Mage::getSingleton('checkout/session');
 
      	 $productId = "";
-	 $secret_key = "626379";
+//	 $secret_key = "626379";
      	 $orders = Mage::getModel('sales/order')->getCollection()
      	 ->setOrder('created_at','DESC')
      	 ->setPageSize(1)
@@ -49,7 +49,7 @@ class Apptha_Airhotels_Model_Observer
                  $productData = Mage::getModel('catalog/product')->load($productId);
                 $productName = $productData->getName();
                 $hostId = $productData->getUserid();
-		#$secret_key = $productData->getSecretKey();
+        		#$secret_key = $productData->getSecretKey();
 
      	 }
      	 $customer = Mage::getSingleton('customer/session')->getCustomer();
@@ -76,14 +76,13 @@ class Apptha_Airhotels_Model_Observer
 	 #$status = $result['ReturnStatus'];
          #$access_code = $result['AccessCode'];
          #$soap = new Zend_Soap_Client("http://2drive.cloudapp.net:8080/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
-	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
-	 $soap->setSoapVersion(SOAP_1_1);
-	 $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
-
+//	 $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+//	 $soap->setSoapVersion(SOAP_1_1);
+//	 $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
          $read->query("Insert into $booking_table (entity_id,product_name,customer_id,customer_email,fromdate,todate,accomodates,host_fee,service_fee,order_id,base_currency_code,order_currency_code,subtotal,order_item_id,access_code)
        	 values ($productId,'".$productName."',$cusId,'".$buyerEmail."','".$fromdate."','".$todate."',$accomodate,$hostFee,$serviceFee,$order_id,'".$baseCurrency."','".$orderCurrency."',$subtotal,$order_item_id,'".$access_code."')");
          Mage::getSingleton('core/session')->setProductID($productId);
-	 Mage::getSingleton('core/session')->setAccessCode($access_code);
+	 //Mage::getSingleton('core/session')->setAccessCode($access_code);
       	 #$productOptions = $mainItem->getProductOptions();
 	 #$productOptions['accessCode'] = $access_code;
 	 #$mainItem->setProductOptions($productOptions);
@@ -157,6 +156,24 @@ class Apptha_Airhotels_Model_Observer
        
             }
          }
+    }
+
+    public function addSecretKeyValidation($observer)
+    {
+        $_block = $observer->getBlock();
+        $_type = $_block->getType();
+        if ($_type == 'adminhtml/catalog_product_edit') {
+        echo " <script>
+           Validation.addAllThese([
+                      ['validate-secret', 'Please enter 6 digits.', function(v) {
+                    return Validation.get('IsEmpty').test(v) ||  v.length == 6
+                }]
+            ]);
+            $('secret_key').addClassName('validate-secret');
+           </script>
+        ";
+
+        }
     }
 }
 ?>

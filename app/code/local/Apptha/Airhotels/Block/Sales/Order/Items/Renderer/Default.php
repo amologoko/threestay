@@ -28,7 +28,7 @@ class Apptha_Airhotels_Block_Sales_Order_Items_Renderer_Default extends Mage_Sal
 				$rooms = $options1['accomodate'];
 				$guests = $options1['serviceFee'];
 				#$accessCode = $options1['accessCode'];
-				$accessCode = Mage::getSingleton('core/session')->getAccessCode();
+//				$accessCode = Mage::getSingleton('core/session')->getAccessCode();
 				
 	            break;
 			}
@@ -38,7 +38,7 @@ class Apptha_Airhotels_Block_Sales_Order_Items_Renderer_Default extends Mage_Sal
 				array('label' => $this->__('Check Out'), 'value' => str_replace('@','/',$checkOut)),
 				array('label' => $this->__('Accommodate'), 'value' => $rooms),			
 				array('label' => $this->__('Processing Fee'), 'value' => $guests),
-				array('label' => $this->__('Access Code'), 'value' => $accessCode)
+//				array('label' => $this->__('Access Code'), 'value' => $accessCode)
 			);
 		}
 		return $result;

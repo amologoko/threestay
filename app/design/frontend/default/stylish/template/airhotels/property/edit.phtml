@@ -230,9 +230,9 @@ $banner = Mage::getStoreConfig('airhotels/custom_banner/enable_slider_hoster');
 <!--                        <input type=text name=limit size=4 readonly value="35">-->
                     </div>
                     <div class="input-box_inner">
-                    <label for="name" class="required left lable_inner"> <?php echo $this->__('Secret Key') ?> </label>
+                    <label for="name" class="required left lable_inner"> <?php echo $this->__('Secret Key') ?>  <em>*</em></label>
                     <div class="floatleft">
-                        <input name="secret_key" id="secret_key"   title="<?php echo $this->__('Secret Key') ?>" value="<?php echo $secret_key; ?>" class="input-text required-entry input-text_inner" type="text"   onkeyup=limiter() maxlength="16"/>
+                        <input name="secret_key" id="secret_key"   title="<?php echo $this->__('Secret Key') ?>" value="<?php echo $secret_key; ?>" class="input-text required-entry input-text_inner validate-digits validate-secret" type="text"   onkeyup=limiter() maxlength="16"/>
                     </div>
                     </div>
                     <div class="input-box_inner">
@@ -488,4 +488,11 @@ function validatePrice(pValue){
     //}
 
 }
+
+
+Validation.addAllThese([
+    ['validate-secret', 'Please enter 6 digits.', function (v) {
+        return Validation.get('IsEmpty').test(v) || v.length == 6
+    }]
+]);
 </script>
