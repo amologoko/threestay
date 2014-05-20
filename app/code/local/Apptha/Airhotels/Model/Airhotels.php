@@ -39,6 +39,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
                     ->setPets($post['pets'])
                     ->setPrice($post['price'])
                     ->setpropertyadd($post['address'])
+                    ->setSecretKey($post['secret_key'])//secret key
                     ->setCity($post['city'])
                     ->setState($post['state'])
                     ->setCountry($post['propcountry'])
@@ -151,7 +152,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         $to = $_GET["to"];
         $productid = $_GET["productid"];
         $price = $_GET["price"];
-
+        $_product = Mage::getModel('catalog/product')->load($productid);
         // start of client issue fixing
         $to = strtotime($to);
         $to = strtotime('-1 day', $to);
@@ -269,7 +270,18 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
                 $subtotal = $total;
             }
             $config = Mage::getStoreConfig('airhotels/custom_group');
-            $serviceFee = number_format(($subtotal / 100) * ($config["airhotels_servicetax"]), 2);
+            $app_fee = 1;
+            if($_product->getSecretKey() != null){
+                $app_fee = $config["airhotels_servicetax"];
+            }else{
+                if($_product->getPropertyAppFee() != null){
+                    $app_fee = $_product->getPropertyAppFee();
+                }else{
+                    $app_fee = 0;
+                }
+
+            }
+            $serviceFee = number_format(($subtotal / 100) * ($app_fee), 2);
             $subtotal = Mage::helper('directory')->currencyConvert($subtotal, Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode());
             $serviceFee = Mage::helper('directory')->currencyConvert($serviceFee, Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode());
             if( empty($no_days) ) { $no_days = 1; }  

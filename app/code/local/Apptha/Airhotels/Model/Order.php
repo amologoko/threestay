@@ -69,6 +69,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      */
     const XML_PATH_ORDERSTUTS_TEMPLATE = 'airhotels/order_reminder/orderstatus_template';
     const XML_PATH_ORDERSTUTS_APPROVAL_TEMPLATE = 'airhotels/custom_email/adminapproval_template';
+    const APPROVAL_TO_OWNER_TEMPLATE = 'airhotels_custom_email_owner_confirmed_template';
+    const APPROVAL_WITHOUT_ACCESS_CODE_TO_OWNER_TEMPLATE = 'airhotels_custom_email_owner_confirmed_without_access_key_template';
+    const APPROVAL_WITHOUT_ACCESS_CODE_TO_RENTER_TEMPLATE = 'airhotels_custom_email_renter_confirmed_without_access_key_template';
 
     
     /**
@@ -728,6 +731,7 @@ public function _bookingUpdate($order_id) {
          $hostEmail =  array();
          $value = Mage::getModel('sales/order')->loadByIncrementId($order_id);
          $buyerEmail = $value->getCustomerEmail();//buyer Email
+         $buyerName = $value->getCustomerName();//buyer Name
          $tprefix = (string)Mage::getConfig()->getTablePrefix();
          $read = Mage::getSingleton('core/resource')->getConnection('core_read');
          $booking_table = $tprefix . 'airhotels_booking';
@@ -738,55 +742,58 @@ public function _bookingUpdate($order_id) {
          $model = Mage::getModel('catalog/product');
          $_product = $model->load($productId);
          $SpaceName = $_product->getName();
-
+         $SpaceUrl = $_product->getProductUrl();
          $hostId= $_product->getUserid();//property owner Id
          $customer = Mage::getModel('customer/customer')->load($hostId);
-         $hostEmail[0]= $customer->getEmail();//Property Email Owner
+         $ownerEmail= $customer->getEmail();//Property Email Owner
          $hostName = $customer->getName();//Property  Owner name
          $status = $this->getStatusLabel();//order Status
-         $hostEmail[1] = Mage::getStoreConfig('airhotels/order_reminder/admin_email'); // admin email
+         $adminEmail = Mage::getStoreConfig('airhotels/order_reminder/admin_email'); // admin email
          $postObject = new Varien_Object();
          $postObject->setData(array(
              'incrementid'=> $order_id ,
              'status'=> $status ,
-             'customername' => $hostName,
+             'customername' => $buyerName,
              'ownername'=>$hostName,
              'spacename'=>$SpaceName,
+             'spaceurl'=>$SpaceUrl,
              'accesscode'=>$access_code
          ));
      if ($status == 'Complete') {
+         $templateToOwner = ($access_code == 0? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_OWNER_TEMPLATE :self::APPROVAL_TO_OWNER_TEMPLATE );
+         $templateToRenter = ($access_code == 0? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_RENTER_TEMPLATE :Mage::getStoreConfig(self::XML_PATH_ORDERSTUTS_APPROVAL_TEMPLATE));
+
          $mailTemplate_customer = Mage::getModel('core/email_template');
          $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
          $mailTemplate_customer->setTemplateSubject('Order Status');
-         $mailTemplate_customer->addBcc($hostEmail);
+         $mailTemplate_customer->addBcc(array($buyerEmail,$adminEmail));
 
          $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
               ->sendTransactional(
-                  Mage::getStoreConfig(self::XML_PATH_ORDERSTUTS_APPROVAL_TEMPLATE),
+                 $templateToRenter,
                   Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
                   $buyerEmail,
                   Mage::getStoreConfig('design/head/default_title'),
                   array('order' => $postObject)
               );
-//         $mailTemplate_owner = Mage::getModel('core/email_template');
-//         $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-//         $mailTemplate_owner->setTemplateSubject('Order Status');
-//         $mailTemplate_owner->addBcc($hostEmail);
-//
-//         $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
-//              ->sendTransactional(
-//                  Mage::getStoreConfig(self::XML_PATH_ORDERSTUTS_APPROVAL_TEMPLATE),
-//                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-//                  $buyerEmail,
-//                  Mage::getStoreConfig('design/head/default_title'),
-//                  array('orderstatus' => $postObject)
-//              );
+
+         $mailTemplate_owner = Mage::getModel('core/email_template');
+         $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+         $mailTemplate_owner->setTemplateSubject('Order Status');
+         $mailTemplate_owner->addBcc(array($ownerEmail,$adminEmail));
+         $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
+              ->sendTransactional(
+                 $templateToOwner,
+                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                  $buyerEmail,
+                  Mage::getStoreConfig('design/head/default_title'),
+                  array('order' => $postObject)
+              );
      } else {
          $mailTemplate = Mage::getModel('core/email_template');
          $mailTemplate->setSenderName(Mage::getStoreConfig('design/head/default_title'));
          $mailTemplate->setTemplateSubject('Order Status');
-         $mailTemplate->addBcc($hostEmail);
-
+         $mailTemplate->addBcc(array($buyerEmail,$ownerEmail,$adminEmail));
          $mailTemplate->setDesignConfig(array('area' => 'frontend'))
              ->sendTransactional(
                  Mage::getStoreConfig(self::XML_PATH_ORDERSTUTS_TEMPLATE),

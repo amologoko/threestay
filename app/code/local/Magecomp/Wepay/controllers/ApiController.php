@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 require_once Mage::getBaseDir('lib') . DS . 'wepay' . DS . 'wepay.php';
 
@@ -34,12 +34,29 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
 
 
 			$amount = floatval(number_format($quote->getBaseGrandTotal(), 2, '.', ''));
-            $app_fee_percent = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
+            $app_fee_percent_config = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
             $price = 0;
+            $secret_key = 0;
+            $property_app_fee = 0;
             foreach ($quote->getAllItems() as $item) {
                 $price = $item->getProduct()->getPrice();
+                $secret_key = Mage::getModel('catalog/product')->load($item->getProduct()->getId())->getSecretKey();
+                $property_app_fee = Mage::getModel('catalog/product')->load($item->getProduct()->getId())->getPropertyAppFee();
             }
-            $app_fee = ($price/100)*$app_fee_percent;
+
+           $app_fee = 1;
+           if($secret_key != null){
+               $app_fee = $app_fee_percent_config;
+           }else{
+               if($property_app_fee != null){
+                   $app_fee = $property_app_fee;
+               }else{
+                   $app_fee = 0;
+               }
+           }
+
+            $app_fee_amount =  ($price / 100) * $app_fee;
+
 			$payer='';
 			if($this->getConfig('fee_payer')==0)
 			{
@@ -57,7 +74,7 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
                     'mode' => "regular",
                     'reference_id' => $quote->getId(),
                     'fee_payer' => $payer,
-                    'app_fee' => $app_fee,
+                    'app_fee' => $app_fee_amount,
                     'redirect_uri' => Mage::getUrl('wepay/api/return'),
                     'prefill_info' => $addr_obj,
                     'period' => 'once',
@@ -231,22 +248,25 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
                 $productName = $productData->getName();
                 $hostId = $productData->getUserid();
                 $secret_key = $productData->getSecretKey();
+                $property_app_fee = $productData->getPropertyAppFee();
                 $fromdateVal = $options['info_buyRequest']['fromdate'];
                 $todateVal = $options['info_buyRequest']['todate'];
             }
-            $fromDateArr=explode("@",$fromdateVal);
-            $fromdate=date('Y-m-d', mktime(0, 0, 0, $fromDateArr[0], $fromDateArr[1], $fromDateArr[2]));
-            $toDateArr=explode("@",$todateVal);
-            $todate=date('Y-m-d', mktime(0, 0, 0, $toDateArr[0], $toDateArr[1]-1, $toDateArr[2]));
+                $fromDateArr = explode("@", $fromdateVal);
+                $fromdate = date('Y-m-d', mktime(0, 0, 0, $fromDateArr[0], $fromDateArr[1], $fromDateArr[2]));
+                $toDateArr = explode("@", $todateVal);
+                $todate = date('Y-m-d', mktime(0, 0, 0, $toDateArr[0], $toDateArr[1] - 1, $toDateArr[2]));
 
-            $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
-            $soap->setSoapVersion(SOAP_1_1);
-            $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
-
-            $tPrefix = (string) Mage::getConfig()->getTablePrefix();
-            $booking_table = $tPrefix . 'airhotels_booking';
-            $resource = Mage::getSingleton('core/resource');
-            $read = $resource->getConnection('core_write');
+                $tPrefix = (string)Mage::getConfig()->getTablePrefix();
+                $booking_table = $tPrefix . 'airhotels_booking';
+                $resource = Mage::getSingleton('core/resource');
+                $read = $resource->getConnection('core_write');
+                $access_code = 0;
+            if ($secret_key != null) {
+                $soap = new Zend_Soap_Client("http://3stay.cloudapp.net/Service1.svc?wsdl", array('compression' => SOAP_COMPRESSION_ACCEPT));
+                $soap->setSoapVersion(SOAP_1_1);
+                $access_code = $soap->GenerateCode(array("KeyCode" => $secret_key, "StartDate" => $fromdate, "EndDate" => $todate))->GenerateCodeResult;
+            }
             $read->query("UPDATE $booking_table SET `access_code` = '".$access_code."' WHERE `order_item_id` = '".$order->getId()."'");
             $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
             if ($currentCustomer->getEmail() == $this->getOwner($order)->getEmail()) {
@@ -280,8 +300,19 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
                 }
 
                 $amount = floatval(number_format($order->getBaseGrandTotal(), 2, '.', ''));
-                $app_fee_percent = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
-                $app_fee = ($price / 100) * $app_fee_percent;
+                $app_fee_percent_config = (float)Mage::getStoreConfig('airhotels/custom_group/airhotels_servicetax');
+                $app_fee = 1;
+                if($secret_key != null){
+                   $app_fee = $app_fee_percent_config;
+                }else{
+                   if($property_app_fee != null){
+                       $app_fee = $property_app_fee;
+                   }else{
+                       $app_fee = 0;
+                   }
+                }
+
+                $app_fee_amount = ($price / 100) * $app_fee;
                 $payer = '';
                 if ($this->getConfig('fee_payer') == 0) {
                     $payer = 'payee';
@@ -300,7 +331,7 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
                             'type' => "GOODS",
                             'preapproval_id' => $wepay_preapproval_id,
                             'fee_payer' => $payer,
-                            'app_fee' => $app_fee,
+                            'app_fee' => $app_fee_amount,
                             'auto_capture' => 1,
                             'prefill_info' => $addr_obj,
                         )
