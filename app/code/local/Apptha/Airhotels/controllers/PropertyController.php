@@ -934,26 +934,28 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
             $date1 = strtotime($fromDate);
             $date2 = strtotime($toDate);
             while ($date1 != $date2) {
-                $date1 = mktime(0, 0, 0, date("m", $date1), date("d", $date1) + 1, date("Y", $date1));
-                $dateValue[] = date("d", $date1);
+                $date1  = mktime(0, 0, 0, date("m", $date1), date("d", $date1) + 1, date("Y", $date1));
+                $dateValue[(int)date("m", $date1)][] = date("d", $date1);
             }
         }
-        $fDate = implode(",", $dateValue);
         $resource = Mage::getSingleton('core/resource');
         $read = $resource->getConnection('core_read');
         $write = $resource->getConnection('core_write');
         $tPrefix = (string) Mage::getConfig()->getTablePrefix();
         $blockCalendartable = $tPrefix . 'airhotels_calendar';
-        
+        foreach($dateValue as $month_key => $day_value){
+            $fDate = implode(",", $day_value);
         // new formate for price
-            for($j=0 ; $j<count($dateValue); $j++){
-                 $this->datePriceUpdate($productId,$month,$year,$dateValue[$j]);
+            for($j=0 ; $j<count($day_value); $j++){
+                 $this->datePriceUpdate($productId,$month_key,$year,$day_value[$j]);
             }
             if($pricePer !=''){
-                $insert = "($productId,$bookAvail,$month,$year,'$fDate',$pricePer,now())";
+                $insert = "($productId,$bookAvail,$month_key,$year,'$fDate',$pricePer,now())";
                 $write->query("INSERT INTO $blockCalendartable (product_id,book_avail,month,year,blockfrom,price,created) VALUES $insert");
             }
-            $write->query("Delete from $blockCalendartable WHERE product_id = $productId AND month = '" . $month . "' AND year = '" . $year . "' AND blockfrom = ''");
+            $write->query("Delete from $blockCalendartable WHERE product_id = $productId AND month = '" . $month_key . "' AND year = '" . $year . "' AND blockfrom = ''");
+        }
+
         //end formate for price
         
         $this->calendarviewAction();
