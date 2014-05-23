@@ -766,7 +766,7 @@ public function _bookingUpdate($order_id) {
          $mailTemplate_customer = Mage::getModel('core/email_template');
          $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
          $mailTemplate_customer->setTemplateSubject('Order Status');
-         $mailTemplate_customer->addBcc(array($buyerEmail,$adminEmail));
+         $mailTemplate_customer->addBcc(array($adminEmail));
 
          $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
               ->sendTransactional(
@@ -780,12 +780,12 @@ public function _bookingUpdate($order_id) {
          $mailTemplate_owner = Mage::getModel('core/email_template');
          $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
          $mailTemplate_owner->setTemplateSubject('Order Status');
-         $mailTemplate_owner->addBcc(array($ownerEmail,$adminEmail));
+         $mailTemplate_owner->addBcc(array($adminEmail));
          $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
               ->sendTransactional(
                  $templateToOwner,
                   Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                  $buyerEmail,
+                  $ownerEmail,
                   Mage::getStoreConfig('design/head/default_title'),
                   array('order' => $postObject)
               );
@@ -793,7 +793,7 @@ public function _bookingUpdate($order_id) {
          $mailTemplate = Mage::getModel('core/email_template');
          $mailTemplate->setSenderName(Mage::getStoreConfig('design/head/default_title'));
          $mailTemplate->setTemplateSubject('Order Status');
-         $mailTemplate->addBcc(array($buyerEmail,$ownerEmail,$adminEmail));
+         $mailTemplate->addBcc(array($ownerEmail,$adminEmail));
          $mailTemplate->setDesignConfig(array('area' => 'frontend'))
              ->sendTransactional(
                  Mage::getStoreConfig(self::XML_PATH_ORDERSTUTS_TEMPLATE),
