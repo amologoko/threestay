@@ -191,7 +191,7 @@ jQuery(function(){
 			QueueCountApptha++;
 			item.find('div.progress').css('width', '100%');
 			item.find('span.progressvalue').text('100%');
-			var pathtofile='<a href="<?php echo Mage::getBaseDir().'/media/catalog/product/'?>'+file.name+'" target="_blank" >view &raquo;</a>';
+<!--			var pathtofile='<a href="--><?php //echo Mage::getBaseDir().'/media/catalog/product/'?><!--'+file.name+'" target="_blank" >view &raquo;</a>';-->
 			item.addClass('success').find('p.status').html('<?php echo  $this->__('Done') ?>!!! ');
 			jQuery('#queuestatus').text('<?php echo  $this->__('Files Selected') ?>: '+totalQueues+' / <?php echo  $this->__('Queued Files') ?>: '+QueueCountApptha);
 			if(totalQueues == QueueCountApptha ){
