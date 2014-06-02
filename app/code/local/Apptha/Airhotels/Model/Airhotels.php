@@ -349,6 +349,19 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         return $range;
     }
 
+    public function getCalendarUnavailableDays($productId){
+        $resource = Mage::getSingleton('core/resource');
+        $read = $resource->getConnection('read');
+        $tPrefix = (string) Mage::getConfig()->getTablePrefix();
+        $orderItemTable = $tPrefix . 'sales_flat_order';
+        $calendar_table = $tPrefix . 'airhotels_calendar';
+        $date_range = $read->select()
+                ->from(array('calendar' => $calendar_table), array('calendar.book_avail', 'calendar.month', 'calendar.year', 'calendar.blockfrom'))
+                ->where('calendar.product_id =?', $productId);
+        $range = $read->fetchAll($date_range);
+        return $range;
+    }
+
     public function status($status, $pId) {
         $product = Mage::getModel('catalog/product')->load($pId);
         $storeId = Mage::app()->getStore()->getId();

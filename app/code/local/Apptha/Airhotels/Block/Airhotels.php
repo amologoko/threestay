@@ -100,7 +100,17 @@ class Apptha_Airhotels_Block_Airhotels extends Mage_Core_Block_Template {
                 } while ($from_date <= $to_date);
             }
         }
-        return json_encode($dates);
+        $unavailCalendarDates = $this->getCalendarUnavailableDays($productId);
+        return json_encode(array_merge($dates,$unavailCalendarDates));
+    }
+
+    function getCalendarUnavailableDays($productId){
+        $unavailDatesFetched = Mage::getModel('airhotels/airhotels')->getCalendarUnavailableDays($productId);
+        $unavailDates = array();
+        foreach($unavailDatesFetched as $value){
+            $unavailDates[] = date('Y-m-d',mktime (0,0,0,$value['month'],$value['blockfrom'],$value['year']));//$value['year'].'-'.$value['month'].'-'.$value['blockfrom$value['blockfrom']'];
+        }
+        return $unavailDates;
     }
 
 }
