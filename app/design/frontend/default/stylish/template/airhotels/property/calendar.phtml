@@ -169,6 +169,7 @@ if (!isset($_GET["date"])) {
         jQuery("#monthid").val(" ");
         jQuery("#yearid").val(" ");
         flag = 0;
+        jQuery('.startsel,.sel,.endsel').removeClass('sel').removeClass('startsel').removeClass('endsel')
     }
     function postData(){
         var checkin = jQuery("#inDate").val();
