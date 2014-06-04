@@ -270,6 +270,18 @@
                     <type>html</type>
                 </airhotels_custom_email_renter_confirmed_without_access_key_template>
 
+                <airhotels_custom_email_renter_canceled_key_template translate="label" module="airhotels">
+                    <label>Owner Canceled booking</label>
+                    <file>airhotels/after_cancel_to_renter.html</file>
+                    <type>html</type>
+                </airhotels_custom_email_renter_canceled_key_template>
+
+                <airhotels_custom_email_owner_canceled_key_template translate="label" module="airhotels">
+                    <label>You have canceled booking</label>
+                    <file>airhotels/after_cancel_to_owner.html</file>
+                    <type>html</type>
+                </airhotels_custom_email_owner_canceled_key_template>
+
             </email>
         </template>
         
