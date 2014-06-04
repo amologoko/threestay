@@ -72,6 +72,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
     const APPROVAL_TO_OWNER_TEMPLATE = 'airhotels_custom_email_owner_confirmed_template';
     const APPROVAL_WITHOUT_ACCESS_CODE_TO_OWNER_TEMPLATE = 'airhotels_custom_email_owner_confirmed_without_access_key_template';
     const APPROVAL_WITHOUT_ACCESS_CODE_TO_RENTER_TEMPLATE = 'airhotels_custom_email_renter_confirmed_without_access_key_template';
+    const CANCELED_TO_RENTER_TEMPLATE = 'airhotels_custom_email_renter_canceled_key_template';
+    const CANCELED_TO_OWNER_TEMPLATE = 'airhotels_custom_email_owner_canceled_key_template';
 
     
     /**
@@ -706,7 +708,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
         // Returning status from paypal and if status equal to complete then we can send the coupon (voucher) for user
         // $status == 'payment_review'
         //if($status == 'complete' || $status == 'payment_review' || $status == 'pending') {
-        if($status == 'complete' || $status == 'processing') {
+        if($status == 'complete' || $status == 'processing' || $status == 'canceled') {
             $this->_bookingUpdate($this->getRealOrderId());
             //mail('bhanupriya@contus.in','dharani@contus.in',$this->getRealOrderId());
         } 
@@ -789,19 +791,67 @@ public function _bookingUpdate($order_id) {
                   Mage::getStoreConfig('design/head/default_title'),
                   array('order' => $postObject)
               );
-     } else {
-         $mailTemplate = Mage::getModel('core/email_template');
-         $mailTemplate->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-         $mailTemplate->setTemplateSubject('Order Status');
-         $mailTemplate->addBcc(array($ownerEmail,$adminEmail));
-         $mailTemplate->setDesignConfig(array('area' => 'frontend'))
-             ->sendTransactional(
-                 Mage::getStoreConfig(self::XML_PATH_ORDERSTUTS_TEMPLATE),
-                 Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                 $buyerEmail,
-                 Mage::getStoreConfig('design/head/default_title'),
-                 array('orderstatus' => $postObject)
-             );
+     }elseif($status == 'Canceled'){
+         $templateToOwner = self::CANCELED_TO_OWNER_TEMPLATE;
+         $templateToRenter = self::CANCELED_TO_RENTER_TEMPLATE;
+
+         $mailTemplate_customer = Mage::getModel('core/email_template');
+         $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+         $mailTemplate_customer->setTemplateSubject('Order Status');
+         $mailTemplate_customer->addBcc(array($adminEmail));
+
+         $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
+              ->sendTransactional(
+                 $templateToRenter,
+                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                  $buyerEmail,
+                  Mage::getStoreConfig('design/head/default_title'),
+                  array('order' => $postObject)
+              );
+
+         $mailTemplate_owner = Mage::getModel('core/email_template');
+         $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+         $mailTemplate_owner->setTemplateSubject('Order Status');
+         $mailTemplate_owner->addBcc(array($adminEmail));
+         $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
+              ->sendTransactional(
+                 $templateToOwner,
+                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                  $ownerEmail,
+                  Mage::getStoreConfig('design/head/default_title'),
+                  array('order' => $postObject)
+              );
+     }
+     else {
+//         $templateToOwner = self::CANCELED_TO_OWNER_TEMPLATE;
+//         $templateToRenter = self::CANCELED_TO_RENTER_TEMPLATE;
+//
+//         $mailTemplate_customer = Mage::getModel('core/email_template');
+//         $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+//         $mailTemplate_customer->setTemplateSubject('Order Status');
+//         $mailTemplate_customer->addBcc(array($adminEmail));
+//
+//         $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
+//              ->sendTransactional(
+//                 $templateToRenter,
+//                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+//                  $buyerEmail,
+//                  Mage::getStoreConfig('design/head/default_title'),
+//                  array('order' => $postObject)
+//              );
+//
+//         $mailTemplate_owner = Mage::getModel('core/email_template');
+//         $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+//         $mailTemplate_owner->setTemplateSubject('Order Status');
+//         $mailTemplate_owner->addBcc(array($adminEmail));
+//         $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
+//              ->sendTransactional(
+//                 $templateToOwner,
+//                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+//                  $ownerEmail,
+//                  Mage::getStoreConfig('design/head/default_title'),
+//                  array('order' => $postObject)
+//              );
      }
 
  }
