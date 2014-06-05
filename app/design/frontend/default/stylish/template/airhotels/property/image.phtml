@@ -119,7 +119,7 @@ echo '<tr class="grid_img">';
 <div id="swfupload-control">
 
 
-<p><?php echo $this->__('Upload upto 20 image files(jpg, png, gif), each having maximum size of 1MB') ?></p>
+<p><?php echo $this->__('Upload upto 20 image files(jpg, png, gif), each having maximum size of 5MB') ?></p>
 <input type="button" id="button" />
 <p id="queuestatus"></p>
 <ol id="log"></ol>
@@ -133,7 +133,7 @@ jQuery(function(){
 	jQuery('#swfupload-control').swfupload({
 			upload_url: '<?php echo  Mage::getBaseUrl().'booking/property/imageupload/?id='.$this->getRequest()->getParam('id')?>',
 			file_post_name: 'uploadfile',
-			file_size_limit : "1024",
+			file_size_limit : "5120",
 			file_types : "*.jpg;*.png;*.gif",
 			file_types_description : "Image files",
 			file_upload_limit : 20,
