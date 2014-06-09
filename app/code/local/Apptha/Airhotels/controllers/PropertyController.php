@@ -273,7 +273,7 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
             $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
         } else {
-            $this->getLayout()->getBlock('head')->setTitle($this->__('Your Account'));
+            $this->getLayout()->getBlock('head')->setTitle($this->__('Your Trips'));
         }
         $this->renderLayout();
     }
