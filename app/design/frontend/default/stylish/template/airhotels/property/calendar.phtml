@@ -26,7 +26,7 @@
        <div>
            <select id="bookavail" name="bookavail"  class="select input-text input-text_pro" style="color: black; margin: 0;" onchange="hide_price(this.value);">
             <option value="1"><?php echo $this->__('Available')?></option>
-            <option value="2"><?php echo $this->__('Booked')?></option>
+<!--            <option value="2">--><?php //echo $this->__('Booked')?><!--</option>-->
             <option value="3"><?php echo $this->__('Not Available')?></option>
         </select>
        </div>   
@@ -72,6 +72,13 @@ if (!isset($_GET["date"])) {
 <div id="calendarWrapper" style="float:left">
 
 </div>
+    <div id="cal_legend">
+        <h2 class="past_grid"><?php echo $this->__('Past') ?></h2>
+        <h2 class="available_grid"><?php echo $this->__('Available') ?></h2>
+        <h2 class="reserved_grid"><?php echo $this->__('Reserved') ?></h2>
+        <h2 class="booked_grid"><?php echo $this->__('Booked') ?></h2>
+        <h2 class="unavailable_grid"><?php echo $this->__('Not Available') ?></h2>
+    </div>
 <div class="clear"></div>
     </div>
 <script type="text/javascript">
@@ -162,6 +169,7 @@ if (!isset($_GET["date"])) {
         jQuery("#monthid").val(" ");
         jQuery("#yearid").val(" ");
         flag = 0;
+        jQuery('.startsel,.sel,.endsel').removeClass('sel').removeClass('startsel').removeClass('endsel')
     }
     function postData(){
         var checkin = jQuery("#inDate").val();

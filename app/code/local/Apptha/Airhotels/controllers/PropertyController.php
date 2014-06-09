@@ -273,7 +273,7 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
             $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
         } else {
-            $this->getLayout()->getBlock('head')->setTitle($this->__('Your Trip'));
+            $this->getLayout()->getBlock('head')->setTitle($this->__('Your Account'));
         }
         $this->renderLayout();
     }
@@ -930,12 +930,11 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         $month = $mY[0];
         $year = $mY[1];
         if ($fromDate <= $toDate) {
-            $dateValue [] = date("d", strtotime($fromDate));
             $date1 = strtotime($fromDate);
             $date2 = strtotime($toDate);
-            while ($date1 != $date2) {
-                $date1  = mktime(0, 0, 0, date("m", $date1), date("d", $date1) + 1, date("Y", $date1));
+            while ($date1 < $date2) {
                 $dateValue[(int)date("m", $date1)][] = date("d", $date1);
+                $date1  = mktime(0, 0, 0, date("m", $date1), date("d", $date1) + 1, date("Y", $date1));
             }
         }
         $resource = Mage::getSingleton('core/resource');
