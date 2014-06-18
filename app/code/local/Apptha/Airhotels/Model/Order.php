@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -36,28 +37,25 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
-{
+class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
     /**
      * XML configuration paths
      */
-    const XML_PATH_EMAIL_TEMPLATE               = 'sales_email/order/template';
-    const XML_PATH_EMAIL_GUEST_TEMPLATE         = 'sales_email/order/guest_template';
-    const XML_PATH_EMAIL_IDENTITY               = 'sales_email/order/identity';
-    const XML_PATH_EMAIL_COPY_TO                = 'sales_email/order/copy_to';
-    const XML_PATH_EMAIL_COPY_METHOD            = 'sales_email/order/copy_method';
-    const XML_PATH_EMAIL_ENABLED                = 'sales_email/order/enabled';
 
-    const XML_PATH_EMAIL_OWNER_TEMPLATE         = 'sales_email/owner/template';
-    const XML_PATH_EMAIL_OWNER_GUEST_TEMPLATE   = 'sales_email/owner/guest_template';
-
-    const XML_PATH_UPDATE_EMAIL_TEMPLATE        = 'sales_email/order_comment/template';
-    const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE  = 'sales_email/order_comment/guest_template';
-    const XML_PATH_UPDATE_EMAIL_IDENTITY        = 'sales_email/order_comment/identity';
-    const XML_PATH_UPDATE_EMAIL_COPY_TO         = 'sales_email/order_comment/copy_to';
-    const XML_PATH_UPDATE_EMAIL_COPY_METHOD     = 'sales_email/order_comment/copy_method';
-    const XML_PATH_UPDATE_EMAIL_ENABLED         = 'sales_email/order_comment/enabled';
-    
+    const XML_PATH_EMAIL_TEMPLATE = 'sales_email/order/template';
+    const XML_PATH_EMAIL_GUEST_TEMPLATE = 'sales_email/order/guest_template';
+    const XML_PATH_EMAIL_IDENTITY = 'sales_email/order/identity';
+    const XML_PATH_EMAIL_COPY_TO = 'sales_email/order/copy_to';
+    const XML_PATH_EMAIL_COPY_METHOD = 'sales_email/order/copy_method';
+    const XML_PATH_EMAIL_ENABLED = 'sales_email/order/enabled';
+    const XML_PATH_EMAIL_OWNER_TEMPLATE = 'sales_email/owner/template';
+    const XML_PATH_EMAIL_OWNER_GUEST_TEMPLATE = 'sales_email/owner/guest_template';
+    const XML_PATH_UPDATE_EMAIL_TEMPLATE = 'sales_email/order_comment/template';
+    const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE = 'sales_email/order_comment/guest_template';
+    const XML_PATH_UPDATE_EMAIL_IDENTITY = 'sales_email/order_comment/identity';
+    const XML_PATH_UPDATE_EMAIL_COPY_TO = 'sales_email/order_comment/copy_to';
+    const XML_PATH_UPDATE_EMAIL_COPY_METHOD = 'sales_email/order_comment/copy_method';
+    const XML_PATH_UPDATE_EMAIL_ENABLED = 'sales_email/order_comment/enabled';
     const XML_PATH_COUPON_TEMPLATE = 'dealcoupon/email/coupon_template';
     const XML_PATH_OWNER_TEMPLATE = 'dealcoupon/email/owner_template';
     const XML_PATH_NO_EMAIL_TEMPLATE = 'dealcoupon/email/email_template';
@@ -74,37 +72,45 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
     const APPROVAL_WITHOUT_ACCESS_CODE_TO_RENTER_TEMPLATE = 'airhotels_custom_email_renter_confirmed_without_access_key_template';
     const CANCELED_TO_RENTER_TEMPLATE = 'airhotels_custom_email_renter_canceled_key_template';
     const CANCELED_TO_OWNER_TEMPLATE = 'airhotels_custom_email_owner_canceled_key_template';
+    const AFTER_CONFIRMED_FOR_OWNER = 'sales_email/after_confirmed_for_owner/template';
+    const PATH_AFTER_CONFIRMED_FOR_OWNER = 'sales_email/after_confirmed_for_owner/identity';
+    const AFTER_CONFIRMED_FOR_RENTER = 'sales_email/after_confirmed_for_renter/template';
+    const PATH_AFTER_CONFIRMED_FOR_RENTER = 'sales_email/after_confirmed_for_renter/identity';
+    const AFTER_CENCELED_FOR_OWNER = 'sales_email/after_cenceled_for_owner/template';
+    const PATH_AFTER_CENCELED_FOR_OWNER = 'sales_email/after_cenceled_for_owner/identity';
+    const AFTER_CENCELED_FOR_RENTER = 'sales_email/after_cenceled_for_renter/template';
+    const PATH_AFTER_CENCELED_FOR_RENTER = 'sales_email/after_cenceled_for_renter/identity';
 
-    
+
     /**
      * Order states
      */
-    const STATE_NEW             = 'new';
+    const STATE_NEW = 'new';
     const STATE_PENDING_PAYMENT = 'pending_payment';
-    const STATE_PROCESSING      = 'processing';
-    const STATE_COMPLETE        = 'complete';
-    const STATE_CLOSED          = 'closed';
-    const STATE_CANCELED        = 'canceled';
-    const STATE_HOLDED          = 'holded';
-    const STATE_PAYMENT_REVIEW  = 'payment_review';
+    const STATE_PROCESSING = 'processing';
+    const STATE_COMPLETE = 'complete';
+    const STATE_CLOSED = 'closed';
+    const STATE_CANCELED = 'canceled';
+    const STATE_HOLDED = 'holded';
+    const STATE_PAYMENT_REVIEW = 'payment_review';
 
     /**
      * Order statuses
      */
-    const STATUS_FRAUD  = 'fraud';
+    const STATUS_FRAUD = 'fraud';
 
     /**
      * Order flags
      */
-    const ACTION_FLAG_CANCEL    = 'cancel';
-    const ACTION_FLAG_HOLD      = 'hold';
-    const ACTION_FLAG_UNHOLD    = 'unhold';
-    const ACTION_FLAG_EDIT      = 'edit';
-    const ACTION_FLAG_CREDITMEMO= 'creditmemo';
-    const ACTION_FLAG_INVOICE   = 'invoice';
-    const ACTION_FLAG_REORDER   = 'reorder';
-    const ACTION_FLAG_SHIP      = 'ship';
-    const ACTION_FLAG_COMMENT   = 'comment';
+    const ACTION_FLAG_CANCEL = 'cancel';
+    const ACTION_FLAG_HOLD = 'hold';
+    const ACTION_FLAG_UNHOLD = 'unhold';
+    const ACTION_FLAG_EDIT = 'edit';
+    const ACTION_FLAG_CREDITMEMO = 'creditmemo';
+    const ACTION_FLAG_INVOICE = 'invoice';
+    const ACTION_FLAG_REORDER = 'reorder';
+    const ACTION_FLAG_SHIP = 'ship';
+    const ACTION_FLAG_COMMENT = 'comment';
 
     /**
      * Report date types
@@ -114,19 +120,17 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
 
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
-
-    protected $_addresses       = null;
-    protected $_items           = null;
-    protected $_payments        = null;
-    protected $_statusHistory   = null;
+    protected $_addresses = null;
+    protected $_items = null;
+    protected $_payments = null;
+    protected $_statusHistory = null;
     protected $_invoices;
     protected $_tracks;
     protected $_shipments;
     protected $_creditmemos;
-
-    protected $_relatedObjects  = array();
-    protected $_orderCurrency   = null;
-    protected $_baseCurrency    = null;
+    protected $_relatedObjects = array();
+    protected $_orderCurrency = null;
+    protected $_baseCurrency = null;
 
     /**
      * Array of action flags for canUnhold, canEdit, etc.
@@ -145,8 +149,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
     /**
      * Initialize resource model
      */
-    protected function _construct()
-    {
+    protected function _construct() {
         $this->_init('sales/order');
     }
 
@@ -156,8 +159,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param string $key data key
      * @return Mage_Sales_Model_Order
      */
-    public function unsetData($key=null)
-    {
+    public function unsetData($key = null) {
         parent::unsetData($key);
         if (is_null($key)) {
             $this->_items = null;
@@ -171,8 +173,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param string $action
      * @return boolean|null
      */
-    public function getActionFlag($action)
-    {
+    public function getActionFlag($action) {
         if (isset($this->_actionFlag[$action])) {
             return $this->_actionFlag[$action];
         }
@@ -186,8 +187,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param boolean $flag
      * @return Mage_Sales_Model_Order
      */
-    public function setActionFlag($action, $flag)
-    {
+    public function setActionFlag($action, $flag) {
         $this->_actionFlag[$action] = (boolean) $flag;
         return $this;
     }
@@ -197,8 +197,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function getCanSendNewEmailFlag()
-    {
+    public function getCanSendNewEmailFlag() {
         return $this->_canSendNewEmailFlag;
     }
 
@@ -208,8 +207,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param bool $flag
      * @return Mage_Sales_Model_Order
      */
-    public function setCanSendNewEmailFlag($flag)
-    {
+    public function setCanSendNewEmailFlag($flag) {
         $this->_canSendNewEmailFlag = (boolean) $flag;
         return $this;
     }
@@ -220,8 +218,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param string $incrementId
      * @return Mage_Sales_Model_Order
      */
-    public function loadByIncrementId($incrementId)
-    {
+    public function loadByIncrementId($incrementId) {
         return $this->loadByAttribute('increment_id', $incrementId);
     }
 
@@ -232,8 +229,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param string $value
      * @return Mage_Sales_Model_Order
      */
-    public function loadByAttribute($attribute, $value)
-    {
+    public function loadByAttribute($attribute, $value) {
         $this->load($value, $attribute);
         return $this;
     }
@@ -243,8 +239,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return Mage_Core_Model_Store
      */
-    public function getStore()
-    {
+    public function getStore() {
         $storeId = $this->getStoreId();
         if ($storeId) {
             return Mage::app()->getStore($storeId);
@@ -257,8 +252,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canCancel()
-    {
+    public function canCancel() {
         if ($this->canUnhold()) {  // $this->isPaymentReview()
             return false;
         }
@@ -286,12 +280,12 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
         /**
          * Use only state for availability detect
          */
-        /*foreach ($this->getAllItems() as $item) {
-            if ($item->getQtyToCancel()>0) {
-                return true;
-            }
-        }
-        return false;*/
+        /* foreach ($this->getAllItems() as $item) {
+          if ($item->getQtyToCancel()>0) {
+          return true;
+          }
+          }
+          return false; */
         return true;
     }
 
@@ -299,8 +293,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * Getter whether the payment can be voided
      * @return bool
      */
-    public function canVoidPayment()
-    {
+    public function canVoidPayment() {
         if ($this->canUnhold() || $this->isPaymentReview()) {
             return false;
         }
@@ -316,8 +309,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canInvoice()
-    {
+    public function canInvoice() {
         if ($this->canUnhold() || $this->isPaymentReview()) {
             return false;
         }
@@ -331,7 +323,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
         }
 
         foreach ($this->getAllItems() as $item) {
-            if ($item->getQtyToInvoice()>0 && !$item->getLockedDoInvoice()) {
+            if ($item->getQtyToInvoice() > 0 && !$item->getLockedDoInvoice()) {
                 return true;
             }
         }
@@ -343,8 +335,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canCreditmemo()
-    {
+    public function canCreditmemo() {
         if ($this->hasForcedCanCreditmemo()) {
             return $this->getForcedCanCreditmemo();
         }
@@ -361,7 +352,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
          * We can have problem with float in php (on some server $a=762.73;$b=762.73; $a-$b!=0)
          * for this we have additional diapason for 0
          */
-        if (abs($this->getTotalPaid()-$this->getTotalRefunded())<.0001) {
+        if (abs($this->getTotalPaid() - $this->getTotalRefunded()) < .0001) {
             return false;
         }
 
@@ -376,11 +367,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canHold()
-    {
+    public function canHold() {
         $state = $this->getState();
-        if ($this->isCanceled() || $this->isPaymentReview()
-            || $state === self::STATE_COMPLETE || $state === self::STATE_CLOSED || $state === self::STATE_HOLDED) {
+        if ($this->isCanceled() || $this->isPaymentReview() || $state === self::STATE_COMPLETE || $state === self::STATE_CLOSED || $state === self::STATE_HOLDED) {
             return false;
         }
 
@@ -395,8 +384,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canUnhold()
-    {
+    public function canUnhold() {
         if ($this->getActionFlag(self::ACTION_FLAG_UNHOLD) === false || $this->isPaymentReview()) {
             return false;
         }
@@ -408,8 +396,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canComment()
-    {
+    public function canComment() {
         if ($this->getActionFlag(self::ACTION_FLAG_COMMENT) === false) {
             return false;
         }
@@ -421,8 +408,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canShip()
-    {
+    public function canShip() {
         if ($this->canUnhold() || $this->isPaymentReview()) {
             return false;
         }
@@ -436,9 +422,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
         }
 
         foreach ($this->getAllItems() as $item) {
-            if ($item->getQtyToShip()>0 && !$item->getIsVirtual()
-                && !$item->getLockedDoShip())
-            {
+            if ($item->getQtyToShip() > 0 && !$item->getIsVirtual() && !$item->getLockedDoShip()) {
                 return true;
             }
         }
@@ -450,15 +434,13 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canEdit()
-    {
+    public function canEdit() {
         if ($this->canUnhold()) {
             return false;
         }
 
         $state = $this->getState();
-        if ($this->isCanceled() || $this->isPaymentReview()
-            || $state === self::STATE_COMPLETE || $state === self::STATE_CLOSED) {
+        if ($this->isCanceled() || $this->isPaymentReview() || $state === self::STATE_COMPLETE || $state === self::STATE_CLOSED) {
             return false;
         }
 
@@ -478,8 +460,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canReorder()
-    {
+    public function canReorder() {
         if ($this->canUnhold() || $this->isPaymentReview() || !$this->getCustomerId()) {
             return false;
         }
@@ -496,23 +477,23 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
              *
              */
             /*
-            $productsCollection = Mage::getModel('catalog/product')->getCollection()
-                ->setStoreId($this->getStoreId())
-                ->addIdFilter($products)
-                ->addAttributeToSelect('status')
-                ->load();
+              $productsCollection = Mage::getModel('catalog/product')->getCollection()
+              ->setStoreId($this->getStoreId())
+              ->addIdFilter($products)
+              ->addAttributeToSelect('status')
+              ->load();
 
-            foreach ($productsCollection as $product) {
-                if (!$product->isSalable()) {
-                    return false;
-                }
-            }
-            */
+              foreach ($productsCollection as $product) {
+              if (!$product->isSalable()) {
+              return false;
+              }
+              }
+             */
 
             foreach ($products as $productId) {
                 $product = Mage::getModel('catalog/product')
-                    ->setStoreId($this->getStoreId())
-                    ->load($productId);
+                        ->setStoreId($this->getStoreId())
+                        ->load($productId);
                 if (!$product->getId() || !$product->isSalable()) {
                     return false;
                 }
@@ -534,8 +515,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function isPaymentReview()
-    {
+    public function isPaymentReview() {
         return $this->getState() === self::STATE_PAYMENT_REVIEW;
     }
 
@@ -544,8 +524,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canReviewPayment()
-    {
+    public function canReviewPayment() {
         return $this->isPaymentReview() && $this->getPayment()->canReviewPayment();
     }
 
@@ -554,8 +533,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return bool
      */
-    public function canFetchPaymentReviewUpdate()
-    {
+    public function canFetchPaymentReviewUpdate() {
         return $this->isPaymentReview() && $this->getPayment()->canFetchTransactionInfo();
     }
 
@@ -564,8 +542,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return Mage_Sales_Model_Order_Config
      */
-    public function getConfig()
-    {
+    public function getConfig() {
         return Mage::getSingleton('sales/order_config');
     }
 
@@ -574,8 +551,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return Mage_Sales_Model_Order
      */
-    protected function _placePayment()
-    {
+    protected function _placePayment() {
         $this->getPayment()->place();
         return $this;
     }
@@ -585,8 +561,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return Mage_Sales_Model_Order_Payment
      */
-    public function getPayment()
-    {
+    public function getPayment() {
         foreach ($this->getPaymentsCollection() as $payment) {
             if (!$payment->isDeleted()) {
                 return $payment;
@@ -601,8 +576,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param   Mage_Sales_Model_Order_Address $address
      * @return  Mage_Sales_Model_Order
      */
-    public function setBillingAddress(Mage_Sales_Model_Order_Address $address)
-    {
+    public function setBillingAddress(Mage_Sales_Model_Order_Address $address) {
         $old = $this->getBillingAddress();
         if (!empty($old)) {
             $address->setId($old->getId());
@@ -617,8 +591,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param   Mage_Sales_Model_Order_Address $address
      * @return  Mage_Sales_Model_Order
      */
-    public function setShippingAddress(Mage_Sales_Model_Order_Address $address)
-    {
+    public function setShippingAddress(Mage_Sales_Model_Order_Address $address) {
         $old = $this->getShippingAddress();
         if (!empty($old)) {
             $address->setId($old->getId());
@@ -632,10 +605,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return Mage_Sales_Model_Order_Address
      */
-    public function getBillingAddress()
-    {
+    public function getBillingAddress() {
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()=='billing' && !$address->isDeleted()) {
+            if ($address->getAddressType() == 'billing' && !$address->isDeleted()) {
                 return $address;
             }
         }
@@ -647,10 +619,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      *
      * @return Mage_Sales_Model_Order_Address
      */
-    public function getShippingAddress()
-    {
+    public function getShippingAddress() {
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()=='shipping' && !$address->isDeleted()) {
+            if ($address->getAddressType() == 'shipping' && !$address->isDeleted()) {
                 return $address;
             }
         }
@@ -668,8 +639,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param bool $isCustomerNotified
      * @return Mage_Sales_Model_Order
      */
-    public function setState($state, $status = false, $comment = '', $isCustomerNotified = null)
-    {
+    public function setState($state, $status = false, $comment = '', $isCustomerNotified = null) {
         return $this->_setState($state, $status, $comment, $isCustomerNotified, true);
     }
 
@@ -685,8 +655,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
      * @param $shouldProtectState
      * @return Mage_Sales_Model_Order
      */
-    protected function _setState($state, $status = false, $comment = '', $isCustomerNotified = null, $shouldProtectState = false)
-    {
+    protected function _setState($state, $status = false, $comment = '', $isCustomerNotified = null, $shouldProtectState = false) {
         // attempt to set the specified state
         if ($shouldProtectState) {
             if ($this->isStateProtected($state)) {
@@ -708,161 +677,116 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order
         // Returning status from paypal and if status equal to complete then we can send the coupon (voucher) for user
         // $status == 'payment_review'
         //if($status == 'complete' || $status == 'payment_review' || $status == 'pending') {
-        if($status == 'complete' || $status == 'processing' || $status == 'canceled') {
+        if ($status == 'complete' || $status == 'processing' || $status == 'canceled') {
             $this->_bookingUpdate($this->getRealOrderId());
             //mail('bhanupriya@contus.in','dharani@contus.in',$this->getRealOrderId());
-        } 
+        }
         return $this;
     }
 
+    public function _bookingUpdate($order_id) {
 
-public function _bookingUpdate($order_id) {
+        $tprefix = (string) Mage::getConfig()->getTablePrefix();
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $booking_table = $tprefix . 'airhotels_booking';
 
-            $tprefix = (string)Mage::getConfig()->getTablePrefix();
-            $write = Mage::getSingleton('core/resource')->getConnection('core_write');
-            $booking_table = $tprefix . 'airhotels_booking';
-            
-            $write->query("UPDATE $booking_table set order_status = 1 where order_id  = $order_id");
-            $this->bookingStatus($order_id);
-          
-}
-/**
- * Order Status update mail 
- */
- public function bookingStatus($order_id){
-         $hostEmail =  array();
-         $value = Mage::getModel('sales/order')->loadByIncrementId($order_id);
-         $buyerEmail = $value->getCustomerEmail();//buyer Email
-         $buyerName = $value->getCustomerName();//buyer Name
-         $tprefix = (string)Mage::getConfig()->getTablePrefix();
-         $read = Mage::getSingleton('core/resource')->getConnection('core_read');
-         $booking_table = $tprefix . 'airhotels_booking';
-         $select = "select * from $booking_table where order_id = $order_id ";
-         $result = $read->fetchRow($select);
-         $productId = $result['entity_id'] ;
-         $access_code = $result['access_code'] ;
-         $model = Mage::getModel('catalog/product');
-         $_product = $model->load($productId);
-         $SpaceName = $_product->getName();
-         $SpaceUrl = $_product->getProductUrl();
-         $hostId= $_product->getUserid();//property owner Id
-         $customer = Mage::getModel('customer/customer')->load($hostId);
-         $ownerEmail= $customer->getEmail();//Property Email Owner
-         $hostName = $customer->getName();//Property  Owner name
-         $status = $this->getStatusLabel();//order Status
-         $adminEmail = Mage::getStoreConfig('airhotels/order_reminder/admin_email'); // admin email
-         $postObject = new Varien_Object();
-         $postObject->setData(array(
-             'incrementid'=> $order_id ,
-             'status'=> $status ,
-             'customername' => $buyerName,
-             'ownername'=>$hostName,
-             'spacename'=>$SpaceName,
-             'spaceurl'=>$SpaceUrl,
-             'accesscode'=>$access_code
-         ));
-     if ($status == 'Complete') {
-         $templateToOwner = ($access_code == 0? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_OWNER_TEMPLATE :self::APPROVAL_TO_OWNER_TEMPLATE );
-         $templateToRenter = ($access_code == 0? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_RENTER_TEMPLATE :Mage::getStoreConfig(self::XML_PATH_ORDERSTUTS_APPROVAL_TEMPLATE));
+        $write->query("UPDATE $booking_table set order_status = 1 where order_id  = $order_id");
+        $this->bookingStatus($order_id);
+    }
 
-         $mailTemplate_customer = Mage::getModel('core/email_template');
-         $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-         $mailTemplate_customer->setTemplateSubject('Order Status');
-         $mailTemplate_customer->addBcc(array($adminEmail));
+    /**
+     * Order Status update mail 
+     */
+    public function bookingStatus($order_id) {
+        $hostEmail = array();
+        $value = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+        $buyerEmail = $value->getCustomerEmail(); //buyer Email
+        $buyerName = $value->getCustomerName(); //buyer Name
+        $tprefix = (string) Mage::getConfig()->getTablePrefix();
+        $read = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $booking_table = $tprefix . 'airhotels_booking';
+        $select = "select * from $booking_table where order_id = $order_id ";
+        $result = $read->fetchRow($select);
+        $productId = $result['entity_id'];
+        $access_code = $result['access_code'];
+        $model = Mage::getModel('catalog/product');
+        $_product = $model->load($productId);
+        $SpaceName = $_product->getName();
+        $SpaceUrl = $_product->getProductUrl();
+        $hostId = $_product->getUserid(); //property owner Id
+        $customer = Mage::getModel('customer/customer')->load($hostId);
+        $ownerEmail = $customer->getEmail(); //Property Email Owner
+        $hostName = $customer->getName(); //Property  Owner name
+        $status = $this->getStatusLabel(); //order Status
+        $adminEmail = Mage::getStoreConfig('airhotels/order_reminder/admin_email'); // admin email
 
-         $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
-              ->sendTransactional(
-                 $templateToRenter,
-                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                  $buyerEmail,
-                  Mage::getStoreConfig('design/head/default_title'),
-                  array('order' => $postObject)
-              );
+        $postObject = new Varien_Object();
+        $postObject->setData(array(
+            'incrementid' => $order_id,
+            'status' => $status,
+            'customername' => $buyerName,
+            'ownername' => $hostName,
+            'spacename' => $SpaceName,
+            'spaceurl' => $SpaceUrl,
+            'accesscode' => $access_code
+        ));
 
-         $mailTemplate_owner = Mage::getModel('core/email_template');
-         $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-         $mailTemplate_owner->setTemplateSubject('Order Status');
-         $mailTemplate_owner->addBcc(array($adminEmail));
-         $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
-              ->sendTransactional(
-                 $templateToOwner,
-                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                  $ownerEmail,
-                  Mage::getStoreConfig('design/head/default_title'),
-                  array('order' => $postObject)
-              );
-     }elseif($status == 'Canceled'){
-         $templateToOwner = self::CANCELED_TO_OWNER_TEMPLATE;
-         $templateToRenter = self::CANCELED_TO_RENTER_TEMPLATE;
+        if ($status == 'Complete') {
+            $templateToOwner = ($access_code == 0 ? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_OWNER_TEMPLATE : Mage::getStoreConfig(self::AFTER_CONFIRMED_FOR_OWNER));
+            $templateToRenter = ($access_code == 0 ? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_RENTER_TEMPLATE : Mage::getStoreConfig(self::AFTER_CONFIRMED_FOR_RENTER));
 
-         $mailTemplate_customer = Mage::getModel('core/email_template');
-         $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-         $mailTemplate_customer->setTemplateSubject('Order Status');
-         $mailTemplate_customer->addBcc(array($adminEmail));
+            $mailTemplate_customer = Mage::getModel('core/email_template');
+            $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+            $mailTemplate_customer->setTemplateSubject('Order Status');
+            $mailTemplate_customer->addBcc(array($adminEmail));
 
-         $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
-              ->sendTransactional(
-                 $templateToRenter,
-                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                  $buyerEmail,
-                  Mage::getStoreConfig('design/head/default_title'),
-                  array('order' => $postObject)
-              );
+            $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
+                    ->sendTransactional(
+                            $templateToRenter, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_RENTER), $buyerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
+            );
+            $this->mailToInbox($mailTemplate_customer, true);
+            $mailTemplate_owner = Mage::getModel('core/email_template');
+            $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+            $mailTemplate_owner->setTemplateSubject('Order Status');
+            $mailTemplate_owner->addBcc(array($adminEmail));
+            $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
+                    ->sendTransactional(
+                            $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
+            );
+            $this->mailToInbox($mailTemplate_owner, true);
+        } elseif ($status == 'Canceled') {
+            $templateToOwner = Mage::getStoreConfig(self::AFTER_CENCELED_FOR_OWNER);
+            $templateToRenter = Mage::getStoreConfig(self::AFTER_CENCELED_FOR_RENTER);
 
-         $mailTemplate_owner = Mage::getModel('core/email_template');
-         $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-         $mailTemplate_owner->setTemplateSubject('Order Status');
-         $mailTemplate_owner->addBcc(array($adminEmail));
-         $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
-              ->sendTransactional(
-                 $templateToOwner,
-                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                  $ownerEmail,
-                  Mage::getStoreConfig('design/head/default_title'),
-                  array('order' => $postObject)
-              );
-     }
-     else {
-//         $templateToOwner = self::CANCELED_TO_OWNER_TEMPLATE;
-//         $templateToRenter = self::CANCELED_TO_RENTER_TEMPLATE;
-//
-//         $mailTemplate_customer = Mage::getModel('core/email_template');
-//         $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-//         $mailTemplate_customer->setTemplateSubject('Order Status');
-//         $mailTemplate_customer->addBcc(array($adminEmail));
-//
-//         $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
-//              ->sendTransactional(
-//                 $templateToRenter,
-//                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-//                  $buyerEmail,
-//                  Mage::getStoreConfig('design/head/default_title'),
-//                  array('order' => $postObject)
-//              );
-//
-//         $mailTemplate_owner = Mage::getModel('core/email_template');
-//         $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
-//         $mailTemplate_owner->setTemplateSubject('Order Status');
-//         $mailTemplate_owner->addBcc(array($adminEmail));
-//         $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
-//              ->sendTransactional(
-//                 $templateToOwner,
-//                  Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-//                  $ownerEmail,
-//                  Mage::getStoreConfig('design/head/default_title'),
-//                  array('order' => $postObject)
-//              );
-     }
+            $mailTemplate_customer = Mage::getModel('core/email_template');
+            $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+            $mailTemplate_customer->setTemplateSubject('Order Status');
+            $mailTemplate_customer->addBcc(array($adminEmail));
 
- }
+            $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
+                    ->sendTransactional(
+                            $templateToRenter, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_RENTER), $buyerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
+            );
+            $this->mailToInbox($mailTemplate_customer, true);
+
+            $mailTemplate_owner = Mage::getModel('core/email_template');
+            $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
+            $mailTemplate_owner->setTemplateSubject('Order Status');
+            $mailTemplate_owner->addBcc(array($adminEmail));
+            $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
+                    ->sendTransactional(
+                            $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
+            );
+            $this->mailToInbox($mailTemplate_owner, true);
+        }
+    }
 
     /**
      * Whether specified state can be set from outside
      * @param $state
      * @return bool
      */
-    public function isStateProtected($state)
-    {
+    public function isStateProtected($state) {
         if (empty($state)) {
             return false;
         }
@@ -874,8 +798,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return string
      */
-    public function getStatusLabel()
-    {
+    public function getStatusLabel() {
         return $this->getConfig()->getStatusLabel($this->getStatus());
     }
 
@@ -888,10 +811,9 @@ public function _bookingUpdate($order_id) {
      * @param  bool $isCustomerNotified
      * @return Mage_Sales_Model_Order
      */
-    public function addStatusToHistory($status, $comment = '', $isCustomerNotified = false)
-    {
+    public function addStatusToHistory($status, $comment = '', $isCustomerNotified = false) {
         $history = $this->addStatusHistoryComment($comment, $status)
-            ->setIsCustomerNotified($isCustomerNotified);
+                ->setIsCustomerNotified($isCustomerNotified);
         return $this;
     }
 
@@ -903,8 +825,8 @@ public function _bookingUpdate($order_id) {
      * @param string $status
      * @return Mage_Sales_Order_Status_History
      */
-    public function addStatusHistoryComment($comment, $status = false)
-    {
+
+    public function addStatusHistoryComment($comment, $status = false) {
         if (false === $status) {
             $status = $this->getStatus();
         } elseif (true === $status) {
@@ -913,8 +835,8 @@ public function _bookingUpdate($order_id) {
             $this->setStatus($status);
         }
         $history = Mage::getModel('sales/order_status_history')
-            ->setStatus($status)
-            ->setComment($comment);
+                ->setStatus($status)
+                ->setComment($comment);
         $this->addStatusHistory($history);
         return $history;
     }
@@ -924,16 +846,14 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Sales_Model_Order
      */
-    public function place()
-    {
-        Mage::dispatchEvent('sales_order_place_before', array('order'=>$this));
+    public function place() {
+        Mage::dispatchEvent('sales_order_place_before', array('order' => $this));
         $this->_placePayment();
-        Mage::dispatchEvent('sales_order_place_after', array('order'=>$this));
+        Mage::dispatchEvent('sales_order_place_after', array('order' => $this));
         return $this;
     }
 
-    public function hold()
-    {
+    public function hold() {
         if (!$this->canHold()) {
             Mage::throwException(Mage::helper('sales')->__('Hold action is not available.'));
         }
@@ -949,8 +869,7 @@ public function _bookingUpdate($order_id) {
      * @return Mage_Sales_Model_Order
      * @throws Mage_Core_Exception
      */
-    public function unhold()
-    {
+    public function unhold() {
         if (!$this->canUnhold()) {
             Mage::throwException(Mage::helper('sales')->__('Unhold action is not available.'));
         }
@@ -965,8 +884,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Sales_Model_Order
      */
-    public function cancel()
-    {
+    public function cancel() {
         if ($this->canCancel()) {
             $this->getPayment()->cancel();
             $this->registerCancellation();
@@ -984,8 +902,7 @@ public function _bookingUpdate($order_id) {
      * @return Mage_Sales_Model_Order
      * @throws Mage_Core_Exception
      */
-    public function registerCancellation($comment = '', $graceful = true)
-    {
+    public function registerCancellation($comment = '', $graceful = true) {
         if ($this->canCancel()) {
             $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
@@ -1026,16 +943,14 @@ public function _bookingUpdate($order_id) {
      *
      * @return array
      */
-    public function getTrackingNumbers()
-    {
+    public function getTrackingNumbers() {
         if ($this->getData('tracking_numbers')) {
             return explode(',', $this->getData('tracking_numbers'));
         }
         return array();
     }
 
-    public function getShippingCarrier()
-    {
+    public function getShippingCarrier() {
         $carrierModel = $this->getData('shipping_carrier');
         if (is_null($carrierModel)) {
             $carrierModel = false;
@@ -1045,7 +960,7 @@ public function _bookingUpdate($order_id) {
             if ($method = $this->getShippingMethod()) {
                 $data = explode('_', $method);
                 $carrierCode = $data[0];
-                $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model');
+                $className = Mage::getStoreConfig('carriers/' . $carrierCode . '/model');
                 if ($className) {
                     $carrierModel = Mage::getModel($className);
                 }
@@ -1060,8 +975,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Sales_Model_Order
      */
-    public function sendNewOrderEmail()
-    {
+    public function sendNewOrderEmail() {//echo Mage::helper('adminhtml')->getUrl('wepay/api/confirm',array('order_id'=>$this->getIncrementId()));die();
         $storeId = $this->getStore()->getId();
 
         if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
@@ -1078,7 +992,7 @@ public function _bookingUpdate($order_id) {
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment())
-                ->setIsSecureMode(true);
+                    ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (Exception $exception) {
@@ -1134,12 +1048,14 @@ public function _bookingUpdate($order_id) {
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
-                'order'        => $this,
-                'billing'      => $this->getBillingAddress(),
-                'payment_html' => $paymentBlockHtml
-            )
+            'order' => $this,
+            'billing' => $this->getBillingAddress(),
+            'payment_html' => $paymentBlockHtml
+                )
         );
         $mailer->send();
+        $this->mailToInbox($mailer);
+
         // send confiramtion mail to owner if it enabeled in config
         if (Mage::getStoreConfig('sales_email/owner/enabled') == 1) {
             if ($this->getCustomerIsGuest()) {
@@ -1162,20 +1078,47 @@ public function _bookingUpdate($order_id) {
             $mailer_2->setSender(Mage::getStoreConfig('sales_email/order/identity'));
             $mailer_2->setTemplateId($ownerTemplateId);
             $mailer_2->setTemplateParams(array(
-                    'order' => $this,
-                    'billing' => $this->getBillingAddress(),
-                    'payment_html' => $paymentBlockHtml,
-                    'confirm_link' => Mage::helper('adminhtml')->getUrl('wepay/api/confirm',array('order_id'=>$this->getIncrementId())),
-                    'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel',array('order_id'=>$this->getIncrementId()))
-                )
+                'order' => $this,
+                'billing' => $this->getBillingAddress(),
+                'payment_html' => $paymentBlockHtml,
+                'confirm_link' => Mage::helper('adminhtml')->getUrl('wepay/api/confirm', array('order_id' => $this->getIncrementId())),
+                'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel', array('order_id' => $this->getIncrementId()))
+                    )
             );
             $mailer_2->send();
+            $this->mailToInbox($mailer_2);
         }
         //$this->hostEmail($paymentBlockHtml);
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
 
         return $this;
+    }
+
+    function mailToInbox($mailerObj, $isTemplateObj = false) {
+        if ($isTemplateObj) {
+            $mailContent = $mailerObj->emailText;
+        } else {
+            $mailContent = $mailerObj->getMailContent()->emailText;
+        }
+        $doc = new DOMDocument;
+        $doc->loadHTML($mailContent);
+        $xpath = new DOMXPath($doc);
+        $node = $xpath->query('//table')->item(1);
+        $html = $doc->saveHTML($node);
+        $text = strip_tags($html, "<a>");
+        $parametyers = array(
+            0 => 6,
+            1 => 16,
+            2 => '2014-06-10',
+            3 => '2014-06-11',
+            4 => '1',
+            5 => $text,
+            6 => '1',
+            7 => '0',
+            8 => '65465'
+        );
+        Mage::getModel('airhotels/airhotels')->saveInbox($parametyers);
     }
 
     /**
@@ -1185,8 +1128,7 @@ public function _bookingUpdate($order_id) {
      * @param string $comment
      * @return Mage_Sales_Model_Order
      */
-    public function sendOrderUpdateEmail($notifyCustomer = true, $comment = '')
-    {
+    public function sendOrderUpdateEmail($notifyCustomer = true, $comment = '') {
         $storeId = $this->getStore()->getId();
 
         if (!Mage::helper('sales')->canSendOrderCommentEmail($storeId)) {
@@ -1236,18 +1178,17 @@ public function _bookingUpdate($order_id) {
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
-                'order'   => $this,
-                'comment' => $comment,
-                'billing' => $this->getBillingAddress()
-            )
+            'order' => $this,
+            'comment' => $comment,
+            'billing' => $this->getBillingAddress()
+                )
         );
         $mailer->send();
 
         return $this;
     }
 
-    protected function _getEmails($configPath)
-    {
+    protected function _getEmails($configPath) {
         $data = Mage::getStoreConfig($configPath, $this->getStoreId());
         if (!empty($data)) {
             return explode(',', $data);
@@ -1255,13 +1196,12 @@ public function _bookingUpdate($order_id) {
         return false;
     }
 
-/*********************** ADDRESSES ***************************/
+    /*     * ********************* ADDRESSES ************************** */
 
-    public function getAddressesCollection()
-    {
+    public function getAddressesCollection() {
         if (is_null($this->_addresses)) {
             $this->_addresses = Mage::getResourceModel('sales/order_address_collection')
-                ->setOrderFilter($this);
+                    ->setOrderFilter($this);
 
             if ($this->getId()) {
                 foreach ($this->_addresses as $address) {
@@ -1273,18 +1213,16 @@ public function _bookingUpdate($order_id) {
         return $this->_addresses;
     }
 
-    public function getAddressById($addressId)
-    {
+    public function getAddressById($addressId) {
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getId()==$addressId) {
+            if ($address->getId() == $addressId) {
                 return $address;
             }
         }
         return false;
     }
 
-    public function addAddress(Mage_Sales_Model_Order_Address $address)
-    {
+    public function addAddress(Mage_Sales_Model_Order_Address $address) {
         $address->setOrder($this)->setParentId($this->getId());
         if (!$address->getId()) {
             $this->getAddressesCollection()->addItem($address);
@@ -1292,11 +1230,10 @@ public function _bookingUpdate($order_id) {
         return $this;
     }
 
-    public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
-    {
+    public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false) {
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/order_item_collection')
-                ->setOrderFilter($this);
+                    ->setOrderFilter($this);
 
             if ($filterByTypes) {
                 $this->_items->filterByTypes($filterByTypes);
@@ -1320,8 +1257,7 @@ public function _bookingUpdate($order_id) {
      * @param int $limit
      * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
      */
-    public function getItemsRandomCollection($limit = 1)
-    {
+    public function getItemsRandomCollection($limit = 1) {
         return $this->_getItemsRandomCollection($limit);
     }
 
@@ -1331,8 +1267,7 @@ public function _bookingUpdate($order_id) {
      * @param int $limit
      * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
      */
-    public function getParentItemsRandomCollection($limit = 1)
-    {
+    public function getParentItemsRandomCollection($limit = 1) {
         return $this->_getItemsRandomCollection($limit, true);
     }
 
@@ -1343,11 +1278,10 @@ public function _bookingUpdate($order_id) {
      * @param bool $nonChildrenOnly
      * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
      */
-    protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
-    {
+    protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false) {
         $collection = Mage::getModel('sales/order_item')->getCollection()
-            ->setOrderFilter($this)
-            ->setRandomOrder();
+                ->setOrderFilter($this)
+                ->setRandomOrder();
 
         if ($nonChildrenOnly) {
             $collection->filterByParent();
@@ -1358,13 +1292,13 @@ public function _bookingUpdate($order_id) {
         }
 
         $productsCollection = Mage::getModel('catalog/product')
-            ->getCollection()
-            ->addIdFilter($products)
-            ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds())
-            /* Price data is added to consider item stock status using price index */
-            ->addPriceData()
-            ->setPageSize($limit)
-            ->load();
+                ->getCollection()
+                ->addIdFilter($products)
+                ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds())
+                /* Price data is added to consider item stock status using price index */
+                ->addPriceData()
+                ->setPageSize($limit)
+                ->load();
 
         foreach ($collection as $item) {
             $product = $productsCollection->getItemById($item->getProductId());
@@ -1376,45 +1310,40 @@ public function _bookingUpdate($order_id) {
         return $collection;
     }
 
-    public function getAllItems()
-    {
+    public function getAllItems() {
         $items = array();
         foreach ($this->getItemsCollection() as $item) {
             if (!$item->isDeleted()) {
-                $items[] =  $item;
+                $items[] = $item;
             }
         }
         return $items;
     }
 
-    public function getAllVisibleItems()
-    {
+    public function getAllVisibleItems() {
         $items = array();
         foreach ($this->getItemsCollection() as $item) {
             if (!$item->isDeleted() && !$item->getParentItemId()) {
-                $items[] =  $item;
+                $items[] = $item;
             }
         }
         return $items;
     }
 
-    public function getItemById($itemId)
-    {
+    public function getItemById($itemId) {
         return $this->getItemsCollection()->getItemById($itemId);
     }
 
-    public function getItemByQuoteItemId($quoteItemId)
-    {
+    public function getItemByQuoteItemId($quoteItemId) {
         foreach ($this->getItemsCollection() as $item) {
-            if ($item->getQuoteItemId()==$quoteItemId) {
+            if ($item->getQuoteItemId() == $quoteItemId) {
                 return $item;
             }
         }
         return null;
     }
 
-    public function addItem(Mage_Sales_Model_Order_Item $item)
-    {
+    public function addItem(Mage_Sales_Model_Order_Item $item) {
         $item->setOrder($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
@@ -1427,8 +1356,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return bool
      */
-    public function isNominal()
-    {
+    public function isNominal() {
         foreach ($this->getAllVisibleItems() as $item) {
             if ('0' == $item->getIsNominal()) {
                 return false;
@@ -1437,13 +1365,12 @@ public function _bookingUpdate($order_id) {
         return true;
     }
 
-/*********************** PAYMENTS ***************************/
+    /*     * ********************* PAYMENTS ************************** */
 
-    public function getPaymentsCollection()
-    {
+    public function getPaymentsCollection() {
         if (is_null($this->_payments)) {
             $this->_payments = Mage::getResourceModel('sales/order_payment_collection')
-                ->setOrderFilter($this);
+                    ->setOrderFilter($this);
 
             if ($this->getId()) {
                 foreach ($this->_payments as $payment) {
@@ -1454,40 +1381,35 @@ public function _bookingUpdate($order_id) {
         return $this->_payments;
     }
 
-    public function getAllPayments()
-    {
+    public function getAllPayments() {
         $payments = array();
         foreach ($this->getPaymentsCollection() as $payment) {
             if (!$payment->isDeleted()) {
-                $payments[] =  $payment;
+                $payments[] = $payment;
             }
         }
         return $payments;
     }
 
-
-    public function getPaymentById($paymentId)
-    {
+    public function getPaymentById($paymentId) {
         foreach ($this->getPaymentsCollection() as $payment) {
-            if ($payment->getId()==$paymentId) {
+            if ($payment->getId() == $paymentId) {
                 return $payment;
             }
         }
         return false;
     }
 
-    public function addPayment(Mage_Sales_Model_Order_Payment $payment)
-    {
+    public function addPayment(Mage_Sales_Model_Order_Payment $payment) {
         $payment->setOrder($this)
-            ->setParentId($this->getId());
+                ->setParentId($this->getId());
         if (!$payment->getId()) {
             $this->getPaymentsCollection()->addItem($payment);
         }
         return $this;
     }
 
-    public function setPayment(Mage_Sales_Model_Order_Payment $payment)
-    {
+    public function setPayment(Mage_Sales_Model_Order_Payment $payment) {
         if (!$this->getIsMultiPayment() && ($old = $this->getPayment())) {
             $payment->setId($old->getId());
         }
@@ -1495,20 +1417,19 @@ public function _bookingUpdate($order_id) {
         return $payment;
     }
 
-/*********************** STATUSES ***************************/
+    /*     * ********************* STATUSES ************************** */
 
     /**
      * Enter description here...
      *
      * @return Mage_Sales_Model_Entity_Order_Status_History_Collection
      */
-    public function getStatusHistoryCollection($reload=false)
-    {
+    public function getStatusHistoryCollection($reload = false) {
         if (is_null($this->_statusHistory) || $reload) {
             $this->_statusHistory = Mage::getResourceModel('sales/order_status_history_collection')
-                ->setOrderFilter($this)
-                ->setOrder('created_at', 'desc')
-                ->setOrder('entity_id', 'desc');
+                    ->setOrderFilter($this)
+                    ->setOrder('created_at', 'desc')
+                    ->setOrder('entity_id', 'desc');
 
             if ($this->getId()) {
                 foreach ($this->_statusHistory as $status) {
@@ -1524,12 +1445,11 @@ public function _bookingUpdate($order_id) {
      *
      * @return array
      */
-    public function getAllStatusHistory()
-    {
+    public function getAllStatusHistory() {
         $history = array();
         foreach ($this->getStatusHistoryCollection() as $status) {
             if (!$status->isDeleted()) {
-                $history[] =  $status;
+                $history[] = $status;
             }
         }
         return $history;
@@ -1540,21 +1460,19 @@ public function _bookingUpdate($order_id) {
      *
      * @return array
      */
-    public function getVisibleStatusHistory()
-    {
+    public function getVisibleStatusHistory() {
         $history = array();
         foreach ($this->getStatusHistoryCollection() as $status) {
             if (!$status->isDeleted() && $status->getComment() && $status->getIsVisibleOnFront()) {
-                $history[] =  $status;
+                $history[] = $status;
             }
         }
         return $history;
     }
 
-    public function getStatusHistoryById($statusId)
-    {
+    public function getStatusHistoryById($statusId) {
         foreach ($this->getStatusHistoryCollection() as $status) {
-            if ($status->getId()==$statusId) {
+            if ($status->getId() == $statusId) {
                 return $status;
             }
         }
@@ -1570,8 +1488,7 @@ public function _bookingUpdate($order_id) {
      * @param Mage_Sales_Model_Order_Status_History $status
      * @return Mage_Sales_Model_Order
      */
-    public function addStatusHistory(Mage_Sales_Model_Order_Status_History $history)
-    {
+    public function addStatusHistory(Mage_Sales_Model_Order_Status_History $history) {
         $history->setOrder($this);
         $this->setStatus($history->getStatus());
         if (!$history->getId()) {
@@ -1580,14 +1497,12 @@ public function _bookingUpdate($order_id) {
         return $this;
     }
 
-
     /**
      * Enter description here...
      *
      * @return string
      */
-    public function getRealOrderId()
-    {
+    public function getRealOrderId() {
         $id = $this->getData('real_order_id');
         if (is_null($id)) {
             $id = $this->getIncrementId();
@@ -1600,8 +1515,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Directory_Model_Currency
      */
-    public function getOrderCurrency()
-    {
+    public function getOrderCurrency() {
         if (is_null($this->_orderCurrency)) {
             $this->_orderCurrency = Mage::getModel('directory/currency')->load($this->getOrderCurrencyCode());
         }
@@ -1615,13 +1529,11 @@ public function _bookingUpdate($order_id) {
      * @param   bool  $addBrackets
      * @return  string
      */
-    public function formatPrice($price, $addBrackets = false)
-    {
+    public function formatPrice($price, $addBrackets = false) {
         return $this->formatPricePrecision($price, 2, $addBrackets);
     }
 
-    public function formatPricePrecision($price, $precision, $addBrackets = false)
-    {
+    public function formatPricePrecision($price, $precision, $addBrackets = false) {
         return $this->getOrderCurrency()->formatPrecision($price, $precision, array(), true, $addBrackets);
     }
 
@@ -1631,8 +1543,7 @@ public function _bookingUpdate($order_id) {
      * @param   float $price
      * @return  string
      */
-    public function formatPriceTxt($price)
-    {
+    public function formatPriceTxt($price) {
         return $this->getOrderCurrency()->formatTxt($price);
     }
 
@@ -1641,8 +1552,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Directory_Model_Currency
      */
-    public function getBaseCurrency()
-    {
+    public function getBaseCurrency() {
         if (is_null($this->_baseCurrency)) {
             $this->_baseCurrency = Mage::getModel('directory/currency')->load($this->getBaseCurrencyCode());
         }
@@ -1655,23 +1565,19 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Directory_Model_Currency
      */
-    public function getStoreCurrency()
-    {
+    public function getStoreCurrency() {
         return $this->getData('store_currency');
     }
 
-    public function formatBasePrice($price)
-    {
+    public function formatBasePrice($price) {
         return $this->formatBasePricePrecision($price, 2);
     }
 
-    public function formatBasePricePrecision($price, $precision)
-    {
+    public function formatBasePricePrecision($price, $precision) {
         return $this->getBaseCurrency()->formatPrecision($price, $precision);
     }
 
-    public function isCurrencyDifferent()
-    {
+    public function isCurrencyDifferent() {
         return $this->getOrderCurrencyCode() != $this->getBaseCurrencyCode();
     }
 
@@ -1680,9 +1586,8 @@ public function _bookingUpdate($order_id) {
      *
      * @return float
      */
-    public function getTotalDue()
-    {
-        $total = $this->getGrandTotal()-$this->getTotalPaid();
+    public function getTotalDue() {
+        $total = $this->getGrandTotal() - $this->getTotalPaid();
         $total = Mage::app()->getStore($this->getStoreId())->roundPrice($total);
         return max($total, 0);
     }
@@ -1692,15 +1597,13 @@ public function _bookingUpdate($order_id) {
      *
      * @return float
      */
-    public function getBaseTotalDue()
-    {
-        $total = $this->getBaseGrandTotal()-$this->getBaseTotalPaid();
+    public function getBaseTotalDue() {
+        $total = $this->getBaseGrandTotal() - $this->getBaseTotalPaid();
         $total = Mage::app()->getStore($this->getStoreId())->roundPrice($total);
         return max($total, 0);
     }
 
-    public function getData($key='', $index=null)
-    {
+    public function getData($key = '', $index = null) {
         if ($key == 'total_due') {
             return $this->getTotalDue();
         }
@@ -1715,11 +1618,10 @@ public function _bookingUpdate($order_id) {
      *
      * @return unknown
      */
-    public function getInvoiceCollection()
-    {
+    public function getInvoiceCollection() {
         if (is_null($this->_invoices)) {
             $this->_invoices = Mage::getResourceModel('sales/order_invoice_collection')
-                ->setOrderFilter($this);
+                    ->setOrderFilter($this);
 
             if ($this->getId()) {
                 foreach ($this->_invoices as $invoice) {
@@ -1730,18 +1632,17 @@ public function _bookingUpdate($order_id) {
         return $this->_invoices;
     }
 
-     /**
+    /**
      * Retrieve order shipments collection
      *
      * @return unknown
      */
-    public function getShipmentsCollection()
-    {
+    public function getShipmentsCollection() {
         if (empty($this->_shipments)) {
             if ($this->getId()) {
                 $this->_shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->setOrderFilter($this)
-                    ->load();
+                        ->setOrderFilter($this)
+                        ->load();
             } else {
                 return false;
             }
@@ -1754,13 +1655,12 @@ public function _bookingUpdate($order_id) {
      *
      * @return unknown
      */
-    public function getCreditmemosCollection()
-    {
+    public function getCreditmemosCollection() {
         if (empty($this->_creditmemos)) {
             if ($this->getId()) {
                 $this->_creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
-                    ->setOrderFilter($this)
-                    ->load();
+                        ->setOrderFilter($this)
+                        ->load();
             } else {
                 return false;
             }
@@ -1773,11 +1673,10 @@ public function _bookingUpdate($order_id) {
      *
      * @return unknown
      */
-    public function getTracksCollection()
-    {
+    public function getTracksCollection() {
         if (empty($this->_tracks)) {
             $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection')
-                ->setOrderFilter($this);
+                    ->setOrderFilter($this);
 
             if ($this->getId()) {
                 $this->_tracks->load();
@@ -1791,8 +1690,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return bool
      */
-    public function hasInvoices()
-    {
+    public function hasInvoices() {
         return $this->getInvoiceCollection()->count();
     }
 
@@ -1801,8 +1699,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return bool
      */
-    public function hasShipments()
-    {
+    public function hasShipments() {
         return $this->getShipmentsCollection()->count();
     }
 
@@ -1811,11 +1708,9 @@ public function _bookingUpdate($order_id) {
      *
      * @return bool
      */
-    public function hasCreditmemos()
-    {
+    public function hasCreditmemos() {
         return $this->getCreditmemosCollection()->count();
     }
-
 
     /**
      * Retrieve array of related objects
@@ -1824,17 +1719,14 @@ public function _bookingUpdate($order_id) {
      *
      * @return array
      */
-    public function getRelatedObjects()
-    {
+    public function getRelatedObjects() {
         return $this->_relatedObjects;
     }
 
-    public function getCustomerName()
-    {
+    public function getCustomerName() {
         if ($this->getCustomerFirstname()) {
             $customerName = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
-        }
-        else {
+        } else {
             $customerName = Mage::helper('sales')->__('Guest');
         }
         return $customerName;
@@ -1846,8 +1738,7 @@ public function _bookingUpdate($order_id) {
      * @param   Mage_Core_Model_Abstract $object
      * @return  Mage_Sales_Model_Order
      */
-    public function addRelatedObject(Mage_Core_Model_Abstract $object)
-    {
+    public function addRelatedObject(Mage_Core_Model_Abstract $object) {
         $this->_relatedObjects[] = $object;
         return $this;
     }
@@ -1858,13 +1749,11 @@ public function _bookingUpdate($order_id) {
      * @param   string $format date format type (short|medium|long|full)
      * @return  string
      */
-    public function getCreatedAtFormated($format)
-    {
+    public function getCreatedAtFormated($format) {
         return Mage::helper('core')->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
-    public function getEmailCustomerNote()
-    {
+    public function getEmailCustomerNote() {
         if ($this->getCustomerNoteNotify()) {
             return $this->getCustomerNote();
         }
@@ -1876,20 +1765,19 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Core_Model_Abstract
      */
-    protected function _beforeSave()
-    {
+    protected function _beforeSave() {
         parent::_beforeSave();
         $this->_checkState();
         if (!$this->getId()) {
             $store = $this->getStore();
-            $name = array($store->getWebsite()->getName(),$store->getGroup()->getName(),$store->getName());
+            $name = array($store->getWebsite()->getName(), $store->getGroup()->getName(), $store->getName());
             $this->setStoreName(implode("\n", $name));
         }
 
         if (!$this->getIncrementId()) {
             $incrementId = Mage::getSingleton('eav/config')
-                ->getEntityType('order')
-                ->fetchNewIncrementId($this->getStoreId());
+                    ->getEntityType('order')
+                    ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);
         }
 
@@ -1928,18 +1816,14 @@ public function _bookingUpdate($order_id) {
     /**
      * Check order state before saving
      */
-    protected function _checkState()
-    {
+    protected function _checkState() {
         if (!$this->getId()) {
             return $this;
         }
 
         $userNotification = $this->hasCustomerNoteNotify() ? $this->getCustomerNoteNotify() : null;
 
-        if (!$this->isCanceled()
-            && !$this->canUnhold()
-            && !$this->canInvoice()
-            && !$this->canShip()) {
+        if (!$this->isCanceled() && !$this->canUnhold() && !$this->canInvoice() && !$this->canShip()) {
             if (0 == $this->getBaseGrandTotal() || $this->canCreditmemo()) {
                 if ($this->getState() !== self::STATE_COMPLETE) {
                     $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
@@ -1948,8 +1832,7 @@ public function _bookingUpdate($order_id) {
             /**
              * Order can be closed just in case when we have refunded amount.
              * In case of "0" grand total order checking ForcedCanCreditmemo flag
-             */
-            elseif(floatval($this->getTotalRefunded()) || (!$this->getTotalRefunded() && $this->hasForcedCanCreditmemo())) {
+             */ elseif (floatval($this->getTotalRefunded()) || (!$this->getTotalRefunded() && $this->hasForcedCanCreditmemo())) {
                 if ($this->getState() !== self::STATE_CLOSED) {
                     $this->_setState(self::STATE_CLOSED, true, '', $userNotification);
                 }
@@ -1967,8 +1850,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Sales_Model_Order
      */
-    protected function _afterSave()
-    {
+    protected function _afterSave() {
         if (null !== $this->_addresses) {
             $this->_addresses->save();
             $billingAddress = $this->getBillingAddress();
@@ -1987,7 +1869,6 @@ public function _bookingUpdate($order_id) {
             if (!empty($attributesForSave)) {
                 $this->_getResource()->saveAttribute($this, $attributesForSave);
             }
-
         }
         if (null !== $this->_items) {
             $this->_items->save();
@@ -2004,8 +1885,7 @@ public function _bookingUpdate($order_id) {
         return parent::_afterSave();
     }
 
-    public function getStoreGroupName()
-    {
+    public function getStoreGroupName() {
         $storeId = $this->getStoreId();
         if (is_null($storeId)) {
             return $this->getStoreName(1); // 0 - website name, 1 - store group name, 2 - store name
@@ -2019,8 +1899,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Sales_Model_Order
      */
-    public function reset()
-    {
+    public function reset() {
         $this->unsetData();
         $this->_actionFlag = array();
         $this->_addresses = null;
@@ -2038,13 +1917,11 @@ public function _bookingUpdate($order_id) {
         return $this;
     }
 
-    public function getIsNotVirtual()
-    {
+    public function getIsNotVirtual() {
         return !$this->getIsVirtual();
     }
 
-    public function getFullTaxInfo()
-    {
+    public function getFullTaxInfo() {
         $rates = Mage::getModel('tax/sales_order_tax')->getCollection()->loadByOrder($this)->toArray();
         return Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
     }
@@ -2054,8 +1931,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Sales_Model_Order_Invoice
      */
-    public function prepareInvoice($qtys = array())
-    {
+    public function prepareInvoice($qtys = array()) {
         $invoice = Mage::getModel('sales/service_order', $this)->prepareInvoice($qtys);
         return $invoice;
     }
@@ -2065,8 +1941,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return Mage_Sales_Model_Order_Shipment
      */
-    public function prepareShipment($qtys = array())
-    {
+    public function prepareShipment($qtys = array()) {
         $shipment = Mage::getModel('sales/service_order', $this)->prepareShipment($qtys);
         return $shipment;
     }
@@ -2076,8 +1951,7 @@ public function _bookingUpdate($order_id) {
      *
      * @return bool
      */
-    public function isCanceled()
-    {
+    public function isCanceled() {
         return ($this->getState() === self::STATE_CANCELED);
     }
 
@@ -2085,10 +1959,9 @@ public function _bookingUpdate($order_id) {
      * Protect order delete from not admin scope
      * @return Mage_Sales_Model_Order
      */
-    protected function _beforeDelete()
-    {
+    protected function _beforeDelete() {
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
-  
+
 }
