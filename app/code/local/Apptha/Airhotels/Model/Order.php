@@ -80,6 +80,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
     const PATH_AFTER_CENCELED_FOR_OWNER = 'sales_email/after_cenceled_for_owner/identity';
     const AFTER_CENCELED_FOR_RENTER = 'sales_email/after_cenceled_for_renter/template';
     const PATH_AFTER_CENCELED_FOR_RENTER = 'sales_email/after_cenceled_for_renter/identity';
+    const AFTER_CONFIRM_TO_OWNER_WITHOUT_ACCESS_KEY = 'sales_email/after_confirm_to_owner_without_access_key/template';
+    const AFTER_CONFIRM_TO_RENTER_WITHOUT_ACCESS_KEY = 'sales_email/after_confirm_to_renter_without_access_key/template';
 
 
     /**
@@ -732,8 +734,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
         ));
 
         if ($status == 'Complete') {
-            $templateToOwner = ($access_code == 0 ? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_OWNER_TEMPLATE : Mage::getStoreConfig(self::AFTER_CONFIRMED_FOR_OWNER));
-            $templateToRenter = ($access_code == 0 ? self::APPROVAL_WITHOUT_ACCESS_CODE_TO_RENTER_TEMPLATE : Mage::getStoreConfig(self::AFTER_CONFIRMED_FOR_RENTER));
+            $templateToOwner = ($access_code == 0 ? Mage::getStoreConfig(self::AFTER_CONFIRM_TO_OWNER_WITHOUT_ACCESS_KEY) : Mage::getStoreConfig(self::AFTER_CONFIRMED_FOR_OWNER));
+            $templateToRenter = ($access_code == 0 ? Mage::getStoreConfig(self::AFTER_CONFIRM_TO_RENTER_WITHOUT_ACCESS_KEY) : Mage::getStoreConfig(self::AFTER_CONFIRMED_FOR_RENTER));
 
             $mailTemplate_customer = Mage::getModel('core/email_template');
             $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
