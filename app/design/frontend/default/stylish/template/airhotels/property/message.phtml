@@ -43,7 +43,14 @@ if(count($inboxDetails)){
             <tr>
                 <td class="msg_box">
                     <p style="font-family: 'abel';font-size: 18px;color:#2671B9;"><?php echo $this->__('Message');  ?>:</p>
-                    <p><?php echo nl2br($inboxDetails[0]["message"]); ?></p>
+                    <p><?php
+                        if(strlen($inboxDetails[0]["message"]) != strlen(strip_tags($inboxDetails[0]["message"]))){
+                            echo $inboxDetails[0]["message"];
+                        }else{
+                            echo nl2br($inboxDetails[0]["message"]);
+                        }
+                        ?>
+                    </p>
                     <p><?php echo $this->__('No of Guests : ').$inboxDetails[0]["guest"]; ?></p>
                     <p><?php echo $this->__('Check In: ').date("d/m/Y",strtotime ($inboxDetails[0]["checkin"])); ?></p>
                     <p><?php echo $this->__('Check Out: ').date("d/m/Y",strtotime ($inboxDetails[0]["checkout"])); ?></p>

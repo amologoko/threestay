@@ -13,13 +13,17 @@
  * */
 ?>
 <?php
+
 class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Action {
+
+    const XML_INBOX_MESSAGE_TEMPLATE = 'sales_email/inbox_message_template/identity';
+    const INBOX_MESSAGE_TEMPLATE = 'sales_email/inbox_message_template/template';
 
     public function indexAction() {
 
         $this->loadLayout();
         $this->renderLayout();
-         $this->_redirectUrl(Mage::getBaseUrl());
+        $this->_redirectUrl(Mage::getBaseUrl());
     }
 
     /**
@@ -45,8 +49,8 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
 
             $product = Mage::getModel('catalog/product');
             // Build the product
-            $product->setStoreID($store_id);//Store Id
-                   $product ->setTotalrooms($post['room'])//No of roms avaliable
+            $product->setStoreID($store_id); //Store Id
+            $product->setTotalrooms($post['room'])//No of roms avaliable
                     ->setSku($sku)//product Sku
                     ->setUserid($CusId)//Customer id
                     ->setAttributeSetId(4)
@@ -71,7 +75,7 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
                     ->setMetaDescription($post['meta_description'])//Meta description
                     ->setPropertytype(array($post['proptype']))//property type
                     ->setPrivacy(array($post['privacy']))//privacy
-		    ->setSecretKey($post['secret_key'])//secret key
+                    ->setSecretKey($post['secret_key'])//secret key
                     ->setCategoryIds(Mage::app()->getStore()->getRootCategoryId())//Default Category
                     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)//Visibility in both catalog and search
                     ->setStatus(0) //enable the Status
@@ -82,18 +86,17 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
                     ))//Inventory
                     ->setBanner($post['banner']) //banner
                     ->setPropertyapproved(1) //approved
-                    ->setCreatedAt(strtotime('now'))       
+                    ->setCreatedAt(strtotime('now'))
                     ->setWebsiteIDs(array($websiteId)); //Website id, my is 1 (default frontend)
-                try {
-            $product->save();
-                }
-                catch (Exception $ex) {
-                    //Handle the error
-                    Mage::getSingleton('core/session')->addError('Error');
-                }
+            try {
+                $product->save();
+            } catch (Exception $ex) {
+                //Handle the error
+                Mage::getSingleton('core/session')->addError('Error');
+            }
             Mage::getModel('core/cookie')->set('product_approveid', $product->getId());
             Mage::getSingleton('core/session')->addSuccess($this->__('Space created Successfully'));
-            $url = Mage::getBaseUrl() . "booking/property/image/id/" . $product->getId()."/new/1";
+            $url = Mage::getBaseUrl() . "booking/property/image/id/" . $product->getId() . "/new/1";
 
             Mage::app()->getFrontController()->getResponse()->setRedirect($url);
         } else {
@@ -113,9 +116,9 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
             Mage::getSingleton('core/session')->addNotice($this->__('Login and create your space'));
             $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-        } elseif(Mage::getSingleton('customer/session')->getCustomer()->getWepayAccountId() == null){
+        } elseif (Mage::getSingleton('customer/session')->getCustomer()->getWepayAccountId() == null) {
             $this->_redirectUrl(Mage::helper('adminhtml')->getUrl('wepay/api/auth'));
-        }else {
+        } else {
             $this->getLayout()->getBlock('head')->setTitle($this->__('List your Space'));
             $this->renderLayout();
         }
@@ -137,7 +140,7 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
             $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
         }
         //owner permission 
-        $entity_id = (int)$this->getRequest()->getParam('id');
+        $entity_id = (int) $this->getRequest()->getParam('id');
         $collection = Mage::getModel('catalog/product')->load($entity_id);
         $Customer_id = $collection->getUserid();
 
@@ -152,12 +155,11 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
      * List all the property which are realted to customer
      *
      */
-    
-     public function deleteAction() {
+    public function deleteAction() {
         $this->loadLayout();
-         $this->renderLayout();
+        $this->renderLayout();
         //owner permission 
-        $entity_id = (int)$this->getRequest()->getParam('id');
+        $entity_id = (int) $this->getRequest()->getParam('id');
         $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
         $collection = Mage::getModel('catalog/product')->load($entity_id);
         $Customer_id = $collection->getUserid();
@@ -167,12 +169,12 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
             $this->_redirect('*/property/show/');
             return;
         }
-Mage::getModel('airhotels/property')->deleteProperty($entity_id);
-Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Successfully"));
-            $this->_redirect('*/property/show/');
-            return;
+        Mage::getModel('airhotels/property')->deleteProperty($entity_id);
+        Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Successfully"));
+        $this->_redirect('*/property/show/');
+        return;
     }
-    
+
     public function showAction() {
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
@@ -189,7 +191,7 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
      * @ update /delete image
      *
      */
-    public function imageAction() {  
+    public function imageAction() {
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
@@ -199,7 +201,7 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         }
         //owner permission
         $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
-        $entity_id = (int)$this->getRequest()->getParam('id');
+        $entity_id = (int) $this->getRequest()->getParam('id');
         $collection = Mage::getModel('catalog/product')->load($entity_id);
         $Customer_id = $collection->getUserid();
 
@@ -222,7 +224,7 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
          * @param int $entity_id
          * @param array $_FILES
          */
-      
+
         Mage::getModel('airhotels/airhotels')->imageupload($_FILES, $entity_id);
         $this->renderLayout();
         return;
@@ -312,27 +314,26 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         /**
          * Assign availiable, blocked and not availiable date
          */
-        $avail = $this->getDaysAction(count($blockedArray[0]),$blockedArray[0]);
-        $blockedArr = $this->getDaysAction(count($blockedArray[1]),$blockedArray[1]);
+        $avail = $this->getDaysAction(count($blockedArray[0]), $blockedArray[0]);
+        $blockedArr = $this->getDaysAction(count($blockedArray[1]), $blockedArray[1]);
         // start new concept for booked date
-        $blockedArrayCust = Mage::getModel('airhotels/airhotels')->getBlockdateBook($productId,$_GET["date"]);
+        $blockedArrayCust = Mage::getModel('airhotels/airhotels')->getBlockdateBook($productId, $_GET["date"]);
         $bookingReserved = $blockedArrayCust['processing'];
         $bookingComplete = $blockedArrayCust['complete'];
-        $blocked=array_merge($blockedArr, $bookingComplete);
+        $blocked = array_merge($blockedArr, $bookingComplete);
         // end new concept for booked date
 
-        $not_avail = $this->getDaysAction(count($blockedArray[2]),$blockedArray[2]);
+        $not_avail = $this->getDaysAction(count($blockedArray[2]), $blockedArray[2]);
         // calender price start
-        $spe_avail = $this->getSpecialPriceDaysAction(count($blockedArray[0]),$blockedArray[0]);
+        $spe_avail = $this->getSpecialPriceDaysAction(count($blockedArray[0]), $blockedArray[0]);
         $_sp = array();
-        foreach($spe_avail as $key=>$value)
-        {
-            $avail = explode(",",$key);
-            foreach($avail as $_val){
-                 $spDay = (int) $_val;
+        foreach ($spe_avail as $key => $value) {
+            $avail = explode(",", $key);
+            foreach ($avail as $_val) {
+                $spDay = (int) $_val;
                 $_sp[$spDay] = $value;
             }
-         }
+        }
         //end of calender price
         $x = $dateSplit[0];
         if ($x == "")
@@ -416,10 +417,10 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center'style='background-color:#F18200;color: black !important;' ><font size = '2' face = 'tahoma'>$d</font></td>";
                         } else if (in_array("$d", $bookingReserved)) {
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center'style='background-color:#FF86F5;color: black !important;' ><font size = '2' face = 'tahoma'>$d</font></td>";
-                        } else if(array_key_exists($d,$_sp)){
-                                echo "<td style='padding: 11px 23px;' id=" . $tdDate . " class='normal days " . $d . " ' align='center' ><font size = '2' face = 'tahoma'>$d</font><br><div style='width: 25px;font-size: 1.0em;text-align: right;'>".
-                                   Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol().Mage::helper('directory')->currencyConvert($_sp[$d],Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode())."</div></td>";
-                            }else{
+                        } else if (array_key_exists($d, $_sp)) {
+                            echo "<td style='padding: 11px 23px;' id=" . $tdDate . " class='normal days " . $d . " ' align='center' ><font size = '2' face = 'tahoma'>$d</font><br><div style='width: 25px;font-size: 1.0em;text-align: right;'>" .
+                            Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() . Mage::helper('directory')->currencyConvert($_sp[$d], Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode()) . "</div></td>";
+                        } else {
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center' ><font size = '2' face = 'tahoma'>$d</font></td>";
                         }
                     }
@@ -439,12 +440,11 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
 
         echo '</table>';
     }
+
     /**
      * Mycalendar layout
      * 
      */
-    
-   
     public function calendarviewAction() {
 
         $productId = $_REQUEST["productid"]; //To 
@@ -453,27 +453,26 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         /**
          * Assign availiable, blocked and not availiable date 
          */
-        $avail = $this->getDaysAction(count($blockedArray[0]),$blockedArray[0]);
-        $blockedArr = $this->getDaysAction(count($blockedArray[1]),$blockedArray[1]);
+        $avail = $this->getDaysAction(count($blockedArray[0]), $blockedArray[0]);
+        $blockedArr = $this->getDaysAction(count($blockedArray[1]), $blockedArray[1]);
         // start new concept for booked date
-        $blockedArrayCust = Mage::getModel('airhotels/airhotels')->getBlockdateBook($productId,$_GET["date"]);
+        $blockedArrayCust = Mage::getModel('airhotels/airhotels')->getBlockdateBook($productId, $_GET["date"]);
         $bookingReserved = $blockedArrayCust['processing'];
         $bookingComplete = $blockedArrayCust['complete'];
-        $blocked=array_merge($blockedArr, $bookingComplete);
+        $blocked = array_merge($blockedArr, $bookingComplete);
         // end new concept for booked date
 
-        $not_avail = $this->getDaysAction(count($blockedArray[2]),$blockedArray[2]);
+        $not_avail = $this->getDaysAction(count($blockedArray[2]), $blockedArray[2]);
         // calender price start
-        $spe_avail = $this->getSpecialPriceDaysAction(count($blockedArray[0]),$blockedArray[0]);
+        $spe_avail = $this->getSpecialPriceDaysAction(count($blockedArray[0]), $blockedArray[0]);
         $_sp = array();
-        foreach($spe_avail as $key=>$value)
-        {
-            $avail = explode(",",$key);
-            foreach($avail as $_val){
-                 $spDay = (int) $_val;
+        foreach ($spe_avail as $key => $value) {
+            $avail = explode(",", $key);
+            foreach ($avail as $_val) {
+                $spDay = (int) $_val;
                 $_sp[$spDay] = $value;
             }
-         }
+        }
         //end of calender price
         $x = $dateSplit[0];
         if ($x == "")
@@ -565,10 +564,10 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center'style='background-color:#F18200;color: black !important;' ><font size = '2' face = 'tahoma'>$d</font></td>";
                         } else if (in_array("$d", $bookingReserved)) {
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center'style='background-color:#FF86F5;color: black !important;' ><font size = '2' face = 'tahoma'>$d</font></td>";
-                        } else if(array_key_exists($d,$_sp)){
-                                echo "<td style='padding: 11px 23px;' id=" . $tdDate . " class='normal days " . $d . " ' align='center' ><font size = '2' face = 'tahoma'>$d</font><br><div style='width: 25px;font-size: 1.0em;text-align: right;'>".
-                                   Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol().Mage::helper('directory')->currencyConvert($_sp[$d],Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode())."</div></td>";
-                            }else{
+                        } else if (array_key_exists($d, $_sp)) {
+                            echo "<td style='padding: 11px 23px;' id=" . $tdDate . " class='normal days " . $d . " ' align='center' ><font size = '2' face = 'tahoma'>$d</font><br><div style='width: 25px;font-size: 1.0em;text-align: right;'>" .
+                            Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() . Mage::helper('directory')->currencyConvert($_sp[$d], Mage::app()->getStore()->getBaseCurrencyCode(), Mage::app()->getStore()->getCurrentCurrencyCode()) . "</div></td>";
+                        } else {
                             echo "<td id=" . $tdDate . " class='normal days " . $d . " ' align='center' ><font size = '2' face = 'tahoma'>$d</font></td>";
                         }
                     }
@@ -591,7 +590,6 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         echo '<input type="hidden" value="' . $year . '" id="currentYear" />';
     }
 
-    
     public function statusAction() {
         $status = $this->getRequest()->getParam('status');
         $productId = Mage::app()->getRequest()->getParam('productid');
@@ -608,60 +606,55 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         $entityId = $this->getRequest()->getParam('entity_id');
         $imageCollection = $this->getRequest()->getParam('imageCollection');
         if ($this->getRequest()->getParam('remove') != "0") {
-           
+
             for ($i = 0; $i < count($imageCollection); $i++) {
                 if ($imageCollection[$i]) {
                     Mage::getModel('airhotels/airhotels')->removeImage($imageCollection[$i], $entityId);
                 }
             }
-            
         }
         $this->loadLayout();
         $this->renderLayout();
         Mage::getModel('airhotels/airhotels')->albumupdate($post);
-        if(count($imageCollection))
-        {
+        if (count($imageCollection)) {
             Mage::getSingleton('core/session')->addSuccess($this->__('Image Removed successfully'));
-            return $this->_redirectUrl(Mage::getBaseUrl().'booking/property/image/id/'.$entityId);
-        }   
+            return $this->_redirectUrl(Mage::getBaseUrl() . 'booking/property/image/id/' . $entityId);
+        }
         return $this->_redirectUrl(Mage::helper('airhotels')->getshowlisturl());
     }
 
     public function newalbumupdateAction() {
         $post = $this->getRequest()->getPost();
-        $entityId = $this->getRequest()->getParam('entity_id'); 
+        $entityId = $this->getRequest()->getParam('entity_id');
         $imageCollection = $this->getRequest()->getParam('imageCollection');
         if ($this->getRequest()->getParam('remove') != "0") {
-           
+
             for ($i = 0; $i < count($imageCollection); $i++) {
                 if ($imageCollection[$i]) {
                     Mage::getModel('airhotels/airhotels')->removeImage($imageCollection[$i], $entityId);
                 }
             }
-            
         }
         $this->loadLayout();
         $this->renderLayout();
         Mage::getModel('airhotels/airhotels')->albumupdate($post);
 
-         $property_approval = Mage::getStoreConfig('airhotels/custom_email/property_approval');
-         if($property_approval)
-         {
-               Mage::getModel('airhotels/property')->adminApproval($entityId);     
-               Mage::getSingleton('core/session')->addNotice($this->__('Property is awaiting for admin approval'));
-               return $this->_redirectUrl(Mage::helper('airhotels')->getshowlisturl());
-         } 
-        else {
-           Mage::getModel('airhotels/property')->newProperty($entityId);     
-           }
-          Mage::getSingleton('core/session')->addNotice($this->__('Property is Published'));
+        $property_approval = Mage::getStoreConfig('airhotels/custom_email/property_approval');
+        if ($property_approval) {
+            Mage::getModel('airhotels/property')->adminApproval($entityId);
+            Mage::getSingleton('core/session')->addNotice($this->__('Property is awaiting for admin approval'));
+            return $this->_redirectUrl(Mage::helper('airhotels')->getshowlisturl());
+        } else {
+            Mage::getModel('airhotels/property')->newProperty($entityId);
+        }
+        Mage::getSingleton('core/session')->addNotice($this->__('Property is Published'));
         return $this->_redirectUrl(Mage::helper('airhotels')->getshowlisturl());
     }
 
     public function reviewAction() {
         //owner permission
         $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
-        $entity_id = (int)$this->getRequest()->getParam('id');
+        $entity_id = (int) $this->getRequest()->getParam('id');
         $collection = Mage::getModel('catalog/product')->load($entity_id);
         $Customer_id = $collection->getUserid();
 
@@ -701,7 +694,7 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         if (count($reviews)) {
             for ($i = 0; $i < count($reviews); $i++) {
                 $customerData = Mage::getModel('airhotels/airhotels')->getCustomerPictureById($reviews[$i]["customer_id"]);
-                 ?>
+                ?>
                 <div class="review-product">
                     <ul>
                         <li class="yourlist_img floatleft" ><?php if ($customerData[0]["imagename"]): ?>
@@ -709,9 +702,9 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
                                     src="<?php echo Mage::getBaseUrl('media') . "catalog/customer/thumbs/" . $customerData[0]["imagename"] ?>"
                                     style="width: 63px !important; height: 53px !important" alt=""> <?php else: ?>
                                 <img
-                                    src="<?php echo Mage::getBaseUrl('skin').'frontend/default/stylish/images/no_user.jpg'; ?>"
+                                    src="<?php echo Mage::getBaseUrl('skin') . 'frontend/default/stylish/images/no_user.jpg'; ?>"
                                     style="width: 63px !important; height: 53px !important" alt=""> <?php endif; ?>
-                                <ol class="nick_name"><?php echo $reviews[$i]["nickname"]; ?></ol>
+                            <ol class="nick_name"><?php echo $reviews[$i]["nickname"]; ?></ol>
                         </li>
                         <li class="review_comment_grid">
                             <div class="review-content bubble"><?php echo '<span style="font-weight:bold;font-size:14px;">"</span>' . nl2br($reviews[$i]["detail"]) . '<span style="font-weight:bold;font-size:14px;">"</span>'; ?>
@@ -734,168 +727,221 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
             if ($page > 1):
                 ?>
                 <a href="javascript:void(0);" class='paginationClass'
-                   onclick="getPagination('1','<?php echo $productId ?>')"><?php echo $this->__('First'); ?></a>
-                <?php
-            endif;
-            for ($i = 1; $i <= ceil($totalRecords / 4); $i++) {
-                if ($i == $page)
-                    echo "<a class='paginationClass'  href='javascript:void(0);'>" . $i . "</a>";
-                else
-                    echo "<a class='paginationClass' href='javascript:void(0);' onclick='getPagination(\"$i\",\"$productId\")' >" . $i . "</a>";
-            }
-            if (ceil($totalRecords / 4) > $page):
-                ?>
-                <a href="javascript:void(0);" class="paginationClass"
-                   onclick="getPagination('<?php echo ceil($totalRecords / 4); ?>','<?php echo $productId ?>')"><?php echo $this->__('Last'); ?></a>
+                   onclick="getPagination('1', '<?php echo $productId ?>')"><?php echo $this->__('First'); ?></a>
                    <?php
                endif;
-           } else {
-               echo $this->__('There are no reviews yet for this product. Be the first to write a review');
-           }
-       }
-
-       public function contactAction() {
-           $this->loadLayout();
-           $this->_initLayoutMessages('catalog/session');
-           if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               echo $this->__('You are not currently logged in');
-           } else {
-               $this->loadLayout();
-               $this->renderLayout();
-           }
-       }
-
-       public function saveinboxAction() {
-           if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-           } else {
-               $cid = $this->getRequest()->getParam('cid');
-               $pid = $this->getRequest()->getParam('pid');
-                      
-                
-               $from = date("Y-m-d", strtotime($this->getRequest()->getParam('from')));
-               $to = date("Y-m-d", strtotime($this->getRequest()->getParam('to')));
-               $no_of_guests = $this->getRequest()->getParam('number_of_guests');
-               $mailSubject = Mage::helper('airhotels')->phpSlashes($this->getRequest()->getParam('mailSubject'));
-               $hostCall = $this->getRequest()->getParam('hostCall');
-               //$guest_preferences = $this->getRequest()->getParam('config');
-               $guest_preferences=$this->getRequest()->getParam('guest_preferences');
-               $mobileNo=$this->getRequest()->getParam('mobileNo');
-               $data = array($cid, $pid, $from, $to, $no_of_guests, $mailSubject, $hostCall, $guest_preferences, $mobileNo);
-               $model = Mage::getModel('catalog/product');
-               $_product = $model->load($pid);
-
-               if (Mage::getModel('airhotels/airhotels')->saveInbox($data)) {
-                   Mage::getSingleton('core/session')->addSuccess($this->__('Message sent successfully'));
-               } else {
-                   Mage::getSingleton('core/session')->addSuccess($this->__('Message sending failed'));
+               for ($i = 1; $i <= ceil($totalRecords / 4); $i++) {
+                   if ($i == $page)
+                       echo "<a class='paginationClass'  href='javascript:void(0);'>" . $i . "</a>";
+                   else
+                       echo "<a class='paginationClass' href='javascript:void(0);' onclick='getPagination(\"$i\",\"$productId\")' >" . $i . "</a>";
                }
-               return $this->_redirectUrl(Mage::getBaseUrl() . $_product->getUrlPath());
-           }
-       }
+               if (ceil($totalRecords / 4) > $page):
+                   ?>
+                <a href="javascript:void(0);" class="paginationClass"
+                   onclick="getPagination('<?php echo ceil($totalRecords / 4); ?>', '<?php echo $productId ?>')"><?php echo $this->__('Last'); ?></a>
+                <?php
+            endif;
+        } else {
+            echo $this->__('There are no reviews yet for this product. Be the first to write a review');
+        }
+    }
 
-       public function inboxAction() {
-           if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-           } else {
-               $messageid = $this->getRequest()->getParam('messageid');
+    public function contactAction() {
+        $this->loadLayout();
+        $this->_initLayoutMessages('catalog/session');
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            echo $this->__('You are not currently logged in');
+        } else {
+            $this->loadLayout();
+            $this->renderLayout();
+        }
+    }
 
-               if ($messageid) {
-                   if (Mage::getModel('airhotels/airhotels')->delelteMessage($messageid, "in")) {
-                       Mage::getSingleton('core/session')->addSuccess($this->__('Deleted successfully'));
-                   } else {
-                       Mage::getSingleton('core/session')->addSuccess($this->__('Deletion failed. Try again'));
-                   }
-               }
-               $this->loadLayout();
-               $this->renderLayout();
-           }
-       }
+    public function saveinboxAction() {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+        } else {
+            $cid = $this->getRequest()->getParam('cid');
+            $pid = $this->getRequest()->getParam('pid');
 
-       public function senditemAction() {
-           if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-           } else {
-               $messageid = $this->getRequest()->getParam('messageid');
-               if ($messageid) {
-                   if (Mage::getModel('airhotels/airhotels')->delelteMessage($messageid, "out")) {
-                       Mage::getSingleton('core/session')->addSuccess($this->__('Deleted successfully'));
-                   } else {
-                       Mage::getSingleton('core/session')->addSuccess($this->__('Deletion failed. Try again'));
-                   }
-               }
-               $this->loadLayout();
-               $this->renderLayout();
-           }
-       }
 
-       public function showmessageAction() {
-           if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-           } else {
-               $mess_Id = $this->getRequest()->getParam('id');
-               Mage::getSingleton('core/session')->setmId($mess_Id);
-               $this->loadLayout();
-               $this->renderLayout();
-           }
-       }
+            $from = date("Y-m-d", strtotime($this->getRequest()->getParam('from')));
+            $to = date("Y-m-d", strtotime($this->getRequest()->getParam('to')));
+            $no_of_guests = $this->getRequest()->getParam('number_of_guests');
+            $mailSubject = Mage::helper('airhotels')->phpSlashes($this->getRequest()->getParam('mailSubject'));
+            $hostCall = $this->getRequest()->getParam('hostCall');
+            //$guest_preferences = $this->getRequest()->getParam('config');
+            $guest_preferences = $this->getRequest()->getParam('guest_preferences');
+            $mobileNo = $this->getRequest()->getParam('mobileNo');
+            $data = array($cid, $pid, $from, $to, $no_of_guests, $mailSubject, $hostCall, $guest_preferences, $mobileNo);
+            $model = Mage::getModel('catalog/product');
+            $_product = $model->load($pid);
 
-       public function uploadphotoAction() {
-           if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-           } else {
-               if (isset($_FILES['profilePhoto']['name'])) {
-                   Mage::getModel('airhotels/airhotels')->updateProfilePicture();
-                   $url = Mage::getBaseUrl() . "booking/property/uploadphoto";
-                   $this->_redirectUrl($url);
-               }
-               $this->loadLayout();
-               $this->renderLayout();
-           }
-       }
+            if (Mage::getModel('airhotels/airhotels')->saveInbox($data)) {
+                $storeId = Mage::app()->getStore()->getId();
+                $ownerTemplateId = Mage::getStoreConfig(self::INBOX_MESSAGE_TEMPLATE);
+                $renter = Mage::getSingleton('customer/session')->getCustomer();
 
-       public function replyAction() {
-           if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-           } else {
-               $messageid = $this->getRequest()->getParam('message_id');
-               //Mage::getSingleton('core/session')->getmId();
-               //$customerid = $this->getRequest()->getParam('customer_id');
-               $customer = Mage::getSingleton('customer/session')->getCustomer();
-               $customerid = $customer->getId();
-               $messageBody = Mage::helper('airhotels')->phpSlashes($this->getRequest()->getParam('message'));
-               //$message = mysql_real_escape_string($this->getRequest()->getParam('message'));
-                $message = $messageBody;
-               if (Mage::getModel('airhotels/airhotels')->replyMail($messageid, $customerid, $message)) {
-                   Mage::getSingleton('core/session')->addSuccess($this->__('Mail sent successfully'));
-               } else {
-                   Mage::getSingleton('core/session')->addError($this->__('Mail sent failed'));
-               }
-           }
-           $url = Mage::getBaseUrl() . "booking/property/inbox/";
-           Mage::app()->getFrontController()->getResponse()->setRedirect($url);
-       }
+                $mailer_2 = Mage::getModel('core/email_template_mailer');
+                $emailInfo_2 = Mage::getModel('core/email_info');
+                $productId = Mage::getSingleton('core/session')->getProductIDs();
+                $model = Mage::getModel('catalog/product');
+                $_product = $model->load($productId[0]);
+                $SpaceName = $_product->getName();
+                $hostId = $_product->getUserid(); //property owner Id
+                $owner = Mage::getModel('customer/customer')->load($hostId);
+                $emailInfo_2->addTo($owner->getEmail(), $owner->getName());
+                $mailer_2->addEmailInfo($emailInfo_2);
+                $renter_email = $renter->getEmail();
+                $mailer_2->setSender(Mage::getStoreConfig(self::XML_INBOX_MESSAGE_TEMPLATE, $storeId));
+                $mailer_2->setTemplateId($ownerTemplateId);
+                $mailer_2->setTemplateParams(array(
+                    'message' => $mailSubject,
+                    'no_of_guests' => $no_of_guests,
+                    'checkIn' => $from,
+                    'checkOut' => $to,
+                    'timeZone' => $guest_preferences,
+                    'mobileNo' => $mobileNo,
+                    'reply' => Mage::getUrl('booking/property/inbox')
+                        )
+                );
+                $mailer_2->send();
+                Mage::getSingleton('core/session')->addSuccess($this->__('Message sent successfully'));
+            } else {
+                Mage::getSingleton('core/session')->addSuccess($this->__('Message sending failed'));
+            }
+            return $this->_redirectUrl(Mage::getBaseUrl() . $_product->getUrlPath());
+        }
+    }
 
-       public function advsearchAction() {
-           $this->loadLayout();
-           $this->renderLayout();
-       }
+    public function inboxAction() {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+        } else {
+            $messageid = $this->getRequest()->getParam('messageid');
 
-       public function searchresultAction() {
-           $this->loadLayout();
-           $this->renderLayout();
-       }
-     
-   /**
-    * Blocking calendar fucntionality start 
-    */
-   public function blockcalendarAction() {
+            if ($messageid) {
+                if (Mage::getModel('airhotels/airhotels')->delelteMessage($messageid, "in")) {
+                    Mage::getSingleton('core/session')->addSuccess($this->__('Deleted successfully'));
+                } else {
+                    Mage::getSingleton('core/session')->addSuccess($this->__('Deletion failed. Try again'));
+                }
+            }
+            $this->loadLayout();
+            $this->renderLayout();
+        }
+    }
+
+    public function senditemAction() {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+        } else {
+            $messageid = $this->getRequest()->getParam('messageid');
+            if ($messageid) {
+                if (Mage::getModel('airhotels/airhotels')->delelteMessage($messageid, "out")) {
+                    Mage::getSingleton('core/session')->addSuccess($this->__('Deleted successfully'));
+                } else {
+                    Mage::getSingleton('core/session')->addSuccess($this->__('Deletion failed. Try again'));
+                }
+            }
+            $this->loadLayout();
+            $this->renderLayout();
+        }
+    }
+
+    public function showmessageAction() {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+        } else {
+            $mess_Id = $this->getRequest()->getParam('id');
+            Mage::getSingleton('core/session')->setmId($mess_Id);
+            $this->loadLayout();
+            $this->renderLayout();
+        }
+    }
+
+    public function uploadphotoAction() {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+        } else {
+            if (isset($_FILES['profilePhoto']['name'])) {
+                Mage::getModel('airhotels/airhotels')->updateProfilePicture();
+                $url = Mage::getBaseUrl() . "booking/property/uploadphoto";
+                $this->_redirectUrl($url);
+            }
+            $this->loadLayout();
+            $this->renderLayout();
+        }
+    }
+
+    public function replyAction() {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+        } else {
+            $messageid = $this->getRequest()->getParam('message_id');
+            //Mage::getSingleton('core/session')->getmId();
+            //$customerid = $this->getRequest()->getParam('customer_id');
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customerid = $customer->getId();
+            $sender_email = $customer->getEmail();
+            $sender_name = $customer->getName();
+
+            $messageBody = Mage::helper('airhotels')->phpSlashes($this->getRequest()->getParam('message'));
+            $message = $messageBody;
+            if (Mage::getModel('airhotels/airhotels')->replyMail($messageid, $customerid, $message)) {
+                $data = array();
+                $order = Mage::getModel('airhotels/order');
+                $data = $order->getMessageData($messageid);
+                if ($customerid == $data['sender_id']) {
+                    $receiver_id = $data['receiver_id'];
+                } else {
+                    $receiver_id = $data['sender_id'];
+                }
+                $receiver = Mage::getModel('customer/customer')->load($receiver_id);
+                $mail = Mage::getModel('core/email');
+                $mail->setToName($receiver->getName());
+                $mail->setToEmail($receiver->getEmail());
+                $mail->setBody($message);
+                $mail->setSubject('Reply');
+                $mail->setFromEmail($sender_email);
+                $mail->setFromName($sender_name);
+                $mail->setType('text'); // You can use 'html' or 'text'
+                try {
+                    $mail->send();
+                } catch (Exception $e) {
+                    Mage::getSingleton('core/session')->addError('Unable to send.');
+                }
+
+                Mage::getSingleton('core/session')->addSuccess($this->__('Mail sent successfully'));
+            } else {
+                Mage::getSingleton('core/session')->addError($this->__('Mail sent failed'));
+            }
+        }
+        $url = Mage::getBaseUrl() . "booking/property/inbox/";
+        Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+    }
+
+    public function advsearchAction() {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function searchresultAction() {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Blocking calendar fucntionality start 
+     */
+    public function blockcalendarAction() {
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
             $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
         }
         //owner permission
         $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
-        $entity_id = (int)$this->getRequest()->getParam('id');
+        $entity_id = (int) $this->getRequest()->getParam('id');
         $collection = Mage::getModel('catalog/product')->load($entity_id);
         $Customer_id = $collection->getUserid();
 
@@ -904,27 +950,25 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
             $this->_redirect('*/property/show/');
             return;
         }
-            $this->loadLayout();
-            $this->renderLayout();
-            
-       
+        $this->loadLayout();
+        $this->renderLayout();
     }
+
     /**
      * using this we can insert the deatils blocked dates
      * 
      * @return calendarviewAction();
      */
-    
     public function blockdateAction() {
 
         $fromDate = date("Y-m-d", strtotime($this->getRequest()->getPost('check_in')));
         $toDate = date("Y-m-d", strtotime($this->getRequest()->getPost('check_out')));
         $bookAvail = $this->getRequest()->getPost('book_avail');
-        
+
         $productId = $this->getRequest()->getPost('productid');
         $pricePer = trim($this->getRequest()->getPost('price_per'));
-         if ($bookAvail == 3) {
-            $pricePer='1';
+        if ($bookAvail == 3) {
+            $pricePer = '1';
         }
         $mY = explode("__", $this->getRequest()->getPost('date'));
         $month = $mY[0];
@@ -933,8 +977,8 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
             $date1 = strtotime($fromDate);
             $date2 = strtotime($toDate);
             while ($date1 < $date2) {
-                $dateValue[(int)date("m", $date1)][] = date("d", $date1);
-                $date1  = mktime(0, 0, 0, date("m", $date1), date("d", $date1) + 1, date("Y", $date1));
+                $dateValue[(int) date("m", $date1)][] = date("d", $date1);
+                $date1 = mktime(0, 0, 0, date("m", $date1), date("d", $date1) + 1, date("Y", $date1));
             }
         }
         $resource = Mage::getSingleton('core/resource');
@@ -942,13 +986,13 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         $write = $resource->getConnection('core_write');
         $tPrefix = (string) Mage::getConfig()->getTablePrefix();
         $blockCalendartable = $tPrefix . 'airhotels_calendar';
-        foreach($dateValue as $month_key => $day_value){
+        foreach ($dateValue as $month_key => $day_value) {
             $fDate = implode(",", $day_value);
-        // new formate for price
-            for($j=0 ; $j<count($day_value); $j++){
-                 $this->datePriceUpdate($productId,$month_key,$year,$day_value[$j]);
+            // new formate for price
+            for ($j = 0; $j < count($day_value); $j++) {
+                $this->datePriceUpdate($productId, $month_key, $year, $day_value[$j]);
             }
-            if($pricePer !=''){
+            if ($pricePer != '') {
                 $insert = "($productId,$bookAvail,$month_key,$year,'$fDate',$pricePer,now())";
                 $write->query("INSERT INTO $blockCalendartable (product_id,book_avail,month,year,blockfrom,price,created) VALUES $insert");
             }
@@ -956,32 +1000,31 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         }
 
         //end formate for price
-        
+
         $this->calendarviewAction();
         die();
     }
 
     // new date price update fucntion
-    public function datePriceUpdate($productId,$month,$year,$dateValue){
+    public function datePriceUpdate($productId, $month, $year, $dateValue) {
         $resource = Mage::getSingleton('core/resource');
         $read = $resource->getConnection('core_read');
         $write = $resource->getConnection('core_write');
         $tPrefix = (string) Mage::getConfig()->getTablePrefix();
         $blockCalendartable = $tPrefix . 'airhotels_calendar';
         $select = "SELECT blockfrom from $blockCalendartable
-                    WHERE product_id = '$productId'AND month = '" . $month . "' AND year = '" . $year . "'AND blockfrom LIKE '%".$dateValue."%'";
+                    WHERE product_id = '$productId'AND month = '" . $month . "' AND year = '" . $year . "'AND blockfrom LIKE '%" . $dateValue . "%'";
         $result = $read->fetchRow($select);
-        if(count($result)>0){
-            $dateArr=array();
-            $dateArr[]=$dateValue;
+        if (count($result) > 0) {
+            $dateArr = array();
+            $dateArr[] = $dateValue;
             $splitdata = explode(',', $result['blockfrom']);
             $dataArrValue = array_diff($splitdata, $dateArr);
             $implodedArray = implode(",", $dataArrValue);
-            $write->query("UPDATE $blockCalendartable SET blockfrom ='$implodedArray' WHERE product_id = $productId AND month = '" . $month . "' AND year = '" . $year . "' AND blockfrom LIKE '%".$dateValue."%'");
+            $write->query("UPDATE $blockCalendartable SET blockfrom ='$implodedArray' WHERE product_id = $productId AND month = '" . $month . "' AND year = '" . $year . "' AND blockfrom LIKE '%" . $dateValue . "%'");
         }
     }
 
-    
     public function getDaysAction($count, $value) {
         for ($j = 0; $j < $count; $j++) {
             $availDay[] = $value[$j][1];
@@ -989,47 +1032,45 @@ Mage::getSingleton('core/session')->addSuccess($this->__("Property Deleted Succe
         $availDays = explode(",", implode(",", $availDay));
         return $availDays;
     }
-       
+
     /**
      * Add date : 16th August 2012
      * 
      * To load layout for showing the popular property details
      * 
      */
-   
-    public function popularAction(){
-        
-          $this->loadLayout();
-           $this->renderLayout();
-        
+    public function popularAction() {
+
+        $this->loadLayout();
+        $this->renderLayout();
     }
-      /**
+
+    /**
      * Add date : 18th August 2012
      * 
      * To load layout for showing Wish list page
      * 
      */
-   
-    public function wishlistAction(){
-         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
-               $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
-           }  
-          $this->loadLayout();
-          $customer = Mage::getSingleton('customer/session')->getCustomer();
-          $custName = $customer->getName();
-          $this->getLayout()->getBlock('head')->setTitle($this->__('My Wish List').'-'.$custName);
-           $this->renderLayout();
-        
+    public function wishlistAction() {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+            $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+        }
+        $this->loadLayout();
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        $custName = $customer->getName();
+        $this->getLayout()->getBlock('head')->setTitle($this->__('My Wish List') . '-' . $custName);
+        $this->renderLayout();
     }
+
     // Calender price
     public function getSpecialPriceDaysAction($count, $value) {
         for ($j = 0; $j < $count; $j++) {
             $availDay[$j] = $value[$j][1];
             $avail[$value[$j][1]] = $value[$j][3];
         }
-    
-            return $avail;
- }
 
- }
-   
+        return $avail;
+    }
+
+}
+

@@ -5,11 +5,13 @@
 </div>
 
 <?php
+
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 $inboxDetails = Mage::getModel('airhotels/airhotels')->getInboxDetails();
+//echo "<pre>";var_dump($inboxDetails);die();
 
 if(count($inboxDetails)){
     ?>
@@ -42,7 +44,6 @@ if(count($inboxDetails)){
 	                <td onclick="openMessage(1,'<?php echo $inboxDetails[$i]["message_id"]; ?>')">
 	                    <?php echo $this->__('From'); ?> : <?php  $customer = Mage::getModel('customer/customer')->load($inboxDetails[$i]["sender_id"]); echo ucfirst($customer->getName());
 
-
                             $replycount = Mage::getModel('airhotels/airhotels')->getReplyCount($inboxDetails[$i]["message_id"]);
                            
                             if($replycount["count"]):
@@ -52,7 +53,17 @@ if(count($inboxDetails)){
                             ?>
 	                </td>
 	                <td onclick="openMessage(1,'<?php echo $inboxDetails[$i]["message_id"]; ?>')">
-	                    <?php echo (strlen($inboxDetails[$i]["message"])>30)? substr($inboxDetails[$i]["message"],0,30) : $inboxDetails[$i]["message"]."..";   ?>
+	                    <?php
+                        if(strlen($inboxDetails[$i]["message"]) != strlen(strip_tags($inboxDetails[$i]["message"]))) {
+                            $doc = new DOMDocument;
+                            $doc->loadHTML($inboxDetails[$i]["message"]);
+                            $str = preg_replace("/\s\s+/", "", $doc->textContent);
+                            echo (strlen($str)>30)? substr($str,0,30) : $str."..";
+                        }else{
+                            echo (strlen($inboxDetails[$i]["message"])>30)? substr($inboxDetails[$i]["message"],0,30) : $inboxDetails[$i]["message"]."..";
+                        }
+                        ?>
+                          
 	                </td>
 	                <td onclick="openMessage(1,'<?php echo $inboxDetails[$i]["message_id"]; ?>')">
 	                    <?php echo date("d/m/Y",strtotime ($inboxDetails[$i]["created_date"]) );  ?>

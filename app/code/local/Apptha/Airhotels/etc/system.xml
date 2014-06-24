@@ -5,12 +5,12 @@
             <label>Apptha</label>
             <sort_order>100</sort_order>
         </Apptha>
-		<!--
-        <sales translate="label" module="sales">
-            <label>Sales</label>
-            <sort_order>400</sort_order>
-        </sales>
-		-->
+        <!--
+<sales translate="label" module="sales">
+    <label>Sales</label>
+    <sort_order>400</sort_order>
+</sales>
+        -->
     </tabs>
     <sections>
         <airhotels module="airhotels" translate="label">
@@ -56,7 +56,7 @@
                             <show_in_store>1</show_in_store>
                             <validate>required-entry</validate>
                             <comment>Proccessing fee charged per night on booking property in
-								(%),taken by admin  from customer
+                                (%),taken by admin  from customer
                             </comment>
                         </airhotels_servicetax>
                         <airhotels_hostfee translate="label tooltip comment">
@@ -71,8 +71,8 @@
                         </airhotels_hostfee>
                         
                     </fields>
-              </custom_group>
-             <custom_banner translate="label">
+                </custom_group>
+                <custom_banner translate="label">
                     <label>Homepage Banner Settings</label>
                     <sort_order>11</sort_order>
                     <show_in_default>1</show_in_default>
@@ -99,7 +99,7 @@
                             <show_in_store>1</show_in_store>
                             <comment>If yes, Homepage slider option displayed while Adding Space</comment>
                         </enable_slider_hoster>
-                         <banner_count translate="label">
+                        <banner_count translate="label">
                             <label>No of Property show in Banner</label>
                             <frontend_type>text</frontend_type>
                             <source_model>Apptha_Airhotels_Model_Source_Banner</source_model>
@@ -110,7 +110,7 @@
                             <show_in_store>1</show_in_store>
                         </banner_count>
                     </fields>
-               </custom_banner>
+                </custom_banner>
                 <custom_email translate="label">
                     <label>Property Settings</label>
                     <sort_order>11</sort_order>
@@ -121,14 +121,14 @@
                         <property_approval translate="label">
                             <label>Property moderation</label>
                             <frontend_type>select</frontend_type>
-                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>18</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>If yes, Property post after Admin Approval</comment>
                         </property_approval>
-                       <admin_email_id translate="label">
+                        <admin_email_id translate="label">
                             <label>Admin Email Id</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_identity
@@ -139,7 +139,7 @@
                             <show_in_store>1</show_in_store>
                             <comment>For Email configuration, Goto System->Configuration->Store Email Addresses</comment>
                         </admin_email_id>
-			<newproperty_template translate="label">
+                        <newproperty_template translate="label">
                             <label>New Property Template</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template
@@ -180,9 +180,9 @@
                             <show_in_store>1</show_in_store>
                         </propertydelete_template>
                     </fields>
-               </custom_email>
+                </custom_email>
                
-         <max_min translate="label">
+                <max_min translate="label">
                     <label>Price Slider Search</label>
                     <comment><!-- My comments -->
                     </comment>
@@ -199,7 +199,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>Please the enter the value in form on number,for
-								example:500, min price for price slider
+                                example:500, min price for price slider
                             </comment>
                         </min_value>
                         <max_value translate="label tooltip comment">
@@ -210,7 +210,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>Please enter numeric value in field,for
-								example:1000, max price for price slider
+                                example:1000, max price for price slider
                             </comment>
                         </max_value>
                         <range_value translate="label tooltip comment">
@@ -221,7 +221,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>Please enter numeric value in field,for
-								example:700, range start greater than min price
+                                example:700, range start greater than min price
                             </comment>
                         </range_value>
                     </fields>
@@ -235,7 +235,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                       <display_contactme translate="label">
+                        <display_contactme translate="label">
                             <label>Display Contact Me Button in Property Detail page</label>
                             <frontend_type>select</frontend_type>
                             <source_model>Apptha_Airhotels_Model_Source_Status</source_model>
@@ -326,7 +326,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                       <enable_data translate="label">
+                        <enable_data translate="label">
                             <label>Enable Sample Data</label>
                             <frontend_type>select</frontend_type>
                             <source_model>Apptha_Airhotels_Model_Source_Status</source_model>
@@ -340,7 +340,7 @@
                 </sampledata>
             </groups>
         </airhotels>
-	<sales_email translate="label" module="sales">
+        <sales_email translate="label" module="sales">
             <label>Sales Emails</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>
@@ -673,6 +673,35 @@
                         </guest_template>
                     </fields>
                 </after_confirm_to_renter_without_access_key>
+                <inbox_message_template translate="label">
+                    <label>Email for inbox message template</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>16</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <template translate="label">
+                            <label>Inbox Message Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template>
+                        <identity translate="label">
+                            <label>Inbox Message Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </identity>
+                    </fields>
+                  
+                </inbox_message_template>
 
             </groups>
         </sales_email>
