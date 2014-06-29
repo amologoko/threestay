@@ -1,10 +1,21 @@
 <?php
+$messageTypes = array(
+    'new_order_to_renter'=>'sales_email/order/template',
+    'new_order_to_owner' => 'sales_email/owner/template',
+    'after_cancel_to_owner' => 'sales_email/after_cenceled_for_owner/template',
+    'after_cancel_to_renter' => 'sales_email/after_cenceled_for_renter/template',
+    'after_confirm_to_renter_with_access_code' => 'sales_email/after_confirmed_for_renter/template',
+    'after_confirm_to_owner_with_access_code' => 'sales_email/after_confirmed_for_owner/template',
+    'after_confirm_to_renter_without_access_code' => 'sales_email/after_confirm_to_renter_without_access_key/template',
+    'after_confirm_to_owner_without_access_code' => 'sales_email/after_confirm_to_owner_without_access_key/template',
+);
+
 $pid = $this->getRequest()->getParam('id');
 $show = $this->getRequest()->getParam('show');
 
 $model = Mage::getModel('airhotels/airhotels');
 $inboxDetails = $model->markAsRead($pid);
-//if($show=="in"){ 
+//if($show=="in"){
     $inboxDetails = $model->getinboxMessageDetails($pid);
 //}
 //else {
@@ -16,13 +27,13 @@ if($show=="in"){  ?>
 <div class="innerpage_btn left" style="line-height: 26px;margin-left: 10px; " onclick="openMessage(0)" ><?php echo $this->__('Back to Inbox'); ?></div>
 <?php } else { ?>
     <div class="innerpage_btn left" style="line-height: 26px;margin-left: 10px; " onclick="openMessage(0)" ><?php echo $this->__('Back to Sent Items'); ?></div>
-<?php } 
+<?php }
 if(count($inboxDetails)){
     ?>
     <table class="inboxTable left" >
             <tr style="cursor: pointer" >
                 <td>
-                    
+
                     <h1 style="float: left;color:#EF087F;font-family: 'abel';font-size: 20px;">
                         <?php if($show=="in"){
                             $customer = Mage::getModel('customer/customer')->load($inboxDetails[0]["sender_id"]);
@@ -42,6 +53,7 @@ if(count($inboxDetails)){
             </tr>
             <tr>
                 <td class="msg_box">
+                    <?php if(is_null($inboxDetails[0]["message_type"])){ ?>
                     <p style="font-family: 'abel';font-size: 18px;color:#2671B9;"><?php echo $this->__('Message');  ?>:</p>
                     <p><?php
                         if(strlen($inboxDetails[0]["message"]) != strlen(strip_tags($inboxDetails[0]["message"]))){
@@ -59,6 +71,33 @@ if(count($inboxDetails)){
                     <?php if($show=="in"){   if(count($replyMessage)==0 ): ?>
                     <p class="innerpage_btn right" style="padding-top: 5px;height: 22px;margin-left: 10px;"  onclick="document.getElementById('ReplyMail').style.display='block';" ><?php echo $this->__('Reply'); ?></p>
                     <?php endif; } ?>
+                    <?php }else{
+                        $emailTemplateId = Mage::getStoreConfig($messageTypes[$inboxDetails[0]["message_type"]]);
+                        $orderId = $inboxDetails[0]["order_id"];
+                        $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+                       $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
+                                                        ->setIsSecureMode(true);
+                                                $paymentBlock->getMethod();
+                                                $paymentBlockHtml = $paymentBlock->toHtml();
+
+                        // set template variables
+                        $templateVariables = array();
+                        $templateVariables['order'] = $order;
+                        $templateVariables['billing'] = $order->getBillingAddress();
+                        $templateVariables['payment_html'] = $paymentBlockHtml;
+                        $savedVariables = unserialize($inboxDetails[0]["message"]);
+                        foreach($savedVariables['order'] as $key => $value){
+                            $templateVariables['order'][$key] = $value;
+                        }
+                        foreach($savedVariables['custom'] as $key => $value){
+                            $templateVariables[$key] = $value;
+                        }
+                        $sTemplate = Mage::getModel('core/email_template')
+                               ->load($emailTemplateId)
+                               ->getProcessedTemplate($templateVariables);
+
+                        echo $sTemplate;
+                    }  ?>
                 </td>
             </tr>
     </table>
