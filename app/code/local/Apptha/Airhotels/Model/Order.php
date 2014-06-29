@@ -704,6 +704,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
         $value = Mage::getModel('sales/order')->loadByIncrementId($order_id);
         $buyerEmail = $value->getCustomerEmail(); //buyer Email
         $buyerName = $value->getCustomerName(); //buyer Name
+        $buyerCustomerId = $value->getCustomerId(); //buyer Id
         $tprefix = (string) Mage::getConfig()->getTablePrefix();
         $read = Mage::getSingleton('core/resource')->getConnection('core_read');
         $booking_table = $tprefix . 'airhotels_booking';
@@ -747,17 +748,20 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                             $templateToRenter, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_RENTER), $buyerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
 
-            $sTemplate1 = Mage::getModel('core/email_template')
-                    ->load(4)
-                    ->getProcessedTemplate(array('order' => $postObject));
+            $variables = array(
+                'order' => array(
+                     'incrementid' => $order_id,
+                     'status' => $status,
+                     'customername' => $buyerName,
+                     'ownername' => $hostName,
+                     'spacename' => $SpaceName,
+                     'spaceurl' => $SpaceUrl,
+                     'accesscode' => $access_code
+                ),
+                'custom' => array()
+             );
 
-            $doc1 = new DOMDocument;
-            $doc1->loadHTML($sTemplate1);
-            $xpath1 = new DOMXPath($doc1);
-            $node1 = $xpath1->query('//table')->item(1);
-            $html1 = $doc1->saveHTML($node1);
-            $text1 = strip_tags($html1, "<a>");
-            $this->mailToInbox($mailTemplate_customer, $text1, true);
+            $this->mailToInbox($this->getCustId(),$buyerCustomerId, $variables, $variables,$access_code == 0 ? 'after_confirm_to_renter_without_access_code':'after_confirm_to_renter_with_access_code',$this->getIncrementId());
 
             $mailTemplate_owner = Mage::getModel('core/email_template');
             $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
@@ -768,18 +772,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
 
+            $this->mailToInbox($this->getCustId(),$this->getCustId(), $variables,$access_code == 0 ? 'after_confirm_to_owner_without_access_code':'after_confirm_to_owner_with_access_code',$this->getIncrementId());
 
-            $sTemplate2 = Mage::getModel('core/email_template')
-                    ->load(3)
-                    ->getProcessedTemplate(array('order' => $postObject));
-
-            $doc2 = new DOMDocument;
-            $doc2->loadHTML($sTemplate2);
-            $xpath2 = new DOMXPath($doc2);
-            $node2 = $xpath2->query('//table')->item(1);
-            $html2 = $doc2->saveHTML($node2);
-            $text2 = strip_tags($html2, "<a>");
-            $this->mailToInbox($mailTemplate_customer, $text2, true);
         } elseif ($status == 'Canceled') {
             $templateToOwner = Mage::getStoreConfig(self::AFTER_CENCELED_FOR_OWNER);
             $templateToRenter = Mage::getStoreConfig(self::AFTER_CENCELED_FOR_RENTER);
@@ -793,17 +787,21 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                     ->sendTransactional(
                             $templateToRenter, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_RENTER), $buyerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
-            $sTemplate3 = Mage::getModel('core/email_template')
-                    ->load(6)
-                    ->getProcessedTemplate(array('order' => $postObject));
 
-            $doc3 = new DOMDocument;
-            $doc3->loadHTML($sTemplate3);
-            $xpath3 = new DOMXPath($doc3);
-            $node3 = $xpath3->query('//table')->item(1);
-            $html3 = $doc3->saveHTML($node3);
-            $text3 = strip_tags($html3, "<a>");
-            $this->mailToInbox($mailTemplate_customer, $text3, true);
+            $variables = array(
+                'order' => array(
+                     'incrementid' => $order_id,
+                     'status' => $status,
+                     'customername' => $buyerName,
+                     'ownername' => $hostName,
+                     'spacename' => $SpaceName,
+                     'spaceurl' => $SpaceUrl,
+//                     'accesscode' => $access_code
+                ),
+                'custom' => array()
+             );
+            $this->mailToInbox($this->getCustId(),$buyerCustomerId, $variables,'after_cancel_to_renter',$this->getIncrementId());
+
 
             $mailTemplate_owner = Mage::getModel('core/email_template');
             $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
@@ -813,17 +811,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                     ->sendTransactional(
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
-            $sTemplate4 = Mage::getModel('core/email_template')
-                    ->load(5)
-                    ->getProcessedTemplate(array('order' => $postObject));
 
-            $doc4 = new DOMDocument;
-            $doc4->loadHTML($sTemplate4);
-            $xpath4 = new DOMXPath($doc4);
-            $node4 = $xpath->query('//table')->item(1);
-            $html4 = $doc4->saveHTML($node4);
-            $text4 = strip_tags($html4, "<a>");
-            $this->mailToInbox($mailTemplate_customer, $text4, true);
+            $this->mailToInbox($this->getCustId(),$this->getCustId(), $variables,'after_cancel_to_owner',$this->getIncrementId());
+
         }
     }
 
@@ -1101,21 +1091,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
             'payment_html' => $paymentBlockHtml
                 )
         );
-        $sTemplate = Mage::getModel('core/email_template')
-                ->load(10)
-                ->getProcessedTemplate(array(
-            'order' => $this,
-            'billing' => $this->getBillingAddress(),
-            'payment_html' => $paymentBlockHtml
-        ));
-        $doc = new DOMDocument;
-        $doc->loadHTML($sTemplate);
-        $xpath = new DOMXPath($doc);
-        $node = $xpath->query('//table')->item(1);
-        $html = $doc->saveHTML($node);
-        $text = strip_tags($html, "<a>");
         $mailer->send();
-        $this->mailToInbox($mailer, $text);
+        $this->mailToInbox($this->getOwnerId(),$this->getCustId(), array(),'new_order_to_renter',$this->getIncrementId());
 
         // send confiramtion mail to owner if it enabeled in config
         if (Mage::getStoreConfig('sales_email/owner/enabled') == 1) {
@@ -1146,64 +1123,53 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                 'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel', array('order_id' => $this->getIncrementId()))
                     )
             );
-
-            $sTemplate = Mage::getModel('core/email_template')
-                    ->load(1)
-                    ->getProcessedTemplate(array(
-                'order' => $this,
-                'billing' => $this->getBillingAddress(),
-                'payment_html' => $paymentBlockHtml,
-                'confirm_link' => Mage::helper('adminhtml')->getUrl('wepay/api/confirm', array('order_id' => $this->getIncrementId())),
-                'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel', array('order_id' => $this->getIncrementId()))
-            ));
-            $doc = new DOMDocument;
-            $doc->loadHTML($sTemplate);
-            $xpath = new DOMXPath($doc);
-            $node = $xpath->query('//table')->item(1);
-            $html = $doc->saveHTML($node);
-            $text = strip_tags($html, "<a>");
             $mailer_2->send();
-            $this->mailToInbox($mailer_2, $text);
+
+            $variables = array(
+                'custom' => array(
+                    'confirm_link' => Mage::helper('adminhtml')->getUrl('wepay/api/confirm', array('order_id' => $this->getIncrementId())),
+                    'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel', array('order_id' => $this->getIncrementId()))
+                )
+            );
+            $this->mailToInbox($this->getCustId(), $this->getOwnerId(), $variables,'new_order_to_owner',$this->getIncrementId());
         }
-        //$this->hostEmail($paymentBlockHtml);
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
 
         return $this;
     }
 
-    function mailToInbox($mailerObj, $text, $isTemplateObj = false) {
-        if ($isTemplateObj) {
-            $mailContent = $mailerObj->emailText;
-        } else {
-            $mailContent = $mailerObj->getMailContent()->emailText;
-        }
-
-
-        //$from = date("Y-m-d", strtotime($this->getRequest()->getParam('from')));
-        // $to = date("Y-m-d", strtotime($this->getRequest()->getParam('to')));
-
-        $productId = Mage::getSingleton('core/session');
-        //echo "<pre>";var_dump($productId);die();
+    function getOwnerId()
+    {
+        $productId = Mage::getSingleton('core/session')->getProductID();
         $model = Mage::getModel('catalog/product');
-        $_product = $model->load($productId[0]);
-        $SpaceName = $_product->getName();
-        $hostId = $_product->getUserid(); //property owner Id
-        $owner = Mage::getModel('customer/customer')->load($hostId);
-        $productId = Mage::getSingleton('core/session')->getProductIDs();
+        $_product = $model->load($productId);
+        $ownerUserId = $_product->getUserid(); //property owner Id
+        return $ownerUserId;
+    }
+    function getCustId()
+    {
+        $productId = Mage::getSingleton('core/session')->getProductID();
+        $model = Mage::getModel('catalog/product');
+        $_product = $model->load($productId);
+        $ownerUserId = $_product->getUserid(); //property owner Id
+        return Mage::getSingleton('customer/session')->getCustomer()->getId();
+    }
 
-        $parametyers = array(
-            0 => $owner->getId(),
+    function mailToInbox($senderId,$recieverid,$variables, $message_type = null, $order_id = null) {
+        $productId = Mage::getSingleton('core/session')->getProductID();
+        $data = array(
+            0 => $recieverid,
             1 => $productId[0],
             2 => '2014-06-10',
             3 => '2014-06-11',
             4 => '1',
-            5 => $text,
+            5 => serialize($variables),
             6 => '1',
             7 => '0',
             8 => '65465'
         );
-        Mage::getModel('airhotels/airhotels')->saveInbox($parametyers);
+        Mage::getModel('airhotels/airhotels')->saveInbox($data,$senderId,$message_type,$order_id);
     }
 
     public function getMessageData($messageid) {

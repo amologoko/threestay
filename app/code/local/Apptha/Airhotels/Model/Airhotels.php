@@ -451,13 +451,13 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         return;
     }
 
-    public function saveInbox($data) {
+    public function saveInbox($data,$senderId = null,$message_type = null,$order_id = null) {
         $customer = Mage::getSingleton('customer/session')->getCustomer();
-        $cusId = $customer->getId();
+        $cusId = $senderId != null ? $senderId : $customer->getId();
         $tPrefix = (string) Mage::getConfig()->getTablePrefix();
         $customer_customer_inbox = $tPrefix . 'airhotels_customer_inbox';
         $write = Mage::getSingleton('core/resource')->getConnection('core_write');
-        $deleteResult = $write->query("insert into $customer_customer_inbox (sender_id,receiver_id,product_id,checkin,checkout,guest,message,can_call,timezone,mobileNo) values('$cusId','$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]')  ");
+        $deleteResult = $write->query("insert into $customer_customer_inbox (sender_id,receiver_id,product_id,checkin,checkout,guest,message,can_call,timezone,mobileNo,message_type,order_id) values('$cusId','$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$message_type','$order_id')  ");
         return $deleteResult;
     }
 
