@@ -53,7 +53,7 @@ if(count($inboxDetails)){
             </tr>
             <tr>
                 <td class="msg_box">
-                    <?php if(is_null($inboxDetails[0]["message_type"])){ ?>
+                    <?php if($inboxDetails[0]["order_id"] == 0){ ?>
                     <p style="font-family: 'abel';font-size: 18px;color:#2671B9;"><?php echo $this->__('Message');  ?>:</p>
                     <p><?php
                         if(strlen($inboxDetails[0]["message"]) != strlen(strip_tags($inboxDetails[0]["message"]))){
