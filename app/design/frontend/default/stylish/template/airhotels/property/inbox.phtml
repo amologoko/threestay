@@ -5,7 +5,16 @@
 </div>
 
 <?php
-
+    $messageTypes = array(
+        'new_order_to_renter'=>'sales_email/order/template',
+        'new_order_to_owner' => 'sales_email/owner/template',
+        'after_cancel_to_owner' => 'sales_email/after_cenceled_for_owner/template',
+        'after_cancel_to_renter' => 'sales_email/after_cenceled_for_renter/template',
+        'after_confirm_to_renter_with_access_code' => 'sales_email/after_confirmed_for_renter/template',
+        'after_confirm_to_owner_with_access_code' => 'sales_email/after_confirmed_for_owner/template',
+        'after_confirm_to_renter_without_access_code' => 'sales_email/after_confirm_to_renter_without_access_key/template',
+        'after_confirm_to_owner_without_access_code' => 'sales_email/after_confirm_to_owner_without_access_key/template',
+    );
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -54,11 +63,37 @@ if(count($inboxDetails)){
 	                </td>
 	                <td onclick="openMessage(1,'<?php echo $inboxDetails[$i]["message_id"]; ?>')">
 	                    <?php
-                        if(strlen($inboxDetails[$i]["message"]) != strlen(strip_tags($inboxDetails[$i]["message"]))) {
+                        if ($inboxDetails[$i]["order_id"] !=  '0') {
+                            $emailTemplateId = Mage::getStoreConfig($messageTypes[$inboxDetails[$i]["message_type"]]);
+                            $orderId= $inboxDetails[$i]["order_id"];
+                            $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+                            $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
+                                ->setIsSecureMode(true);
+                            $paymentBlock->getMethod();
+                            $paymentBlockHtml = $paymentBlock->toHtml();
+                            // set template variables
+                            $templateVariables = array();
+                            $templateVariables['order'] = $order;
+                            $templateVariables['billing'] = $order->getBillingAddress();
+                            $templateVariables['payment_html'] = $paymentBlockHtml;
+                            $savedVariables = unserialize($inboxDetails[0]["message"]);
+                            foreach ($savedVariables['order'] as $key => $value) {
+                                $templateVariables['order'][$key] = $value;
+                            }
+                            foreach ($savedVariables['custom'] as $key => $value) {
+                                $templateVariables[$key] = $value;
+                            }
+                            $sTemplate = Mage::getModel('core/email_template')
+                                ->load($emailTemplateId)
+                                ->getProcessedTemplate($templateVariables);
                             $doc = new DOMDocument;
-                            $doc->loadHTML($inboxDetails[$i]["message"]);
-                            $str = preg_replace("/\s\s+/", "", $doc->textContent);
-                            echo (strlen($str)>30)? substr($str,0,30) : $str."..";
+                            @$doc->loadHTML($sTemplate);
+                            $xpath = new DOMXPath($doc);
+                            $text = '';
+                            foreach ($xpath->query('//body') as $div) {
+                                $text .= $div->textContent;
+                            }
+                            echo mb_substr(trim($text),0,100).'..';
                         }else{
                             echo (strlen($inboxDetails[$i]["message"])>30)? substr($inboxDetails[$i]["message"],0,30) : $inboxDetails[$i]["message"]."..";
                         }

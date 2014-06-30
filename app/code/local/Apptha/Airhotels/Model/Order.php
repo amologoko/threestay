@@ -812,7 +812,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
 
-            $this->mailToInbox($this->getCustId(),$this->getCustId(), $variables,'after_cancel_to_owner',$this->getIncrementId());
+            $this->mailToInbox($buyerCustomerId,$this->getCustId(), $variables,'after_cancel_to_owner',$this->getIncrementId());
 
         }
     }
