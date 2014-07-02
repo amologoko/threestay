@@ -702,6 +702,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
     public function bookingStatus($order_id) {
         $hostEmail = array();
         $value = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+        $booking = Mage::getModel('airhotels/airhotels')->load($this->getIncrementId(),'order_id');
         $buyerEmail = $value->getCustomerEmail(); //buyer Email
         $buyerName = $value->getCustomerName(); //buyer Name
         $buyerCustomerId = $value->getCustomerId(); //buyer Id
@@ -758,10 +759,22 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                      'spaceurl' => $SpaceUrl,
                      'accesscode' => $access_code
                 ),
-                'custom' => array()
+                'custom' => array(
+                    'checkIn' => $booking->fromdate,
+                    'checkout' => date("Y-m-d",strtotime($booking->todate.'+1 days')),
+                    'customeremail' => $booking->customer_email,
+                    'owneremail' => $customer->getEmail(),
+                    'customerurl' => Mage::getBaseUrl().'booking/index/profile/id/'.$buyerCustomerId,
+                    'ownerurl' => Mage::getBaseUrl().'booking/index/profile/id/'.$this->getOwnerId(),
+                    'numberofdays' => '00',
+                    'accomodate' => $booking->accomodates,
+                    'subtotal' => $booking->subtotal,
+                    'processingfee' => $booking->service_fee,
+                    'grandtotal' => $this->getGrandTotal()
+                )
              );
 
-            $this->mailToInbox($this->getCustId(),$buyerCustomerId, $variables, $variables,$access_code == 0 ? 'after_confirm_to_renter_without_access_code':'after_confirm_to_renter_with_access_code',$this->getIncrementId());
+            $this->mailToInbox($this->getCustId(),$buyerCustomerId, $variables,$access_code == 0 ? 'after_confirm_to_renter_without_access_code':'after_confirm_to_renter_with_access_code',$this->getIncrementId());
 
             $mailTemplate_owner = Mage::getModel('core/email_template');
             $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
@@ -772,7 +785,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
 
-            $this->mailToInbox($this->getCustId(),$this->getCustId(), $variables,$access_code == 0 ? 'after_confirm_to_owner_without_access_code':'after_confirm_to_owner_with_access_code',$this->getIncrementId());
+            $this->mailToInbox($buyerCustomerId,$this->getCustId(), $variables,$access_code == 0 ? 'after_confirm_to_owner_without_access_code':'after_confirm_to_owner_with_access_code',$this->getIncrementId());
 
         } elseif ($status == 'Canceled') {
             $templateToOwner = Mage::getStoreConfig(self::AFTER_CENCELED_FOR_OWNER);
@@ -812,7 +825,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
 
-            $this->mailToInbox($this->getCustId(),$this->getCustId(), $variables,'after_cancel_to_owner',$this->getIncrementId());
+            $this->mailToInbox($buyerCustomerId,$this->getCustId(), $variables,'after_cancel_to_owner',$this->getIncrementId());
 
         }
     }
@@ -1013,6 +1026,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
      */
     public function sendNewOrderEmail() {//echo Mage::helper('adminhtml')->getUrl('wepay/api/confirm',array('order_id'=>$this->getIncrementId()));die();
         $storeId = $this->getStore()->getId();
+        $booking = Mage::getModel('airhotels/airhotels')->load($this->getIncrementId(),'order_id');
 
         if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
             return $this;
@@ -1128,7 +1142,18 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
             $variables = array(
                 'custom' => array(
                     'confirm_link' => Mage::helper('adminhtml')->getUrl('wepay/api/confirm', array('order_id' => $this->getIncrementId())),
-                    'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel', array('order_id' => $this->getIncrementId()))
+                    'cancel_link' => Mage::helper('adminhtml')->getUrl('wepay/api/cancel', array('order_id' => $this->getIncrementId())),
+                    'checkIn' => $booking->fromdate,
+                    'checkout' => date("Y-m-d",strtotime($booking->todate.'+1 days')),
+                    'customeremail' => $booking->customer_email,
+                    'owneremail' => $customer->getEmail(),
+                    'customerurl' => Mage::getBaseUrl().'booking/index/profile/id/'.$this->getCustId(),
+                    'ownerurl' => Mage::getBaseUrl().'booking/index/profile/id/'.$this->getOwnerId(),
+                    'numberofdays' => '00',
+                    'accomodate' => $booking->accomodates,
+                    'subtotal' => $booking->subtotal,
+                    'processingfee' => $booking->service_fee,
+                    'grandtotal' => $this->getGrandTotal()
                 )
             );
             $this->mailToInbox($this->getCustId(), $this->getOwnerId(), $variables,'new_order_to_owner',$this->getIncrementId());
