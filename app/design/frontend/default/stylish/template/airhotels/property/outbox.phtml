@@ -8,16 +8,20 @@
  * and open the template in the editor.
  */
 $model = Mage::getModel('airhotels/airhotels');
-$outboxDetails = $model->getOutboxDetails();
-
-
+$outboxDetailsAll = $model->getOutboxDetails();
+    $outboxDetails = array();
+foreach($outboxDetailsAll as $key=> $message){
+    if($message['message_type'] == null){
+        $outboxDetails[] = $message;
+    }
+}
 if(count($outboxDetails)){
     ?>
     <form name="mailform" action="" method="post">
 	    <div id="inboxSpace">
                <div class="buttonbox" onclick="confirmDelete()"  ><?php echo $this->__('Delete'); ?></div>
 	        <table class="inboxTable" >
-	            <?php for($i=0;$i<count($outboxDetails);$i++ ){ ?>
+	            <?php for($i=0;$i<count($outboxDetails);$i++ ){  ?>
 	            <tr style="cursor: pointer" class="read" >
 	                <td><input type="checkbox" style="margin-left: 5px" name="messageid[]" value="<?php echo $outboxDetails[$i]["message_id"]; ?>"/></td>
 	                <td onclick="openMessage(1,'<?php echo $outboxDetails[$i]["message_id"]; ?>')">

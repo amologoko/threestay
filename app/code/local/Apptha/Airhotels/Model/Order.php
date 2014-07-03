@@ -774,7 +774,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                 )
              );
 
-            $this->mailToInbox($this->getCustId(),$buyerCustomerId, $variables,$access_code == 0 ? 'after_confirm_to_renter_without_access_code':'after_confirm_to_renter_with_access_code',$this->getIncrementId());
+            $this->mailToInbox(1,$buyerCustomerId, $variables,$access_code == 0 ? 'after_confirm_to_renter_without_access_code':'after_confirm_to_renter_with_access_code',$this->getIncrementId());
 
             $mailTemplate_owner = Mage::getModel('core/email_template');
             $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
@@ -785,7 +785,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
 
-            $this->mailToInbox($buyerCustomerId,$this->getCustId(), $variables,$access_code == 0 ? 'after_confirm_to_owner_without_access_code':'after_confirm_to_owner_with_access_code',$this->getIncrementId());
+            $this->mailToInbox(1,$this->getCustId(), $variables,$access_code == 0 ? 'after_confirm_to_owner_without_access_code':'after_confirm_to_owner_with_access_code',$this->getIncrementId());
 
         } elseif ($status == 'Canceled') {
             $templateToOwner = Mage::getStoreConfig(self::AFTER_CENCELED_FOR_OWNER);
@@ -813,7 +813,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                 ),
                 'custom' => array()
              );
-            $this->mailToInbox($this->getCustId(),$buyerCustomerId, $variables,'after_cancel_to_renter',$this->getIncrementId());
+            $this->mailToInbox(1,$buyerCustomerId, $variables,'after_cancel_to_renter',$this->getIncrementId());
 
 
             $mailTemplate_owner = Mage::getModel('core/email_template');
@@ -825,7 +825,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
             );
 
-            $this->mailToInbox($buyerCustomerId,$this->getCustId(), $variables,'after_cancel_to_owner',$this->getIncrementId());
+            $this->mailToInbox(1,$this->getCustId(), $variables,'after_cancel_to_owner',$this->getIncrementId());
 
         }
     }
@@ -1106,7 +1106,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                 )
         );
         $mailer->send();
-        $this->mailToInbox($this->getOwnerId(),$this->getCustId(), array(),'new_order_to_renter',$this->getIncrementId());
+        $this->mailToInbox(1,$this->getCustId(), array(),'new_order_to_renter',$this->getIncrementId());
 
         // send confiramtion mail to owner if it enabeled in config
         if (Mage::getStoreConfig('sales_email/owner/enabled') == 1) {
@@ -1156,7 +1156,7 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
                     'grandtotal' => $this->getGrandTotal()
                 )
             );
-            $this->mailToInbox($this->getCustId(), $this->getOwnerId(), $variables,'new_order_to_owner',$this->getIncrementId());
+            $this->mailToInbox(1, $this->getOwnerId(), $variables,'new_order_to_owner',$this->getIncrementId());
         }
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
