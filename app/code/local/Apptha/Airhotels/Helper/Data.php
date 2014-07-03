@@ -40,6 +40,11 @@ class Apptha_Airhotels_Helper_Data extends Mage_Core_Helper_Abstract
 		return $this->_getUrl('booking/property/show') ;
 
 	}
+	public function getinboxurl()
+	{
+		return $this->_getUrl('booking/property/inbox') ;
+
+	}
 	/**
 	 * List property regarding to current,upcoming and previous trip using yourtrip post url
 	 *
@@ -444,5 +449,11 @@ class Apptha_Airhotels_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 		return $response;
 	}
+
+    function getUnreadMsgCount(){
+        $model = Mage::getModel('airhotels/airhotels');
+
+        return $model->getUnreadInboxCount();
+    }
 
 }

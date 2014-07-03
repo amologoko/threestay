@@ -143,12 +143,24 @@ else{
                 if (xmlhttp.readyState==4 && xmlhttp.status==200)
                 {
                     document.getElementById("mailSpace").innerHTML=xmlhttp.responseText;
+                    updateUnreadMsgDisplay();
                 }
             }
             var url = "<?php echo Mage::getBaseUrl() . 'booking/property/showmessage/' ?>";
             url=url+"id/"+messageId+"/show/in";
             xmlhttp.open("GET",url,true);
             xmlhttp.send();
+        }
+
+        function updateUnreadMsgDisplay(){
+            var url = "<?php echo Mage::getBaseUrl() . 'booking/property/getUnreadMsgCount' ?>";
+
+            jQuery.ajax({
+                url:url,
+                success:function(data){
+                    jQuery('.unread-msg-count').text(data);
+                }
+            })
         }
         function getHttp(){
             var xmlhttp;
