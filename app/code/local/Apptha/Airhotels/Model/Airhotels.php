@@ -690,6 +690,16 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         return $result[0];
     }
 
+    public function getUnreadInboxCount(){
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        $tPrefix = (string) Mage::getConfig()->getTablePrefix();
+        $customer_customer_inbox = $tPrefix . 'airhotels_customer_inbox';
+        $CusId = $customer->getId();
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $selectResult = $write->query("SELECT * FROM $customer_customer_inbox WHERE  `receiver_id`='$CusId' AND `receiver_read`='0'");
+        return count($selectResult->fetchAll());
+    }
+
     /**
      * function to search property
      */
