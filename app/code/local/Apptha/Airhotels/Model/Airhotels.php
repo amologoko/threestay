@@ -490,7 +490,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         $selectResult = $write->query("SELECT inbox.* FROM $customer_customer_inbox as inbox INNER JOIN $airhotels_customer_reply as reply ON inbox.message_id=reply.message_id WHERE  inbox.`is_reply` = '1' AND reply.`is_delete` = '0' AND reply.customer_id='$CusId' GROUP BY reply.message_id ORDER BY reply.`created_date` DESC ");
         $reply = $selectResult->fetchAll();
         $result = array_merge($inbox, $reply); 
-        $result = array_unique($result);
+//        $result = array_unique($result);
         return $result;
         
     }

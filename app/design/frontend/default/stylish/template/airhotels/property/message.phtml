@@ -38,7 +38,7 @@ if(count($inboxDetails)){
                         <?php if($show=="in"){
                             $customer = Mage::getModel('customer/customer')->load($inboxDetails[0]["sender_id"]);
                         echo $this->__('From').' : ';
-                          echo '<a href="'.Mage::getBaseUrl().'booking/index/profile/id/'.$customer->getId().'">'.ucfirst($customer->getName()).'</a>';
+                            echo $inboxDetails[0]["message_type"] == null?'<a href="'.Mage::getBaseUrl().'booking/index/profile/id/'.$customer->getId().'">'.ucfirst($customer->getName()).'</a>':Mage::getStoreConfig('general/store_information/name');
                          }else {
                              $customer = Mage::getModel('customer/customer')->load($inboxDetails[0]["receiver_id"]);
                         echo $this->__('To').' : ';

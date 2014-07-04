@@ -28,7 +28,9 @@ if(count($inboxDetails)){
 	    <div id="inboxSpace">
                 <div class="innerpage_btn left" style="line-height: 26px;margin-left: 10px;" onclick="confirmDelete()" ><?php echo $this->__('Delete'); ?></div>
 	        <table class="inboxTable" id="outboxList">
-	            <?php for($i=0;$i<count($inboxDetails);$i++ ){ ?>
+	            <?php
+                $storeName = Mage::getStoreConfig('general/store_information/name');
+                for($i=0;$i<count($inboxDetails);$i++ ){ ?>
 	            <?php 
                     $customer_id = Mage::getSingleton('customer/session')->getCustomer()->getId();
                     $receiver_id = $inboxDetails[$i]["receiver_id"]; 
@@ -51,7 +53,7 @@ if(count($inboxDetails)){
                     echo $read_class; ?>  onclick="this.className ='read' ">
 	                <td><input type="checkbox" style="margin-left: 5px" name="messageid[]" value="<?php echo $inboxDetails[$i]["message_id"]; ?>" id="checkinbox"/></td>
 	                <td onclick="openMessage(1,'<?php echo $inboxDetails[$i]["message_id"]; ?>')">
-	                    <?php echo $this->__('From'); ?> : <?php  $customer = Mage::getModel('customer/customer')->load($inboxDetails[$i]["sender_id"]); echo ucfirst($customer->getName());
+	                    <?php echo $this->__('From'); ?> : <?php  $customer = Mage::getModel('customer/customer')->load($inboxDetails[$i]["sender_id"]); echo ucfirst($inboxDetails[$i]["message_type"] == null ? $customer->getName():$storeName);
 
                             $replycount = Mage::getModel('airhotels/airhotels')->getReplyCount($inboxDetails[$i]["message_id"]);
                            
