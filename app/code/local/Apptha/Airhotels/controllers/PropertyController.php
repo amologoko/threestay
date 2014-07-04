@@ -1072,5 +1072,10 @@ class Apptha_Airhotels_PropertyController extends Mage_Core_Controller_Front_Act
         return $avail;
     }
 
+    public function getUnreadMsgCountAction(){
+        $model = Mage::getModel('airhotels/airhotels');
+        echo  $model->getUnreadInboxCount();
+    }
+
 }
 
