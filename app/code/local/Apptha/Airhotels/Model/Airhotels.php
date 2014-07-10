@@ -469,12 +469,11 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         $write = Mage::getSingleton('core/resource')->getConnection('core_write');
        $selectResult = $write->query("SELECT * FROM $customer_customer_inbox WHERE `receiver_id` = '$CusId' AND `is_receiver_delete` = '0' ORDER BY `created_date` DESC ");
         $result = $selectResult->fetchAll();
-        if (empty($result)) {
-            $selectResult = $write->query("SELECT * FROM $customer_customer_inbox WHERE `sender_id` = '$CusId' AND `is_reply` = '1' AND `is_sender_delete` = '0' ORDER BY `created_date` DESC ");
-            $result = $selectResult->fetchAll();
-        }
-
-        return $result;
+//        if (!empty($result)) {
+            $selectReplyResult = $write->query("SELECT * FROM $customer_customer_inbox WHERE `sender_id` = '$CusId' AND `is_reply` = '1' AND `is_sender_delete` = '0' ORDER BY `created_date` DESC ");
+            $replyResult = $selectReplyResult->fetchAll();
+//        }
+        return array_merge($result,$replyResult);
     }
 
     public function getOutboxDetails() {
@@ -696,7 +695,7 @@ class Apptha_Airhotels_Model_Airhotels extends Mage_Core_Model_Abstract {
         $customer_customer_inbox = $tPrefix . 'airhotels_customer_inbox';
         $CusId = $customer->getId();
         $write = Mage::getSingleton('core/resource')->getConnection('core_write');
-        $selectResult = $write->query("SELECT * FROM $customer_customer_inbox WHERE  `receiver_id`='$CusId' AND `receiver_read`='0'");
+        $selectResult = $write->query("SELECT * FROM $customer_customer_inbox WHERE  (`receiver_id`='$CusId' AND `receiver_read`='0') OR (`sender_id`='$CusId' AND `sender_read`='0' AND `is_reply`='1')");
         return count($selectResult->fetchAll());
     }
 

@@ -97,6 +97,18 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
     const STATE_PAYMENT_REVIEW = 'payment_review';
 
     /**
+     * Copy to damin config paths
+     */
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_TO_RENTER_CONFIRMED_WITHOUT_ACCESS_KEY = 'sales_email/after_confirm_to_renter_without_access_key/copy_to_admin';
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_TO_RENTER_CONFIRMED = 'sales_email/after_confirmed_for_renter/copy_to_admin';
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_TO_OWNER_CONFIRMED_WITHOUT_ACCESS_KEY = 'sales_email/after_confirm_to_owner_without_access_key/copy_to_admin';
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_TO_OWNER_CONFIRMED = 'sales_email/after_confirmed_for_owner/copy_to_admin';
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_TO_RENTER_DECLINED = 'sales_email/after_cenceled_for_renter/copy_to_admin';
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_TO_OWNER_DECLINED = 'sales_email/after_cenceled_for_owner/copy_to_admin';
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_ORDER = 'sales_email/order/copy_to_admin';
+    const XML_PATH_COPY_TO_ADMIN_EMAIL_ORDER_CONFIRMATION = 'sales_email/owner/copy_to_admin';
+
+    /**
      * Order statuses
      */
     const STATUS_FRAUD = 'fraud';
@@ -742,8 +754,12 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
             $mailTemplate_customer = Mage::getModel('core/email_template');
             $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
             $mailTemplate_customer->setTemplateSubject('Order Status');
-            $mailTemplate_customer->addBcc(array($adminEmail));
-
+            if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_TO_RENTER_CONFIRMED_WITHOUT_ACCESS_KEY) == 1 && $access_code == 0){
+                $mailTemplate_customer->addBcc(array($adminEmail));
+            }
+            if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_TO_RENTER_CONFIRMED) == 1 && $access_code > 0){
+                $mailTemplate_customer->addBcc(array($adminEmail));
+            }
             $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
                     ->sendTransactional(
                             $templateToRenter, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_RENTER), $buyerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
@@ -779,7 +795,12 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
             $mailTemplate_owner = Mage::getModel('core/email_template');
             $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
             $mailTemplate_owner->setTemplateSubject('Order Status');
-            $mailTemplate_owner->addBcc(array($adminEmail));
+            if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_TO_OWNER_CONFIRMED_WITHOUT_ACCESS_KEY) == 1 && $access_code == 0){
+                $mailTemplate_owner->addBcc(array($adminEmail));
+            }
+            if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_TO_OWNER_CONFIRMED) == 1 && $access_code > 0){
+                $mailTemplate_owner->addBcc(array($adminEmail));
+            }
             $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
                     ->sendTransactional(
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CONFIRMED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
@@ -794,7 +815,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
             $mailTemplate_customer = Mage::getModel('core/email_template');
             $mailTemplate_customer->setSenderName(Mage::getStoreConfig('design/head/default_title'));
             $mailTemplate_customer->setTemplateSubject('Order Status');
-            $mailTemplate_customer->addBcc(array($adminEmail));
+            if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_TO_RENTER_DECLINED) == 1){
+                $mailTemplate_customer->addBcc(array($adminEmail));
+            }
 
             $mailTemplate_customer->setDesignConfig(array('area' => 'frontend'))
                     ->sendTransactional(
@@ -819,7 +842,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
             $mailTemplate_owner = Mage::getModel('core/email_template');
             $mailTemplate_owner->setSenderName(Mage::getStoreConfig('design/head/default_title'));
             $mailTemplate_owner->setTemplateSubject('Order Status');
-            $mailTemplate_owner->addBcc(array($adminEmail));
+            if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_TO_OWNER_DECLINED) == 1){
+                $mailTemplate_owner->addBcc(array($adminEmail));
+            }
             $mailTemplate_owner->setDesignConfig(array('area' => 'frontend'))
                     ->sendTransactional(
                             $templateToOwner, Mage::getStoreConfig(self::PATH_AFTER_CENCELED_FOR_OWNER), $ownerEmail, Mage::getStoreConfig('design/head/default_title'), array('order' => $postObject)
@@ -1027,7 +1052,8 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
     public function sendNewOrderEmail() {//echo Mage::helper('adminhtml')->getUrl('wepay/api/confirm',array('order_id'=>$this->getIncrementId()));die();
         $storeId = $this->getStore()->getId();
         $booking = Mage::getModel('airhotels/airhotels')->load($this->getIncrementId(),'order_id');
-
+        $adminEmail = Mage::getStoreConfig('airhotels/order_reminder/admin_email'); // admin email
+        $storeName = Mage::getStoreConfig('general/store_information/name');
         if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
             return $this;
         }
@@ -1066,6 +1092,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
         $mailer = Mage::getModel('core/email_template_mailer');
         $emailInfo = Mage::getModel('core/email_info');
         $emailInfo->addTo($this->getCustomerEmail(), $customerName);
+        if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_ORDER) == 1){
+            $emailInfo->addBcc($adminEmail, $storeName);
+        }
         if ($copyTo && $copyMethod == 'bcc') {
             // Add bcc to customer email
             foreach ($copyTo as $email) {
@@ -1126,6 +1155,9 @@ class Apptha_Airhotels_Model_Order extends Mage_Sales_Model_Order {
             $hostId = $_product->getUserid(); //property owner Id
             $customer = Mage::getModel('customer/customer')->load($hostId);
             $emailInfo_2->addTo($customer->getEmail(), $customer->getName());
+            if(Mage::getStoreConfig(self::XML_PATH_COPY_TO_ADMIN_EMAIL_ORDER_CONFIRMATION) == 1){
+                $emailInfo_2->addBcc($adminEmail, $storeName);
+            }
             $mailer_2->addEmailInfo($emailInfo_2);
             $mailer_2->setSender(Mage::getStoreConfig('sales_email/order/identity'));
             $mailer_2->setTemplateId($ownerTemplateId);
