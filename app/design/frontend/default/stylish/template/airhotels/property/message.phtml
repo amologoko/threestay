@@ -136,10 +136,10 @@ if(count($replyMessage)){
 
  <div class="clear"></div>
 
-<div id="ReplyMail" class="left" style="margin-left: 10px;display: none;padding: 10px 19px;margin: 11px; border: 1px dashed #666 !important;">
-        <form action="<?php echo Mage::getBaseUrl() . 'booking/property/reply/' ?>" name="reply" method="post">
+<div id="ReplyMail" class="" style="margin-left: 10px;display: none;padding: 10px 19px;margin: 11px; border: 1px dashed #666 !important;">
+        <form action="<?php echo Mage::getBaseUrl() . 'booking/property/reply/' ?>" name="reply" method="post" style="display: block;overflow: hidden">
             <h1 style="float: left;color:#EF087F;font-family: 'abel';font-size: 20px;margin-right: 10px"><?php echo $this->__("Reply"); ?></h1>
-            <textarea cols="5" rows="5" id="replyMessage" style="width:625px" name="message"></textarea>
+            <textarea cols="5" rows="5" id="replyMessage" style="width: 100%" name="message"></textarea>
             <input type="hidden" id="messageid" name="message_id" value="<?php echo $inboxDetails[0]["message_id"] ?>" />
             <input type="hidden" id="customer_id" name="customer_id" value="<?php echo $inboxDetails[0]["sender_id"] ?>" />
         <div class="clear"></div>
