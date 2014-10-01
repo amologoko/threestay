@@ -464,8 +464,8 @@ class Magecomp_Wepay_ApiController extends Mage_Core_Controller_Front_Action {
         $wepay = new Wepay($access_token);
         try {
             $result = $wepay->request('/account/create', array(
-                    'name' => 'threestay_account_name',
-                    'description' => 'threestay_account_deskciption',
+                    'name' => 'Threestay Payments Account',
+                    'description' => 'This account has been created automatically for Threestay payments.',
                 )
             );
         } catch (Exception $e) {
